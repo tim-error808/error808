@@ -1,0 +1,19 @@
+{
+  "name": "error808-backend",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tim-error808/error808.git#main"
+  },
+  "author": "Tim error808",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tim-error808/error808/issues"
+  },
+  "homepage": "https://github.com/tim-error808/error808/tree/main#readme"
+}
