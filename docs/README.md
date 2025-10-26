@@ -1,0 +1,1 @@
+- analiza zahtjeva microsoft link: https://ferhr-my.sharepoint.com/:w:/g/personal/iz024606803_fer_hr/EeuqZ070rPNLphZOsHRHKugBdbovaPMlEseXMcvIxMUA0w?e=zjJbvH
