@@ -1,0 +1,32 @@
+1. Otvaranje github issue
+Na github repozitoriju projekta nalazi se zasebna stranica za otvaranje issue-a.
+Kada napravimo analizu zahtjeva, napisati ce se issue za svaki zahtjev posebno.
+
+Pravila (slijedno po izborniku sa desne strane stranice pojedinog github issue zahtjeva):
+Naslov - smislen, kratak i jasan. 
+       - Ovisno o podrucju naslov tipa frontend-opis (frontend-dodavanje-gumba-za-xxxx-na-pocetnu-stranicu), backend-opis, docs-opis, db-opis, docs-opis
+Opis - po svom nahodenju ako mislite da je potrebno
+Assignes - ako se zna dodati ljude koji trebaju raditi na rjesavanju zahtjeva.
+Labels - dodati labelu na koji se dio projekta issue odnosi (frontend, backend, baza, deployment...)
+Type - dodati labelu o tipu zahtjeva (Feature, Bug, Task)
+Projects - dodati u projekt progi-error808 sa statusom ToDo, status se mijenja ovisno statusu issue zahtjeva
+Milestone - prazno
+Relationship - prazno
+Development - Vidjeti 2. otvaranje novog branch-a iz github issue zahtjeva
+
+2. Otvaranje novog branch-a iz github issue zahtjeva
+Na pregledu github issue zahtjeva postoji sa desne strane opcija development->create a branch.
+Naziv ostaviti default kako je predlozeno.
+Repository destination tim-error808/error808.
+Branch source main.
+
+Dohvatiti novi branch lokalno sa githuba. (git fetch, git checkout)
+Promijeniti radni branch na novo otvoreni. (git branch)
+
+Preporuka je commitati na nekoj odredenoj jedinici posla. Npr napravi se klasa sa inicijalnim metodama, commitati u tom trenutku kako bi se kasnije mogli vratiti u to stanje ako se zakomplicira situacija. (git status, git add, git commit)
+
+Kod prvog commita koji otvorite na lokalnom repozitoriju pushajte promjene na github. (git push origin branch-na-kojem-radis)
+Nakon pusha otvoriti pull request.
+
+3. Otvaranje pull requesta
+Pull request se otvara na github stranici.
