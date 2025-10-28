@@ -30,3 +30,16 @@ Nakon pusha otvoriti pull request.
 
 3. Otvaranje pull requesta
 Pull request se otvara na github stranici.
+Biti ce prikazan gumba na Code stranici repozitorija za otvaranje pull requesta.
+Ostaviti naslov kakav je.
+Stisnuti Create pull request.
+
+4. Pull request
+Pull request nam sluzi kako bi razrjesili sve moguce probleme koji se mogu pojaviti tokom developmenta.
+U ovome stadiju i dalje mozemo pushati commitove na branch koje je otvoren u 2. koraku, te ce ti commitovi biti vidljivi na pull requestu.
+Pod razrjesavanje problema misli se na code review, testiranje, te strukturalne probleme.
+
+Na pull request se mogu staviti ogranicenja koja ce se dodati kroz rad po potrebi.
+Primjer ogranicenja je da npr. 2 osobe trebaju odobriti pull request prije nego se on merga u main.
+
+Kod pull requesta koristi se komunikacija koja mora biti zatvorena prije nego se request merga u main.
