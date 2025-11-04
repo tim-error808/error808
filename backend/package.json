@@ -2,7 +2,7 @@
   "name": "error808-backend",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "npm run"
   },
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/tim-error808/error808/issues"
   },
-  "homepage": "https://github.com/tim-error808/error808/tree/main#readme"
+  "homepage": "https://github.com/tim-error808/error808/tree/main#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.19.3"
+  }
 }
