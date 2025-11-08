@@ -4,12 +4,12 @@ const OAuth2AccessTokensModel = require('../OAuth2AccessTokensModel');
 
 const {validateScope} = require('./');
 
-const verifyScope = async (accessToken, scope,callback) =>
+const verifyScope = async (token, scope,callback) =>
     await handleCallback(async ()=> {
-        const token = await OAuth2AccessTokensModel.findOne({accessToken: accessToken})
+        const accessToken = await OAuth2AccessTokensModel.findOne({accessToken: token})
             .populate('user')
             .lean();
-        const verifiedScope = validateScope(token.user, null, scope).filter(element => token.scope.includes(element));
+        const verifiedScope = validateScope(accessToken.user, null, scope).filter(element => accessToken.scope.includes(element));
         return verifiedScope.length === scope.length;
     }, callback);
 

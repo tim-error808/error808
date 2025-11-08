@@ -4,9 +4,9 @@
  * @function handleCallback
  *
  * @param {function():Promise<methodReturnType>}  method                 - method to be run before callback
- * @param {function(Error,methodReturnType):callbackReturnType} callback - callback function
+ * @param {?function(Error,methodReturnType):callbackReturnType} callback=null - callback function
  *
- * @returns {Promise<methodReturnType>|callbackReturnType}               - callback's return if ran or method's return if not
+ * @returns {Promise<methodReturnType|undefined>|callbackReturnType}               - callback's return if ran or method's return if not
  *
  * @template methodReturnType
  * @template callbackReturnType
