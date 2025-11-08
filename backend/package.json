@@ -17,8 +17,13 @@
   },
   "homepage": "https://github.com/tim-error808/error808/tree/main#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "mongoose": "^8.19.3"
+    "express-oauth-server": "^2.0.0",
+    "mongoose": "^8.19.3",
+    "oauth2-server": "^3.1.1",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
   }
 }
