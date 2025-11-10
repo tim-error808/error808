@@ -1,5 +1,5 @@
 name: frontendTesting
-run-name: ${{ github.actor }} is testing her frontend
+run-name: ${{ github.actor }} is testing frontend
 on: [push]
 jobs:
   build:
