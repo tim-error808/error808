@@ -18,7 +18,7 @@ const NavLinks = () => {
           <span>
             <CgProfile />
           </span>
-          My Account
+          <div className="dropdown-button-text-desktop">My Account</div>
           <span>
             {!isClicked && <CgChevronRight />}
             {isClicked && <CgChevronDown />}
