@@ -284,6 +284,7 @@ body {
   align-items: start;
   gap: 10px;
   backface-visibility: hidden;
+  transform: rotateX(0deg);      /* firefox fix */
 }
 
 .form input {
