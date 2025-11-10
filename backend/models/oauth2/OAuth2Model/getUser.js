@@ -9,6 +9,12 @@ const UsersModel = require('../../UsersModel');
 const getUser = async (username, password, callback = null) =>
     await handleCallback(async () => {
         const passwordHash = bcrypt.hashSync(password, BCRYPT_SALT.USER_PASSWORD);
+        if(username.includes('@')){
+            return await UsersModel.findOne({
+                email: username,
+                password: passwordHash
+            }).lean();
+        }
         return await UsersModel.findOne({
             username: username,
             passwordHash: passwordHash,

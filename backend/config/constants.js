@@ -31,7 +31,7 @@ export const FRONTED_PORT = parseInt(process.env.FRONTED_PORT) || 443;
  *
  * @type {string[]}
  */
-const OAUTH2_VALID_SCOPES = ["sample_scope1","sample_scope2","sample_scope3"];
+const OAUTH2_VALID_SCOPES = ["client","admin"];
 
 /**
  * 1 if OAuth2 Authentication Server should accept partially valid scopes
