@@ -11,12 +11,11 @@ const {Schema} = require("mongoose");
 const UsersModel = mongoose.model("users", new Schema({
     username: String,
     passwordHash: String,
-    scope: Array,
+    scope: String,
     email: String,
-    role: String,
     city: String,
     location: Object,
-    profile: String,
+    profile: Object,
     createdAt: Date,
     isActive: Boolean
 }))
