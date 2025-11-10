@@ -1,0 +1,25 @@
+name: frontendTesting
+run-name: ${{ github.actor }} is testing her frontend
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 20, 22, 24 ]
+    defaults:
+      run:
+        working-directory: ./frontend
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          
+      - name: install dependencies 
+        run: npm install
+        
+      - name: run tests
+        run: npm test
