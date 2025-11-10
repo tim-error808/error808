@@ -1,0 +1,125 @@
+{
+    "board-games": [
+  {
+    "id": 1,
+    "naziv": "Catan",
+    "žanr": "Strategija, Trgovanje",
+    "izdavač": "Kosmos",
+    "godina_izdanja": 1995,
+    "ocjena_očuvanosti": 8.5,
+    "broj_igrača": "3-4",
+    "vrijeme_igranja": "60-90 min",
+    "procjena_težine": "medium",
+    "opis": "Klasična strateška igra izgradnje naselja i razmjene resursa."
+  },
+  {
+    "id": 2,
+    "naziv": "Ticket to Ride",
+    "žanr": "Strategija, Obiteljska",
+    "izdavač": "Days of Wonder",
+    "godina_izdanja": 2004,
+    "ocjena_očuvanosti": 9.0,
+    "broj_igrača": "2-5",
+    "vrijeme_igranja": "45-60 min",
+    "procjena_težine": "easy",
+    "opis": "Igra povezivanja gradova vlakovima širom Sjeverne Amerike."
+  },
+  {
+    "id": 3,
+    "naziv": "Carcassonne",
+    "žanr": "Tile-laying, Gradnja",
+    "izdavač": "Hans im Glück",
+    "godina_izdanja": 2000,
+    "ocjena_očuvanosti": 8.2,
+    "broj_igrača": "2-5",
+    "vrijeme_igranja": "30-45 min",
+    "procjena_težine": "easy",
+    "opis": "Igra postavljanja pločica i osvajanja teritorija u srednjovjekovnoj Francuskoj."
+  },
+  {
+    "id": 4,
+    "naziv": "Pandemic",
+    "žanr": "Kooperativna, Strategija",
+    "izdavač": "Z-Man Games",
+    "godina_izdanja": 2008,
+    "ocjena_očuvanosti": 8.8,
+    "broj_igrača": "2-4",
+    "vrijeme_igranja": "45 min",
+    "procjena_težine": "medium",
+    "opis": "Igra u kojoj igrači surađuju kako bi zaustavili širenje globalne pandemije."
+  },
+  {
+    "id": 5,
+    "naziv": "7 Wonders",
+    "žanr": "Kartaška, Civilizacija",
+    "izdavač": "Repos Production",
+    "godina_izdanja": 2010,
+    "ocjena_očuvanosti": 9.1,
+    "broj_igrača": "2-7",
+    "vrijeme_igranja": "30 min",
+    "procjena_težine": "medium",
+    "opis": "Kartaška igra izgradnje civilizacije kroz tri doba."
+  },
+  {
+    "id": 6,
+    "naziv": "Terraforming Mars",
+    "žanr": "Strategija, Ekonomija, Sci-Fi",
+    "izdavač": "FryxGames",
+    "godina_izdanja": 2016,
+    "ocjena_očuvanosti": 8.9,
+    "broj_igrača": "1-5",
+    "vrijeme_igranja": "120 min",
+    "procjena_težine": "hard",
+    "opis": "Igra terraformiranja i razvoja Marsa korištenjem korporativnih resursa."
+  },
+  {
+    "id": 7,
+    "naziv": "Splendor",
+    "žanr": "Ekonomija, Obiteljska",
+    "izdavač": "Space Cowboys",
+    "godina_izdanja": 2014,
+    "ocjena_očuvanosti": 9.0,
+    "broj_igrača": "2-4",
+    "vrijeme_igranja": "30 min",
+    "procjena_težine": "easy",
+    "opis": "Brza i elegantna igra prikupljanja dragulja i karata plemića."
+  },
+  {
+    "id": 8,
+    "naziv": "Gloomhaven",
+    "žanr": "Avantura, Taktika, RPG",
+    "izdavač": "Cephalofair Games",
+    "godina_izdanja": 2017,
+    "ocjena_očuvanosti": 8.7,
+    "broj_igrača": "1-4",
+    "vrijeme_igranja": "120-180 min",
+    "procjena_težine": "hard",
+    "opis": "Epohalna kampanja pune suradnje i taktičkih borbi u fantazijskom svijetu."
+  },
+  {
+    "id": 9,
+    "naziv": "Azul",
+    "žanr": "Apstraktna, Dizajn pločica",
+    "izdavač": "Next Move Games",
+    "godina_izdanja": 2017,
+    "ocjena_očuvanosti": 9.3,
+    "broj_igrača": "2-4",
+    "vrijeme_igranja": "30-45 min",
+    "procjena_težine": "easy",
+    "opis": "Estetska igra sastavljanja uzoraka pločica inspirirana portugalskom keramikom."
+  },
+  {
+    "id": 10,
+    "naziv": "Wingspan",
+    "žanr": "Strategija, Priroda",
+    "izdavač": "Stonemaier Games",
+    "godina_izdanja": 2019,
+    "ocjena_očuvanosti": 9.4,
+    "broj_igrača": "1-5",
+    "vrijeme_igranja": "40-70 min",
+    "procjena_težine": "medium",
+    "opis": "Igra prikupljanja i razvijanja ptičjih vrsta kroz različite ekosustave."
+  }
+]
+}
+

@@ -7,7 +7,7 @@ const Navbar = () => {
       <div className="logo-title">
         <img src={logo} alt="logo" />
         <Link to="/" className="page-title">
-          Naslov
+          PlayTrade
         </Link>
       </div>
       <NavLinks />

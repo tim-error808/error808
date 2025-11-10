@@ -8,6 +8,8 @@ export function useAuth() {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({
+    identifier: "",
+    password: "",
     email: "",
     username: "",
   });
@@ -17,10 +19,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData) => setUser(userData);
+  const signUp = (userData) => setUser(userData);
   const logout = () => setUser(null);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, signUp }}>
       {children}
     </AuthContext.Provider>
   );
