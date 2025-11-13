@@ -45,8 +45,8 @@ const Filter = ({ filters, onChangeFilters }) => {
         <label>
           <input
             type="checkbox"
-            name="two"
-            checked={filters.includes("two")}
+            name="2"
+            checked={filters.includes("2")}
             onChange={handleCheckboxChange}
           />
           2 players
@@ -54,8 +54,8 @@ const Filter = ({ filters, onChangeFilters }) => {
         <label>
           <input
             type="checkbox"
-            name="twoToFour"
-            checked={filters.includes("twoToFour")}
+            name="2-4"
+            checked={filters.includes("2-4")}
             onChange={handleCheckboxChange}
           />
           2-4 players
@@ -63,8 +63,8 @@ const Filter = ({ filters, onChangeFilters }) => {
         <label>
           <input
             type="checkbox"
-            name="fourPlus"
-            checked={filters.includes("fourPlus")}
+            name="4+"
+            checked={filters.includes("4+")}
             onChange={handleCheckboxChange}
           />
           4+ players

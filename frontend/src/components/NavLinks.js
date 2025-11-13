@@ -29,25 +29,25 @@ const NavLinks = () => {
             isClicked ? "dropdown-content-active" : "dropdown-content-inactive"
           }
         >
-          <Link onClick={handleClick} to={!user.identifier ? "/login" : "/"}>
+          <Link onClick={handleClick} to={!user?.identifier ? "/auth" : "/"}>
             My Games
           </Link>
-          <Link onClick={handleClick} to={!user.identifier ? "/login" : "/"}>
+          <Link onClick={handleClick} to={!user?.identifier ? "/auth" : "/"}>
             Post a Game
           </Link>
-          <Link onClick={handleClick} to={!user.identifier ? "/login" : "/"}>
+          <Link onClick={handleClick} to={!user?.identifier ? "/auth" : "/"}>
             Received Offers
           </Link>
-          <Link onClick={handleClick} to={!user.idenifier ? "/login" : "/"}>
+          <Link onClick={handleClick} to={!user?.idenifier ? "/auth" : "/"}>
             My Offers
           </Link>
-          {user.identifier && (
+          {user?.identifier && (
             <Link onClick={handleClick} to="/">
               Edit Profile
             </Link>
           )}
-          {!user.identifier && (
-            <Link onClick={handleClick} to="/login">
+          {!user?.identifier && (
+            <Link onClick={handleClick} to="/auth">
               Log In
             </Link>
           )}
