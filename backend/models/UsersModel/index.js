@@ -10,6 +10,7 @@ const {Schema} = require("mongoose");
  */
 const UsersModel = mongoose.model("users", new Schema({
     username: String,
+    googleId: String,
     passwordHash: String,
     scope: Array,
     email: String,
