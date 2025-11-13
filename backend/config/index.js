@@ -2,15 +2,10 @@
  * Secret constants that must not be public
  * @module secrets
  */
-const secrets = require('./secrets');
+export const secrets = require('./secrets');
 
 /**
  * Non-Secret constants that can be public
  * @module constants
  */
-const constants = require('./constants');
-
-module.exports = {
-    ...require('./constants'),
-    secrets: require('./secrets')
-}
+module.exports = require('./constants');

@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 
 const authGoogleAuthenticateController = async (req, res, next) => {
     try {
@@ -7,8 +8,7 @@ const authGoogleAuthenticateController = async (req, res, next) => {
             return res.status(401).json({ status: 'ACCESS TOKEN MISSING' });
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const userEmail = decoded.email;
-        req.useremail = userEmail;
+        req.userGoogleId = decoded.id;
         next();
     } catch (error) {
         return res.status(500).json({ status: "TOKEN ERROR" });
