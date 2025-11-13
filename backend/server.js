@@ -1,4 +1,4 @@
-require('dotenv').config()
+//require('dotenv').config() // enable for local testing
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
