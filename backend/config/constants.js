@@ -6,13 +6,13 @@
 /**
  * Port used by the REST API
  *
- * @constant REST_API_PORT
+ * @constant PORT
  *
  * @default 23451
  *
  * @type {int}
  */
-export const REST_API_PORT = parseInt(process.env.REST_API_PORT) || 23451;
+export const REST_API_PORT = parseInt(process.env.PORT) || 23451;
 
 /**
  * Port used by the Frontend
