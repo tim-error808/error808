@@ -10,14 +10,14 @@ passport.use(new GoogleStrategy({
     clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, done) => {
     console.log("JWT secret:", JWT_SECRET);
-    const token = jwt.sign({email: profile.email}, JWT_SECRET, {expiresIn: '7d'});
+    const token = jwt.sign({email: profile.emails[0].value}, JWT_SECRET, {expiresIn: '7d'});
     console.log('Creating new user:', profile);
     const newUser = new UsersModel({
-        email: profile.email,
-        username: profile.email.split('@')[0],
+        email: profile.emails[0].value,
+        username: profile.emails[0].value.split('@')[0],
         googleId: profile.id,
         token: token
-    })
+    });
     newUser.save()
         .catch(err => done(err))
         .then(user => done(null, user));
