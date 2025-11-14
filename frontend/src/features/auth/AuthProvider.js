@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     const jwt = Cookies.get("jwt");
     if (jwt) {
       axios
-        .get("/user", {
+        .get("https://error808-backend-ftcqdmg7fqcsf0gp.westeurope-01.azurewebsites.net/user", {
           headers: { Authorization: `Bearer ${jwt}` },
         })
         .then((response) => {
