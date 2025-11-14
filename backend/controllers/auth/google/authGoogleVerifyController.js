@@ -1,6 +1,7 @@
 const UsersModel = require("../../../models/UsersModel");
 
 const authGoogleVerifyController = async (request, accessToken, refreshToken, profile, callback) => {
+    console.log("Profile Verification ",profile);
     try {
         const userEmail = profile.emails?.[0]?.value || profile.email;
         const userGoogleId = profile.id;
@@ -19,6 +20,7 @@ const authGoogleVerifyController = async (request, accessToken, refreshToken, pr
         }
         return callback(null, user);
     } catch (error) {
+        console.log("\t Error verifying user", error);
         return callback(error);
     }
 }
