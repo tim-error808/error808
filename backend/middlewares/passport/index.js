@@ -5,7 +5,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require("jsonwebtoken");
 
 passport.use(new GoogleStrategy({
-    callbackURL: '/auth/google/callback',
+    callbackURL: 'https://error808-backend-ftcqdmg7fqcsf0gp.westeurope-01.azurewebsites.net/auth/google/callback',
     clientID: GOOGLE_AUTH.CLIENT_ID,
     clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, done) => {
