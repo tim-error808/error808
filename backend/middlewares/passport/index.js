@@ -11,7 +11,7 @@ passport.use(new GoogleStrategy({
 }, (accessToken, refreshToken, profile, done) => {
     const token = jwt.sign({googleId: profile.id}, JWT_SECRET, {expiresIn: '7d'});
 
-    UsersModel.findOne({username: profile.id})
+    UsersModel.findOne({googleId: profile.id})
         .then(user => {
             if(!user) {
                 const newUser = new UsersModel({
