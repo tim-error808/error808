@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
-import { REST_API_PORT } from "../../config/CONSTANTS";
+import { REST_API_URI } from "../../config/CONSTANTS";
 
 const BoardGame = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const BoardGame = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:${REST_API_PORT}/board-games/${id}`)
+      .get(`${REST_API_URI}/board-games/${id}`)
       .then((response) => {
         setGame(response.data);
         setError("");

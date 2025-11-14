@@ -1,1 +1,1 @@
-export const REST_API_PORT = 23451;
+export const REST_API_URI = process.env.REST_API_URI;
