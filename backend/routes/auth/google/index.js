@@ -7,4 +7,6 @@ router.get('/', passport.authenticate('google',{
     scope: ['profile', 'email']
 }));
 
+router.use('/callback', require('./callback'));
+
 module.exports = router;
