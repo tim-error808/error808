@@ -28,10 +28,11 @@ passport.use(new GoogleStrategy({
                 console.log("Existing user logged in: ")
                 UsersModel.updateOne({googleId: profile.id}, {$set: {token: token}})
                     .catch(err => done(err))
-                    .then(user => {
-                        console.log(user);
-                        done(null, user);
-                    });
+                    .then(res =>
+                        UsersModel.findOne({googleId: profile.id})
+                            .then(user => done(null, user))
+                            .catch(err => done(err))
+                    );
             }
         })
         .catch(err => done(err));
