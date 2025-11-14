@@ -3,7 +3,8 @@ const GamesModel = require("../models/GamesModel");
 
 const BoardGameController = async (req, res) => {
     console.log('board game query: ',req.query);
-    const filters = req.query.filter || [];
+    const filters = Array.isArray(req.query.filter) ? req.query.filter
+        : req.query.filter ? [req.query.filter] : [];
     const difficultyMap = { 'easy': 1, 'medium': 2, 'hard': 3 };
     const playersMap = {
         '2': [2],
