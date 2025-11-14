@@ -2,7 +2,6 @@ const UsersModel = require("../../../models/UsersModel");
 const asyncHandler = require("express-async-handler")
 
 const authGoogleVerifyController = asyncHandler(async (request, accessToken, refreshToken, profile, callback) => {
-    console.log("Profile Verification ",profile);
     try {
         const userEmail = profile.emails?.[0]?.value || profile.email;
         const userGoogleId = profile.id;
