@@ -1,5 +1,5 @@
 const passport = require('passport');
-const {GOOGLE_AUTH, JWT_SECRET} = require("../../config/secrets");
+const {secrets:{GOOGLE_AUTH, JWT_SECRET}} = require("../../config");
 const UsersModel = require("../../models/UsersModel");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const jwt = require("jsonwebtoken");
@@ -9,6 +9,7 @@ passport.use(new GoogleStrategy({
     clientID: GOOGLE_AUTH.CLIENT_ID,
     clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, done) => {
+    console.log("JWT secret:", JWT_SECRET);
     const token = jwt.sign({email: profile.email}, JWT_SECRET, {expiresIn: '7d'});
     console.log('Creating new user:', profile);
     const newUser = new UsersModel({
