@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import { REST_API_URI } from "../../config/CONSTANTS";
 
 const AuthContext = createContext(null);
@@ -13,8 +12,9 @@ export function useAuth() {
 axios.defaults.withCredentials = true;
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    email: "iashfkha",
+  });
 
   useEffect(() => {
     const jwt = Cookies.get("jwt");
