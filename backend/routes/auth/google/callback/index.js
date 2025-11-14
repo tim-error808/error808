@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', passport.authenticate('google', {
     failureRedirect: 'https://proud-smoke-033478b03.3.azurestaticapps.net/auth/callback',
 }, (req, res) => {
+    console.log('User authenticated successfully: ');
     res.redirect(`https://proud-smoke-033478b03.3.azurestaticapps.net/auth/callback?jwt=${req.user.token}`);
 }))
 

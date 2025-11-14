@@ -10,6 +10,7 @@ passport.use(new GoogleStrategy({
     clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, done) => {
     const token = jwt.sign({email: profile.email}, JWT_SECRET, {expiresIn: '7d'});
+    console.log('Creating new user:', profile);
     const newUser = new UsersModel({
         email: profile.email,
         username: profile.email.split('@')[0],
