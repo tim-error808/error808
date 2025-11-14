@@ -4,18 +4,18 @@ const authGoogleVerifyController = (request, accessToken, refreshToken, profile,
     const userEmail = profile.email;
     const userGoogleId = profile.id;
     let user;
-    UsersModel.findOne({email: userEmail}).lean()
+    UsersModel.findOne({googleId: userGoogleId}).lean()
         .then(newUser => user=newUser)
         .catch(err => callback(err));
     if (!user) {
-        const newUser = new UsersModel({
+        const newUser = {
             username: userEmail.split("@")[0],
             googleId: userGoogleId,
             email: userEmail,
             scope: "user",
             passwordHash: "<google-authenticated>"
-        });
-        return newUser.save()
+        };
+        return UsersModel.create(newUser)
             .then(newUser => callback(null,newUser))
             .catch(err => callback(err));
     }
