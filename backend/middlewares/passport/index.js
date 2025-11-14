@@ -1,0 +1,34 @@
+const passport = require('passport');
+const {GOOGLE_AUTH, JWT_SECRET} = require("../../config/secrets");
+const UsersModel = require("../../models/UsersModel");
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const jwt = require("jsonwebtoken");
+
+passport.use(new GoogleStrategy({
+    callbackURL: '/auth/google/callback',
+    clientID: GOOGLE_AUTH.CLIENT_ID,
+    clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
+}, (accessToken, refreshToken, profile, done) => {
+    const token = jwt.sign({email: profile.email}, JWT_SECRET, {expiresIn: '7d'});
+    const newUser = new UsersModel({
+        email: profile.email,
+        username: profile.email.split('@')[0],
+        googleId: profile.id,
+        token: token
+    })
+    newUser.save()
+        .catch(err => done(err))
+        .then(user => done(null, user));
+}),);
+
+passport.serializeUser((user, done) => {
+    if(user) return done(null, user);
+    return done(null, false);
+})
+
+passport.deserializeUser((user, done) => {
+    if(user) return done(null, user);
+    return done(null, false);
+})
+
+module.exports = passport;

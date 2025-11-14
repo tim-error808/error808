@@ -1,19 +1,12 @@
-const express = require('express');
 const passport = require('passport');
-
-const failureRouter = require('./failure');
-
-const authGoogleCallbackSuccessController =
-    require('../../../../controllers/auth/google/authGoogleCallbackSuccessController');
+const express = require('express');
 
 const router = express.Router();
 
-router.get( '/', passport.authenticate( 'google', {
-    failureRedirect: '/auth/callback/failure',
-    authGoogleCallbackSuccessController
-}));
-
-
-router.use('/failure', failureRouter);
+router.get('/', passport.authenticate('google', {
+    failureRedirect: 'https://proud-smoke-033478b03.3.azurestaticapps.net/auth/callback',
+}, (req, res) => {
+    res.redirect(`https://proud-smoke-033478b03.3.azurestaticapps.net/auth/callback?jwt=${req.user.token}`);
+}))
 
 module.exports = router;

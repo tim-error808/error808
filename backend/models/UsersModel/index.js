@@ -19,7 +19,8 @@ const UsersModel = mongoose.model("users", new Schema({
     location: Object,
     profile: String,
     createdAt: Date,
-    isActive: Boolean
+    isActive: Boolean,
+    token: String,
 }))
 
 module.exports = UsersModel;
