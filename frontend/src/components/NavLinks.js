@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CgProfile, CgChevronRight, CgChevronDown } from "react-icons/cg";
 
 const NavLinks = () => {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
@@ -42,9 +42,14 @@ const NavLinks = () => {
             My Offers
           </Link>
           {user?.email && (
-            <Link onClick={handleClick} to="/">
-              Edit Profile
-            </Link>
+            <>
+              <Link onClick={handleClick} to="/">
+                Edit Profile
+              </Link>
+              <Link onClick={logout} to="/">
+                Log Out
+              </Link>
+            </>
           )}
           {!user?.email && (
             <Link onClick={handleClick} to="/auth">

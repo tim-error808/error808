@@ -20,9 +20,12 @@ export const AuthProvider = ({ children }) => {
     const jwt = Cookies.get("jwt");
     if (jwt) {
       axios
-        .get("https://error808-backend-ftcqdmg7fqcsf0gp.westeurope-01.azurewebsites.net/user", {
-          headers: { Authorization: `Bearer ${jwt}` },
-        })
+        .get(
+          "https://error808-backend-ftcqdmg7fqcsf0gp.westeurope-01.azurewebsites.net/user",
+          {
+            headers: { Authorization: `Bearer ${jwt}` },
+          }
+        )
         .then((response) => {
           if (response.status === 200) {
             setUser(response.data);
@@ -48,7 +51,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove("jwt");
     setUser(null);
-    navigate("/");
   };
 
   return (
