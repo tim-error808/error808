@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
+const googlePassportInit = require('./routes/auth/google/googlePassportInit');
 
 const {REST_API_PORT, secrets: {MONGODB_URI}} = require('./config');
 const originRouter = require('./routes');
@@ -18,6 +19,8 @@ const app = express()
     .use(cors(corsOptions))
     .use(express.json())
     .use('/', originRouter);
+
+googlePassportInit(app);
 
 /*server check*/
 app.get('/check', (req,res) => {
