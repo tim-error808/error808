@@ -1,4 +1,4 @@
-require('dotenv').config()
+//require('dotenv').config() // enable for local testing
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors')
@@ -18,6 +18,11 @@ const app = express()
     .use(cors(corsOptions))
     .use(express.json())
     .use('/', originRouter);
+
+/*server check*/
+app.get('/check', (req,res) => {
+    res.json({status:'Server is working'});
+});
 
 const listenCallback = (error) => {
     if (error) {

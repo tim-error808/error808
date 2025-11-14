@@ -9,7 +9,7 @@ const authGoogleCallbackSuccessController =
 const router = express.Router();
 
 router.get( '/', passport.authenticate( 'google', {
-    failureRedirect: '/auth/callback/failure',
+    failureRedirect: '/auth/google/callback/failure',
     authGoogleCallbackSuccessController
 }));
 
