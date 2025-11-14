@@ -54,7 +54,7 @@ const BoardGamesList = ({ filters, searchText }) => {
 
   const onOfferClicked = () => {
     if (!user?.email) {
-      navigate("/login");
+      navigate("/auth");
     }
   };
 
@@ -73,19 +73,20 @@ const BoardGamesList = ({ filters, searchText }) => {
   }
 
   content = boardGames.map((game) => (
-    <section key={game.id} className="game-card">
-      <Link to={`${game.id}`}>
-        <p className="game-card-img">slika</p>
-        <div className="game-card-details">
-          <div className="game-title">{game.naziv}</div>
-          <p>Očuvanost: {game.ocjena_očuvanosti}/10</p>
-          <p>grad</p>
-        </div>
-      </Link>
-      <button onClick={onOfferClicked} className="game-card-button">
-        Offer Exchange
-      </button>
-    </section>
+        <section key={game.id} className="game-card">
+            <Link to={`${game.id}`}>
+                <p className="game-card-img">slika</p>
+                <div className="game-card-details">
+                    <div className="game-title">{game.name}</div>
+                    <p>Difficulty: {game.difficulty}/5</p>
+                    <p>Min Players: {game.minPlayers}</p>
+                    <p>Max Players: {game.maxPlayers}</p>
+                </div>
+            </Link>
+            <button onClick={onOfferClicked} className="game-card-button">
+                Offer Exchange
+            </button>
+        </section>
   ));
 
   return <div className="games">{content}</div>;
