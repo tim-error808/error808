@@ -1,5 +1,5 @@
 const express = require('express');
-const cookieSession = require('cookie-session');
+const expressSession = require('express-session');
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const {secrets: {GOOGLE_AUTH}} = require("../../../config/");
@@ -19,9 +19,16 @@ const strategy = new GoogleStrategy({
     state: true,
 },authGoogleVerifyController);
 
-router.use(cookieSession({
-    name: 'google-auth-session',
-    keys: ['key1','key2']
+router.use(expressSession({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: true,
+        httpOnly: true,
+        sameSite: 'none',
+        maxAge: 24 * 60 * 60 * 1000
+    }
 }));
 
 passport.use(strategy);
