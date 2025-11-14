@@ -8,33 +8,6 @@ const authGoogleVerifyController = require("../../../controllers/auth/google/aut
 const router = express.Router();
 
 const callbackRouter = require('./callback');
-
-passport.serializeUser((user, callback) => callback(null, user));
-passport.deserializeUser((user, callback) => callback(null, user));
-const strategy = new GoogleStrategy({
-    clientID: GOOGLE_AUTH.CLIENT_ID,
-    clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
-    callbackURL: `https://error808-backend-ftcqdmg7fqcsf0gp.westeurope-01.azurewebsites.net/auth/google/callback`,
-    scope: ['profile', 'email'],
-    state: true,
-},authGoogleVerifyController);
-
-router.use(expressSession({
-    secret: process.env.SESSION_SECRET || 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        secure: true,
-        httpOnly: true,
-        sameSite: 'none',
-        maxAge: 24 * 60 * 60 * 1000
-    }
-}));
-
-passport.use(strategy);
-router.use(passport.initialize());
-router.use(passport.session());
-
 router.get('/', passport.authenticate('google', {
     scope: ['profile', 'email'],
 }));
