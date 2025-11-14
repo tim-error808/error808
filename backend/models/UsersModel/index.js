@@ -4,7 +4,7 @@ const {Schema} = require("mongoose");
 /**
  * Mongoose model for the `users` MongoDB collection.
  *
- * @constant OAuth2RefreshTokensModel
+ * @constant UsersModel
  *
  * @type {Model<Schema>}
  */
