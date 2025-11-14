@@ -12,9 +12,7 @@ export function useAuth() {
 axios.defaults.withCredentials = true;
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    email: "iashfkha",
-  });
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const jwt = Cookies.get("jwt");
