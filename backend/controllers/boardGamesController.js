@@ -1,4 +1,4 @@
-import GamesModel from "../models/GamesModel";
+const GamesModel = require("../models/GamesModel");
 
 
 const BoardGameController = async (req, res) => {
