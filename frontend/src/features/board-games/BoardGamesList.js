@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import { Link } from "react-router-dom";
-import { REST_API_PORT } from "../../config/CONSTANTS";
+import { REST_API_URI } from "../../config/CONSTANTS";
 import { useAuth } from "../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +21,7 @@ const BoardGamesList = ({ filters, searchText }) => {
       const timer = setTimeout(() => {
         axios
           .get(
-            `http://localhost:${REST_API_PORT}/board-games?${params.toString()}`
+            `${REST_API_URI}/board-games?${params.toString()}`
           )
           .then((response) => {
             setBoardGames(response.data);
@@ -38,7 +38,7 @@ const BoardGamesList = ({ filters, searchText }) => {
     } else {
       axios
         .get(
-          `http://localhost:${REST_API_PORT}/board-games?${params.toString()}`
+          `${REST_API_URI}/board-games?${params.toString()}`
         )
         .then((response) => {
           setBoardGames(response.data);

@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-import { REST_API_PORT } from "../../config/CONSTANTS";
+import { REST_API_URI } from "../../config/CONSTANTS";
 
 const AuthContext = createContext(null);
 
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const loginWithGoogle = () => {
-    window.location.href = `http://localhost:${REST_API_PORT}/auth/google`;
+    window.location.href = `${REST_API_URI}/auth/google`;
   };
 
   const login = (userData) => setUser(userData);
