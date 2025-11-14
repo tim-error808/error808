@@ -5,7 +5,6 @@ const {REST_API_PORT, secrets: {GOOGLE_AUTH}} = require("../../../config/");
 const authGoogleVerifyController = require("../../../controllers/auth/google/authGoogleVerifyController");
 
 const googlePassportInit = (router) =>{
-    router.set('trust proxy', 1);
     router.use(session({
         secret: process.env.SESSION_SECRET || 'your-secret-key',
         resave: false,
@@ -15,8 +14,6 @@ const googlePassportInit = (router) =>{
             maxAge: 24 * 60 * 60 * 1000 // 24 hours
         }
     }));
-    router.use(passport.initialize());
-    router.use(passport.session());
     const strategy = new GoogleStrategy({
         clientID: GOOGLE_AUTH.CLIENT_ID,
         clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
@@ -27,6 +24,8 @@ const googlePassportInit = (router) =>{
     passport.use(strategy);
     passport.serializeUser((user, callback) => callback(null, user));
     passport.deserializeUser((user, callback) => callback(null, user));
+    router.use(passport.initialize());
+    router.use(passport.session());
 }
 
 module.exports = googlePassportInit;
