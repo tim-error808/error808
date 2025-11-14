@@ -21,7 +21,7 @@ const app = express()
 
 /*server check*/
 app.get('/check', (req,res) => {
-    res.code(200).json({status:'Server is working'});
+    res.json({status:'Server is working'});
 });
 
 const listenCallback = (error) => {
