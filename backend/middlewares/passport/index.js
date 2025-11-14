@@ -9,18 +9,28 @@ passport.use(new GoogleStrategy({
     clientID: GOOGLE_AUTH.CLIENT_ID,
     clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
 }, (accessToken, refreshToken, profile, done) => {
-    console.log("JWT secret:", JWT_SECRET);
-    const token = jwt.sign({email: profile.emails[0].value}, JWT_SECRET, {expiresIn: '7d'});
-    console.log('Creating new user:', profile);
-    const newUser = new UsersModel({
-        email: profile.emails[0].value,
-        username: profile.emails[0].value.split('@')[0],
-        googleId: profile.id,
-        token: token
-    });
-    newUser.save()
-        .catch(err => done(err))
-        .then(user => done(null, user));
+    const token = jwt.sign({googleId: profile.id}, JWT_SECRET, {expiresIn: '7d'});
+
+    UsersModel.findOne({username: profile.id})
+        .then(user => {
+            if(!user) {
+                const newUser = new UsersModel({
+                    email: profile.emails[0].value,
+                    username: profile.emails[0].value.split('@')[0],
+                    scope: ['user'],
+                    googleId: profile.id,
+                    token: token
+                });
+                newUser.save()
+                    .catch(err => done(err))
+                    .then(user => done(null, user));
+            } else{
+                UsersModel.updateOne({googleId: profile.id}, {$set: {token: token}})
+                    .catch(err => done(err))
+                    .then(user => done(null, user));
+            }
+        })
+        .catch(err => done(err));
 }),);
 
 passport.serializeUser((user, done) => {
