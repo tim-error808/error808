@@ -5,7 +5,6 @@ const {REST_API_PORT, secrets: {GOOGLE_AUTH}} = require("../../../config/");
 const authGoogleVerifyController = require("../../../controllers/auth/google/authGoogleVerifyController");
 
 const googlePassportInit = (router) =>{
-    router.set('trust proxy', 1);
     router.use(session({
         secret: process.env.SESSION_SECRET || 'your-secret-key',
         resave: false,
