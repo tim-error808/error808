@@ -5,9 +5,9 @@ const passport = require('passport');
 const googlePassportInit = require('./googlePassportInit');
 const callbackRouter = require('./callback');
 
-googlePassportInit();
-
 const router = express.Router();
+
+googlePassportInit(router);
 
 router.use(cookieSession({
     name: 'google-auth-session',
