@@ -19,6 +19,11 @@ const app = express()
     .use(express.json())
     .use('/', originRouter);
 
+/*server check*/
+app.get('/check', (req,res) => {
+    res.code(200).json({status:'Server is working'});
+}
+
 const listenCallback = (error) => {
     if (error) {
         console.log('Error while starting REST API')
