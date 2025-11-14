@@ -25,9 +25,13 @@ passport.use(new GoogleStrategy({
                     .catch(err => done(err))
                     .then(user => done(null, user));
             } else{
+                console.log("Existing user logged in: ")
                 UsersModel.updateOne({googleId: profile.id}, {$set: {token: token}})
                     .catch(err => done(err))
-                    .then(user => done(null, user));
+                    .then(user => {
+                        console.log(user);
+                        done(null, user);
+                    });
             }
         })
         .catch(err => done(err));
