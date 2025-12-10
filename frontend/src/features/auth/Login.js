@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     setIdentifier("");
     setPassword("");
-    login({ identifier: identifier, password: password });
+    login({ email: identifier, password: password });
     navigate("/");
   };
 

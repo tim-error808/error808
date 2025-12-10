@@ -11,6 +11,11 @@ const NavLinks = () => {
     setIsClicked((prev) => !prev);
   };
 
+  const handleLogout = () => {
+    logout();
+    handleClick();
+  };
+
   return (
     <div className="nav-links">
       <div className="dropdown">
@@ -46,7 +51,7 @@ const NavLinks = () => {
               <Link onClick={handleClick} to="/">
                 Edit Profile
               </Link>
-              <Link onClick={logout} to="/">
+              <Link onClick={handleLogout} to="/">
                 Log Out
               </Link>
             </>

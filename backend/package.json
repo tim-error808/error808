@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "npm run"
   },
   "repository": {
@@ -26,6 +27,7 @@
     "express-session": "^1.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.3",
+    "nodemon": "^3.1.11",
     "oauth2-server": "^3.1.1",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
