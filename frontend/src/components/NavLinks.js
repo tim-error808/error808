@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../features/auth/AuthProvider";
+import { useAuth } from "../hooks/AuthProvider";
 import { useState } from "react";
 import { CgProfile, CgChevronRight, CgChevronDown } from "react-icons/cg";
 
@@ -23,7 +23,9 @@ const NavLinks = () => {
           <span>
             <CgProfile />
           </span>
-          <div className="dropdown-button-text-desktop">My Account</div>
+          <div className="dropdown-button-text-desktop">
+            {user ? user.username : "My Account"}
+          </div>
           <span>
             {!isClicked && <CgChevronRight />}
             {isClicked && <CgChevronDown />}
@@ -34,10 +36,10 @@ const NavLinks = () => {
             isClicked ? "dropdown-content-active" : "dropdown-content-inactive"
           }
         >
-          <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
+          <Link onClick={handleClick} to={!user ? "/auth" : "/"}>
             My Games
           </Link>
-          <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
+          <Link onClick={handleClick} to={!user ? "/auth" : "/board-games/new"}>
             Post a Game
           </Link>
           <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
@@ -46,7 +48,7 @@ const NavLinks = () => {
           <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
             My Offers
           </Link>
-          {user?.email && (
+          {user && (
             <>
               <Link onClick={handleClick} to="/">
                 Edit Profile
@@ -56,7 +58,7 @@ const NavLinks = () => {
               </Link>
             </>
           )}
-          {!user?.email && (
+          {!user && (
             <Link onClick={handleClick} to="/auth">
               Log In
             </Link>

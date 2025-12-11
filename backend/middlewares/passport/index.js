@@ -8,51 +8,35 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 passport.use(
   new GoogleStrategy(
     {
-      callbackURL: "http://localhost:80/auth/google/callback",
       clientID: GOOGLE_AUTH.CLIENT_ID,
       clientSecret: GOOGLE_AUTH.CLIENT_SECRET,
+      callbackURL: "http://localhost:80/auth/google/callback",
     },
-    (accessToken, refreshToken, profile, done) => {
-      UsersModel.findOne({ googleId: profile.id })
-        .then((user) => {
-          if (!user) {
-            const newUser = new UsersModel({
-              email: profile.emails[0].value,
-              username: profile.emails[0].value.split("@")[0],
-              scope: ["user"],
-              googleId: profile.id,
-            });
-            newUser
-              .save()
-              .catch((err) => done(err))
-              .then((user) => done(null, user));
-          } else {
-            console.log("Existing user logged in: ");
-            UsersModel.updateOne(
-              { googleId: profile.id },
-              { $set: { token: accessToken } }
-            )
-              .catch((err) => done(err))
-              .then((res) =>
-                UsersModel.findOne({ googleId: profile.id })
-                  .then((user) => done(null, user))
-                  .catch((err) => done(err))
-              );
-          }
-        })
-        .catch((err) => done(err));
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await UsersModel.findOne({ googleId: profile.id });
+
+        if (!user) {
+          user = await UsersModel.create({
+            email: profile.emails[0].value,
+            username: profile.emails[0].value.split("@")[0],
+            googleId: profile.id,
+            scope: ["user"],
+          });
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err, null);
+      }
     }
   )
 );
 
 passport.serializeUser((user, done) => {
-  if (user) return done(null, user);
-  return done(null, false);
+  done(null, user.id);
 });
-
-passport.deserializeUser((user, done) => {
-  if (user) return done(null, user);
-  return done(null, false);
+passport.deserializeUser((id, done) => {
+  UsersModel.findById(id).then((user) => done(null, user));
 });
 
 module.exports = passport;

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../../api/api";
 import PulseLoader from "react-spinners/PulseLoader";
 import { Link } from "react-router-dom";
-import { useAuth } from "../auth/AuthProvider";
+import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const BoardGamesList = ({ filters, searchText }) => {

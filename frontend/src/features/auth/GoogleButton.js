@@ -1,4 +1,4 @@
-import { useAuth } from "./AuthProvider";
+import { useAuth } from "../../hooks/AuthProvider";
 
 const GoogleButton = () => {
   const { loginWithGoogle } = useAuth();

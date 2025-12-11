@@ -3,7 +3,7 @@ require("dotenv").config();
 const session = require("express-session");
 const mongoose = require("mongoose");
 const passport = require("./middlewares/passport");
-const GamesModel = require("./models/GamesModel");
+const MongoStore = require("connect-mongo");
 const cors = require("cors");
 
 const {
@@ -17,10 +17,6 @@ mongoose
   .connect(MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-    return GamesModel.find().lean();
-  })
-  .then((games) => {
-    console.log(games);
   })
   .catch((error) => {
     console.error(`Error while connecting to MongoDB.`);
@@ -33,8 +29,13 @@ const app = express()
     session({
       secret: "your_secret_key",
       resave: false,
-      saveUninitialized: true,
-      cookie: { secure: false }, // Set to true if using HTTPS
+      saveUninitialized: false,
+      store: MongoStore.create({
+        mongoUrl: MONGODB_URI,
+        collectionName: "sessions",
+        ttl: 60 * 60 * 24 * 7,
+      }),
+      cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 }, // Set to true if using HTTPS
     })
   )
   .use(express.json())

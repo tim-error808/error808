@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import api from "../../api/api";
-import Cookies from "js-cookie";
-import ModelConfig from "../../config/ModeConfig";
+import api from "../api/api";
+import ModelConfig from "../config/ModeConfig";
 
 const AuthContext = createContext(null);
 
@@ -12,6 +11,7 @@ export function useAuth() {
 export const AuthProvider = ({ children }) => {
   const { apiUri } = ModelConfig();
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     api
@@ -24,7 +24,10 @@ export const AuthProvider = ({ children }) => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching user data:", error.response.data.status);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -32,17 +35,8 @@ export const AuthProvider = ({ children }) => {
     window.location.href = `${apiUri}/auth/google`;
   };
 
-  const login = (userData) => setUser(userData);
-  const signUp = (userData) => setUser(userData);
-  const logout = () => {
-    Cookies.remove("jwt");
-    setUser(null);
-  };
-
   return (
-    <AuthContext.Provider
-      value={{ user, loginWithGoogle, login, logout, signUp }}
-    >
+    <AuthContext.Provider value={{ user, loading, loginWithGoogle }}>
       {children}
     </AuthContext.Provider>
   );
