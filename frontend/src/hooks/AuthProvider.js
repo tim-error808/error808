@@ -35,8 +35,24 @@ export const AuthProvider = ({ children }) => {
     window.location.href = `${apiUri}/auth/google`;
   };
 
+  const logout = () => {
+    api
+      .post("/auth/logout")
+      .then((response) => {
+        if (response.status === 200) {
+          setUser(null);
+          console.log(response.data.message);
+        } else {
+          console.error("Failed to logout, status:", response.status);
+        }
+      })
+      .catch((error) => {
+        console.error("Error during logout:", error.response.data.status);
+      });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle }}>
+    <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );
