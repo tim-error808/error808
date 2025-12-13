@@ -1,9 +1,13 @@
-const express = require('express');
+const express = require("express");
 const userController = require("../../controllers/userController");
-const {secrets: {JWT_SECRET}} = require("../../config");
+const passport = require("passport");
 
 const router = express.Router();
 
-router.get('/', userController);
+router.get(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  userController
+);
 
-module.exports=router;
+module.exports = router;

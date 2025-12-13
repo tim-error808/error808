@@ -1,10 +1,9 @@
 const express = require("express");
 require("dotenv").config();
-const session = require("express-session");
 const mongoose = require("mongoose");
 const passport = require("./middlewares/passport");
-const MongoStore = require("connect-mongo");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 const {
   REST_API_PORT,
@@ -24,23 +23,10 @@ mongoose
   });
 
 const app = express()
+  .use(cookieParser())
   .use(cors(corsOptions))
-  .use(
-    session({
-      secret: "your_secret_key",
-      resave: false,
-      saveUninitialized: false,
-      store: MongoStore.create({
-        mongoUrl: MONGODB_URI,
-        collectionName: "sessions",
-        ttl: 60 * 60 * 24 * 7,
-      }),
-      cookie: { secure: false, maxAge: 1000 * 60 * 60 * 24 * 7 }, // Set to true if using HTTPS
-    })
-  )
   .use(express.json())
   .use(passport.initialize())
-  .use(passport.session())
   .use("/", originRouter);
 
 app.get("/check", (req, res) => {

@@ -4,6 +4,8 @@ const {
 } = require("../../config");
 const UsersModel = require("../../models/UsersModel");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const JWTStragety = require("passport-jwt").Strategy;
+const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 passport.use(
   new GoogleStrategy(
@@ -32,11 +34,27 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-passport.deserializeUser((id, done) => {
-  UsersModel.findById(id).then((user) => done(null, user));
-});
+const cookieExtractor = (req) => {
+  return req?.cookies?.access_token || null;
+};
 
+const opts = {
+  jwtFromRequest: cookieExtractor,
+  secretOrKey: process.env.JWT_SECRET,
+};
+
+passport.use(
+  new JWTStragety(opts, async (payload, done) => {
+    try {
+      const user = await UsersModel.findById(payload.sub).select("-password");
+      if (user) {
+        return done(null, user);
+      } else {
+        return done(null, false);
+      }
+    } catch (err) {
+      return done(err, false);
+    }
+  })
+);
 module.exports = passport;
