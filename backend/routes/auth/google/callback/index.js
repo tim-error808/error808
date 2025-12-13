@@ -8,7 +8,6 @@ router.get(
   "/",
   passport.authenticate("google", {
     failureRedirect: "http://localhost:3000/auth/login", //https://proud-smoke-033478b03.3.azurestaticapps.net/auth/callback
-    session: false,
   }),
   (req, res) => {
     const accessToken = jwt.sign(

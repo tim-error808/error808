@@ -9,18 +9,26 @@ const {Schema} = require("mongoose");
  * @type {Model<Schema>}
  */
 const UsersModel = mongoose.model("users", new Schema({
-    username: String,
-    googleId: String,
-    passwordHash: String,
-    scope: Array,
-    email: String,
-    role: String,
-    city: String,
-    location: Object,
-    profile: String,
-    createdAt: Date,
-    isActive: Boolean,
-    token: String,
-}))
+    
+  username: { type: String, required: true },
+  email: { type: String, required: true },
+  googleId: { type: String },
+  passwordHash: { type: String },
+  scope: { type: Schema.Types.Mixed, required: true },
+  isActive: { type: Boolean },
+  createdAt: { type: Date, default: Date.now },
+  token: { type: String },
+
+  location: {
+    city: { type: String },
+    latitude: { type: Number },
+    longitude: { type: Number }
+  },
+  profile: {
+    description: { type: String },
+    interests: [{ type: String }],
+    photoUrl: { type: String }
+  }
+}));
 
 module.exports = UsersModel;
