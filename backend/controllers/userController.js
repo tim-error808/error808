@@ -1,24 +1,16 @@
-const jwt = require("jsonwebtoken");
-const {JWT_SECRET} = require("../config/secrets");
-const UsersModel = require("../models/UsersModel");
+const userController = (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ status: "NOT AUTHENTICATED" });
+  }
 
-const userController = async (req, res) => {
-    let googleId;
-    try{
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(' ')[1];
-        if (!token) {
-            return res.status(401).json({status: 'ACCESS TOKEN MISSING'});
-        }
-        googleId = await jwt.verify(token, JWT_SECRET).googleId;
-    } catch (err) {
-        return res.status(500).json({status: 'TOKEN ERROR'});
-    }
-    const user = await UsersModel.findOne({googleId:googleId}).lean();
-    if (user) {
-        return res.status(200).json(user);
-    }
-    return res.status(401).json({status: 'NO USER'});
-}
+  const { _id, email, username, scope } = req.user;
+
+  return res.status(200).json({
+    id: _id,
+    email,
+    username,
+    scope,
+  });
+};
 
 module.exports = userController;

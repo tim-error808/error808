@@ -12,4 +12,4 @@
  *
  * @type {int}
  */
-export const REST_API_PORT = parseInt(process.env.PORT) || 23451;
+export const REST_API_PORT = parseInt(process.env.PORT) || 80;

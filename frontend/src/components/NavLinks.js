@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../features/auth/AuthProvider";
+import { useAuth } from "../hooks/AuthProvider";
 import { useState } from "react";
 import { CgProfile, CgChevronRight, CgChevronDown } from "react-icons/cg";
 
@@ -11,6 +11,11 @@ const NavLinks = () => {
     setIsClicked((prev) => !prev);
   };
 
+  const handleLogout = () => {
+    logout();
+    handleClick();
+  };
+
   return (
     <div className="nav-links">
       <div className="dropdown">
@@ -18,7 +23,9 @@ const NavLinks = () => {
           <span>
             <CgProfile />
           </span>
-          <div className="dropdown-button-text-desktop">My Account</div>
+          <div className="dropdown-button-text-desktop">
+            {user ? user.username : "My Account"}
+          </div>
           <span>
             {!isClicked && <CgChevronRight />}
             {isClicked && <CgChevronDown />}
@@ -29,10 +36,10 @@ const NavLinks = () => {
             isClicked ? "dropdown-content-active" : "dropdown-content-inactive"
           }
         >
-          <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
+          <Link onClick={handleClick} to={!user ? "/auth" : "/"}>
             My Games
           </Link>
-          <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
+          <Link onClick={handleClick} to={!user ? "/auth" : "/board-games/new"}>
             Post a Game
           </Link>
           <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
@@ -41,17 +48,17 @@ const NavLinks = () => {
           <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
             My Offers
           </Link>
-          {user?.email && (
+          {user && (
             <>
               <Link onClick={handleClick} to="/">
                 Edit Profile
               </Link>
-              <Link onClick={logout} to="/">
+              <Link onClick={handleLogout} to="/">
                 Log Out
               </Link>
             </>
           )}
-          {!user?.email && (
+          {!user && (
             <Link onClick={handleClick} to="/auth">
               Log In
             </Link>

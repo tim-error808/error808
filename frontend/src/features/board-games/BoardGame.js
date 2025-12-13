@@ -2,9 +2,10 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
-import { REST_API_URI } from "../../config/CONSTANTS";
+import ModeConfig from "../../config/ModeConfig";
 
 const BoardGame = () => {
+  const { apiUri } = ModeConfig();
   const { id } = useParams();
   const [game, setGame] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +13,7 @@ const BoardGame = () => {
 
   useEffect(() => {
     axios
-      .get(`${REST_API_URI}/board-games/${id}`)
+      .get(`${apiUri}/board-games/${id}`)
       .then((response) => {
         setGame(response.data);
         setError("");

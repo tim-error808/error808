@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/api";
 import PulseLoader from "react-spinners/PulseLoader";
 import { Link } from "react-router-dom";
-import { REST_API_URI } from "../../config/CONSTANTS";
-import { useAuth } from "../auth/AuthProvider";
+import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const BoardGamesList = ({ filters, searchText }) => {
@@ -19,10 +18,8 @@ const BoardGamesList = ({ filters, searchText }) => {
     if (searchText) {
       params.append("search", searchText);
       const timer = setTimeout(() => {
-        axios
-          .get(
-            `${REST_API_URI}/board-games?${params.toString()}`
-          )
+        api
+          .get(`/board-games?${params.toString()}`)
           .then((response) => {
             setBoardGames(response.data);
           })
@@ -36,10 +33,8 @@ const BoardGamesList = ({ filters, searchText }) => {
 
       return () => clearTimeout(timer);
     } else {
-      axios
-        .get(
-          `${REST_API_URI}/board-games?${params.toString()}`
-        )
+      api
+        .get(`/board-games?${params.toString()}`)
         .then((response) => {
           setBoardGames(response.data);
         })
@@ -73,20 +68,20 @@ const BoardGamesList = ({ filters, searchText }) => {
   }
 
   content = boardGames.map((game) => (
-        <section key={game.id} className="game-card">
-            <Link to={`${game.id}`}>
-                <p className="game-card-img">slika</p>
-                <div className="game-card-details">
-                    <div className="game-title">{game.name}</div>
-                    <p>Difficulty: {game.difficulty}/5</p>
-                    <p>Min Players: {game.minPlayers}</p>
-                    <p>Max Players: {game.maxPlayers}</p>
-                </div>
-            </Link>
-            <button onClick={onOfferClicked} className="game-card-button">
-                Offer Exchange
-            </button>
-        </section>
+    <section key={game.id} className="game-card">
+      <Link to={`${game.id}`}>
+        <p className="game-card-img">slika</p>
+        <div className="game-card-details">
+          <div className="game-title">{game.name}</div>
+          <p>Difficulty: {game.difficulty}/5</p>
+          <p>Min Players: {game.minPlayers}</p>
+          <p>Max Players: {game.maxPlayers}</p>
+        </div>
+      </Link>
+      <button onClick={onOfferClicked} className="game-card-button">
+        Offer Exchange
+      </button>
+    </section>
   ));
 
   return <div className="games">{content}</div>;

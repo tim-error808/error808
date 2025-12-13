@@ -5,8 +5,10 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./features/auth/Login";
 import BoardGame from "./features/board-games/BoardGame";
 import { BoardGamesPage } from "./features/board-games/BoardGamesPage";
-import { AuthProvider } from "./features/auth/AuthProvider";
+import { AuthProvider } from "./hooks/AuthProvider";
 import AuthCallback from "./features/auth/AuthCallback";
+import RequireAuth from "./features/auth/RequireAuth";
+import CreateOffer from "./features/board-games/CreateOffer";
 
 function App() {
   return (
@@ -22,6 +24,9 @@ function App() {
           <Route path="board-games">
             <Route index element={<BoardGamesPage />} />
             <Route path=":id" element={<BoardGame />} />
+            <Route element={<RequireAuth />}>
+              <Route path="new" element={<CreateOffer />} />
+            </Route>
           </Route>
           {/*protected routes TODO*/}
         </Route>
