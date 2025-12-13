@@ -5,7 +5,6 @@ const {
 const UsersModel = require("../../models/UsersModel");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const JWTStragety = require("passport-jwt").Strategy;
-const ExtractJwt = require("passport-jwt").ExtractJwt;
 
 passport.use(
   new GoogleStrategy(

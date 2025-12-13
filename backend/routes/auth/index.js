@@ -10,6 +10,6 @@ router.use("/google", googleRouter);
 router.route("/").post(authController.login);
 router.route("/register").post(authController.register);
 router.route("/logout").post(authController.logout);
-router.route("/refresh").post(authController.refresh);
+router.route("/refresh").get(authController.refresh);
 
 module.exports = router;

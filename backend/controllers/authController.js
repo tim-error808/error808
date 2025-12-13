@@ -1,4 +1,5 @@
 const UsersModel = require("../models/UsersModel");
+const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   //TODO: implement login logic
@@ -10,8 +11,10 @@ const register = async (req, res) => {
 
 const refresh = async (req, res) => {
   const token = req.cookies.refresh_token;
-  if (!token) return res.status(401).json({ message: "No refresh token" });
-
+  if (!token) {
+    console.log("here");
+    return res.status(401).json({ message: "No refresh token" });
+  }
   try {
     const payload = jwt.verify(token, process.env.REFRESH_SECRET);
     const newAccessToken = jwt.sign(
@@ -29,7 +32,7 @@ const refresh = async (req, res) => {
 
     res.json({ message: "Access token refreshed" });
   } catch (err) {
-    res.status(401).json({ message: "Invalid refresh token" });
+    res.json({ message: "Invalid refresh token" });
   }
 };
 
