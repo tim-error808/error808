@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
         }
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error.response.data.status);
+        console.error("Error fetching user data:", error.response.data.message);
       })
       .finally(() => {
         setLoading(false);

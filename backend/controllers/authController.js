@@ -12,8 +12,7 @@ const register = async (req, res) => {
 const refresh = async (req, res) => {
   const token = req.cookies.refresh_token;
   if (!token) {
-    console.log("here");
-    return res.status(401).json({ message: "No refresh token" });
+    return res.status(403).json({ message: "No refresh token" });
   }
   try {
     const payload = jwt.verify(token, process.env.REFRESH_SECRET);
@@ -32,7 +31,7 @@ const refresh = async (req, res) => {
 
     res.json({ message: "Access token refreshed" });
   } catch (err) {
-    res.json({ message: "Invalid refresh token" });
+    res.status(403).json({ message: "Invalid refresh token" });
   }
 };
 
