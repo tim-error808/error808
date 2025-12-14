@@ -1,15 +1,15 @@
 const express = require("express");
 
 const googleRouter = require("./google");
-const authController = require("../../controllers/authController");
+const {loginController, logoutController, refreshController, registerController} = require("../../controllers/auth");
 
 const router = express.Router();
 
 router.use("/google", googleRouter);
 
-router.route("/").post(authController.login);
-router.route("/register").post(authController.register);
-router.route("/logout").post(authController.logout);
-router.route("/refresh").get(authController.refresh);
+router.post("/",loginController);
+router.post("/logout",logoutController);
+router.post("/refresh",refreshController);
+router.post("/register", registerController);
 
 module.exports = router;
