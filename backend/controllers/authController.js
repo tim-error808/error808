@@ -12,6 +12,16 @@ const register = async (req, res) => {
 const refresh = async (req, res) => {
   const token = req.cookies.refresh_token;
   if (!token) {
+    res.clearCookie("access_token", {
+      httpOnly: true,
+      secure: false, // local
+      sameSite: "strict",
+    });
+    res.clearCookie("refresh_token", {
+      httpOnly: true,
+      secure: false, //local
+      sameSite: "strict",
+    });
     return res.status(403).json({ message: "No refresh token" });
   }
   try {
@@ -31,22 +41,30 @@ const refresh = async (req, res) => {
 
     res.json({ message: "Access token refreshed" });
   } catch (err) {
+    res.clearCookie("access_token", {
+      httpOnly: true,
+      secure: false, //local
+      sameSite: "strict",
+    });
+    res.clearCookie("refresh_token", {
+      httpOnly: true,
+      secure: false, //local
+      sameSite: "strict",
+    });
     res.status(403).json({ message: "Invalid refresh token" });
   }
 };
 
 const logout = async (req, res) => {
-  res.cookie("access_token", {
+  res.clearCookie("access_token", {
     httpOnly: true,
-    secure: true,
+    secure: false, //local
     sameSite: "strict",
-    expires: new Date(0),
   });
-  res.cookie("refresh_token", {
+  res.clearCookie("refresh_token", {
     httpOnly: true,
-    secure: true,
+    secure: false, //local
     sameSite: "strict",
-    expires: new Date(0),
   });
   res.status(200).json({ message: "Logged out successfully" });
 };

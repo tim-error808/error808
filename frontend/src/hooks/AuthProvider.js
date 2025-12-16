@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const { apiUri } = ModelConfig();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isAuthenticated = !!user;
 
   useEffect(() => {
     api
@@ -52,7 +53,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, isAuthenticated, loginWithGoogle, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );
