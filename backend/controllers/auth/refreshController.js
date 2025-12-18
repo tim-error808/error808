@@ -1,4 +1,4 @@
-const {secrets: JWT_SECRET} = require('../../config')
+const {LOCAL_TEST, secrets: JWT_SECRET} = require('../../config')
 
 const refreshController = async (req, res) => {
   const token = req.cookies.refresh_token;
@@ -15,7 +15,7 @@ const refreshController = async (req, res) => {
 
     res.cookie("access_token", newAccessToken, {
       httpOnly: true,
-      secure: false, // local
+      secure: !LOCAL_TEST,
       sameSite: "strict",
       maxAge: 15 * 60 * 1000,
     });

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { secrets: { JWT_SECRET, REFRESH_SECRET } } = require("../../../config"); 
+const { LOCAL_TEST, FRONTEND_URL, REST_API_PORT, secrets: { JWT_SECRET, REFRESH_SECRET }} = require("../../../config"); 
 
 const callbackController = (req, res) => {
   const accessToken = jwt.sign(
@@ -14,17 +14,22 @@ const callbackController = (req, res) => {
   );
   res.cookie("access_token", accessToken, {
     httpOnly: true,
-    secure: false, //local
+    secure: !LOCAL_TEST,
     sameSite: "strict",
     maxAge: 15 * 60 * 1000,
   });
   res.cookie("refresh_token", refreshToken, {
     httpOnly: true,
-    secure: false, //local
+    secure: !LOCAL_TEST,
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  res.redirect("http://localhost:3000/auth/callback"); //https://proud-smoke-033478b03.3.azurestaticapps.net/auth/callback
+
+  if(LOCAL_TEST){
+    res.redirect(`http://localhost:3000/auth/callback`);
+  } else{
+    res.redirect(`${FRONTEND_URL}/auth/callback`);
+  }
 }
 
 module.exports = callbackController;

@@ -7,7 +7,6 @@ const verifyToken = (req, res, next) => {
     if (!user) {
       console.log({err,user,info});
       return res.status(401).json({ message: "Unauthorized!" });
-
     }
     req.user = user;
     next();

@@ -24,7 +24,7 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
 const googleStrategyOptions = {
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: `http://localhost:${REST_API_PORT}/auth/google/callback`,
+  callbackURL: `http://localhost:3000/auth/google/callback`,
 }
 
 const googleStrategy = new Strategy(googleStrategyOptions,googleVerify);
