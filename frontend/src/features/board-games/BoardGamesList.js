@@ -67,8 +67,8 @@ const BoardGamesList = ({ filters, searchText }) => {
     return <div className="error">Error: {error.message}</div>;
   }
 
-  content = boardGames.map((game) => (
-    <section key={game.id} className="game-card">
+  content = boardGames.map((game, index) => (
+    <section key={index} className="game-card">
       <Link to={`${game.id}`}>
         <p className="game-card-img">slika</p>
         <div className="game-card-details">

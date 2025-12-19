@@ -1,15 +1,15 @@
+const { LOCAL_TEST } = require("../../config");
+
 const logoutController = async (req, res) => {
-  res.cookie("access_token", {
+  res.clearCookie("access_token", {
     httpOnly: true,
-    secure: true,
+    secure: !LOCAL_TEST,
     sameSite: "strict",
-    expires: new Date(0),
   });
-  res.cookie("refresh_token", {
+  res.clearCookie("refresh_token", {
     httpOnly: true,
-    secure: true,
+    secure: !LOCAL_TEST,
     sameSite: "strict",
-    expires: new Date(0),
   });
   res.status(200).json({ message: "Logged out successfully" });
 };

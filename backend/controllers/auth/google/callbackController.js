@@ -1,17 +1,17 @@
 const jwt = require("jsonwebtoken");
-const { LOCAL_TEST, FRONTEND_URL, REST_API_PORT, secrets: { JWT_SECRET, REFRESH_SECRET }} = require("../../../config"); 
+const {
+  LOCAL_TEST,
+  FRONTEND_URL,
+  secrets: { JWT_SECRET, REFRESH_SECRET },
+} = require("../../../config");
 
 const callbackController = (req, res) => {
-  const accessToken = jwt.sign(
-    { sub: req.user._id },
-    JWT_SECRET,
-    {expiresIn: "15m"}
-  );
-  const refreshToken = jwt.sign(
-    { sub: req.user._id },
-    REFRESH_SECRET,
-    { expiresIn: "7d" }
-  );
+  const accessToken = jwt.sign({ sub: req.user._id }, JWT_SECRET, {
+    expiresIn: "15m",
+  });
+  const refreshToken = jwt.sign({ sub: req.user._id }, REFRESH_SECRET, {
+    expiresIn: "7d",
+  });
   res.cookie("access_token", accessToken, {
     httpOnly: true,
     secure: !LOCAL_TEST,
@@ -25,11 +25,11 @@ const callbackController = (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  if(LOCAL_TEST){
+  if (LOCAL_TEST) {
     res.redirect(`http://localhost:3000/auth/callback`);
-  } else{
+  } else {
     res.redirect(`${FRONTEND_URL}/auth/callback`);
   }
-}
+};
 
 module.exports = callbackController;

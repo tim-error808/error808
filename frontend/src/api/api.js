@@ -15,7 +15,7 @@ api.interceptors.response.use(
 
     if (error.response?.status === 401) {
       try {
-        await api.get("/auth/refresh");
+        await api.post("/auth/refresh");
         return api(originalRequest);
       } catch (error) {
         return Promise.reject(error);

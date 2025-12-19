@@ -1,7 +1,12 @@
-const {Strategy} = require("passport-google-oauth20")
+const { Strategy } = require("passport-google-oauth20");
 
-const { REST_API_PORT, secrets: {GOOGLE_AUTH: {CLIENT_ID, CLIENT_SECRET}} } = require("../../../config");
-const UsersModel = require('../../../models/UsersModel');
+const {
+  secrets: {
+    GOOGLE_AUTH: { CLIENT_ID, CLIENT_SECRET },
+  },
+  LOCAL_TEST,
+} = require("../../../config");
+const UsersModel = require("../../../models/UsersModel");
 
 const googleVerify = async (accessToken, refreshToken, profile, done) => {
   try {
@@ -19,14 +24,14 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
   } catch (err) {
     return done(err, null);
   }
-}
+};
 
 const googleStrategyOptions = {
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: `http://localhost:3000/auth/google/callback`,
-}
+  callbackURL: "http://localhost/auth/google/callback",
+};
 
-const googleStrategy = new Strategy(googleStrategyOptions,googleVerify);
+const googleStrategy = new Strategy(googleStrategyOptions, googleVerify);
 
 module.exports = googleStrategy;
