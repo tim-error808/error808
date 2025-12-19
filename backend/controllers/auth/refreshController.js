@@ -2,6 +2,7 @@ const {
   LOCAL_TEST,
   secrets: { JWT_SECRET, REFRESH_SECRET },
 } = require("../../config");
+const jwt = require("jsonwebtoken");
 
 const refreshController = async (req, res) => {
   const token = req.cookies.refresh_token;
