@@ -4,6 +4,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import GameNotFound from "./GameNotFound";
 
 const BoardGamesList = ({ filters, searchText }) => {
   const [boardGames, setBoardGames] = useState([]);
@@ -65,6 +66,10 @@ const BoardGamesList = ({ filters, searchText }) => {
 
   if (error) {
     return <div className="error">Error: {error.message}</div>;
+  }
+
+  if (searchText && boardGames.length === 0) {
+    return <GameNotFound searchText={searchText} />;
   }
 
   content = boardGames.map((game, index) => (

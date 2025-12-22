@@ -18,35 +18,19 @@ body {
 }
 
 .loader {
-  -webkit-display: flex;
-  -moz-display: flex;
   display: flex;
-  -webkit-flex: 9 1 0;
-  -moz-flex: 9 1 0;
-  flex: 9 1 0;
   justify-content: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  height: 80vh;
 }
 
 .error {
   color: red;
   font-weight: bold;
-  -webkit-display: flex;
-  -moz-display: flex;
   display: flex;
-  -webkit-flex: 9 1 0;
-  -moz-flex: 9 1 0;
-  flex: 9 1 0;
+  height: 80vh;
   justify-content: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
 }
 
 /* NAVBAR STYLES */
@@ -756,8 +740,6 @@ body {
 }
 
 .game-card-button {
-  -webkit-flex: 1 1 0;
-  -moz-flex: 1 1 0;
   flex: 1 1 0;
   width: 150px;
   align-self: center;
@@ -806,6 +788,27 @@ body {
   color: #283044;
   font-size: 1.08em;
   line-height: 1.5;
+}
+
+.game-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+}
+
+.game-not-found-button {
+  width: 150px;
+  align-self: center;
+  border-radius: 6px;
+  border: 1px solid #05808c;
+  background-color: #05808c;
+  color: white;
+  cursor: pointer;
+  height: 30px;
+  margin-bottom: 50px;
 }
 
 /* PROFILE PAGE STYLES */
@@ -870,6 +873,11 @@ body {
   border: 1px solid #05808c;
   border-radius: 10px;
   padding: 20px;
+}
+
+.profile-wishlist a {
+  text-decoration: none;
+  color: black;
 }
 
 .interest-chip {
@@ -976,7 +984,22 @@ body {
   z-index: 1000;
 }
 
-.modal-container {
+.modal-overlay-game-not-found {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.modal-container,
+.modal-container-game-not-found {
   background-color: white;
   width: 600px;
   max-width: 90vw;
@@ -1011,6 +1034,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.modal-body input {
+  height: 30px;
+  border-radius: 12px;
+  border: 1px solid #05808c;
 }
 
 .modal-map {
@@ -1049,6 +1078,71 @@ body {
 .modal-button.secondary {
   background-color: white;
   color: #05808c;
+}
+
+/* WISHLIST PAGE STYLES */
+
+.wishlist-page {
+  padding: 2rem;
+}
+
+.wishlist-header h2 {
+  color: #05808c;
+}
+
+.wishlist-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.wishlist-card {
+  width: 240px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wishlist-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.wishlist-info h4 {
+  margin: 0;
+}
+
+.wishlist-status {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.wishlist-status.available {
+  background: #e0f5f3;
+  color: #05808c;
+}
+
+.wishlist-status.unavailable {
+  background: #fbeaea;
+  color: #c0392b;
+}
+
+.wishlist-remove {
+  margin-top: auto;
+  background: transparent;
+  border: none;
+  color: #05808c;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 /* HOVER & MEDIA QUERIES */
@@ -1098,6 +1192,9 @@ body {
   .edit-profile-form button:hover {
     background-color: white;
     color: #05808c;
+  }
+  .profile-wishlist a:hover {
+    text-decoration: underline;
   }
 }
 
@@ -1213,5 +1310,18 @@ body {
 
   .edit-profile-form-buttons {
     justify-content: space-evenly;
+  }
+
+  .game-not-found-button {
+    margin-bottom: 20px;
+  }
+
+  .game-not-found p {
+    width: 80%;
+    text-align: center;
+  }
+
+  .modal-container-game-not-found {
+    height: 30vh;
   }
 }
