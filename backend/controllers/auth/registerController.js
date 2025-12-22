@@ -26,11 +26,22 @@ const registerController = async (req, res) => {
   const passwordHash = await bcrypt.hash(password, 10);
 
   const newUser = await UsersModel.create({
+    googleId: null,
     username,
     email,
     passwordHash,
-    scope: "user",
+    scope: ["user"],
     isActive: true,
+    profile: {
+      photoUrl: null,
+      description: null,
+      interests: [],
+    },
+    location: {
+      city: null,
+      latitude: null,
+      longitude: null,
+    },
   });
 
   const accessToken = jwt.sign({ sub: newUser._id }, JWT_SECRET, {

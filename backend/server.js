@@ -4,11 +4,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
-const {REST_API_PORT, secrets: { MONGODB_URI }} = require("./config");
+const {
+  REST_API_PORT,
+  secrets: { MONGODB_URI },
+} = require("./config");
 const passport = require("./middlewares/passport");
 const originRouter = require("./routes");
 const corsOptions = require("./config/corsOptions");
-
 
 mongoose
   .connect(MONGODB_URI)
@@ -25,6 +27,7 @@ const app = express()
   .use(cors(corsOptions))
   .use(express.json())
   .use(passport.initialize())
+  .use("/uploads", express.static("uploads"))
   .use("/", originRouter);
 
 app.get("/check", (req, res) => {

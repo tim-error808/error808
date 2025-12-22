@@ -14,9 +14,21 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
 
     if (!user) {
       user = await UsersModel.create({
-        email: profile.emails[0].value,
-        username: profile.emails[0].value.split("@")[0],
         googleId: profile.id,
+        username: profile.displayName,
+        email: profile.emails?.[0]?.value,
+        passwordHash: null,
+        isActive: true,
+        profile: {
+          photoUrl: profile.photos?.[0]?.value || null,
+          description: null,
+          interests: [],
+        },
+        location: {
+          city: null,
+          latitude: null,
+          longitude: null,
+        },
         scope: ["user"],
       });
     }
