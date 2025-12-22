@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth } from "../../hooks/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ModeConfig from "../../config/ModeConfig";
 
 const Profile = () => {
@@ -62,17 +62,7 @@ const Profile = () => {
 
       <section className="profile-wishlist">
         <h3>My Wishlist</h3>
-        {wishlist && wishlist.length > 0 ? (
-          <div className="wishlist-games">
-            {wishlist.map((game, index) => (
-              <div key={index} className="game-card">
-                <p>{game.name}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="profile-empty">No games in the wishlist.</p>
-        )}
+        <Link to="/wishlist">View Wishlist&rarr;</Link>
       </section>
       <button className="profile-edit-btn" onClick={() => navigate("edit")}>
         Edit Profile
