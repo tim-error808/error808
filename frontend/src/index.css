@@ -823,6 +823,10 @@ body {
   padding-top: 20px;
 }
 
+.profile-page h3 {
+  margin-top: 0px;
+}
+
 .profile-header {
   display: flex;
   gap: 30px;
@@ -831,12 +835,17 @@ body {
   border: 1px solid #05808c;
 }
 
+.profile-avatar-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .profile-avatar {
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   background: #d8d8d8;
-  border: 2px solid #05808c;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -844,8 +853,8 @@ body {
 
 .profile-avatar img {
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 160px;
+  height: 160px;
   background: #d8d8d8;
 }
 
@@ -943,7 +952,7 @@ body {
 
 .edit-profile-form-button {
   border: none;
-  height: 35px;
+  height: 30px;
   border-radius: 6px;
   background-color: #05808c;
   color: #fff;
@@ -1177,5 +1186,32 @@ body {
   .edit-profile-form {
     padding: 1rem;
     gap: 1rem;
+  }
+
+  .profile-page {
+    width: 90%;
+  }
+
+  .profile-header {
+    flex-direction: column;
+  }
+
+  .profile-edit-btn {
+    width: 100%;
+  }
+
+  .edit-profile-form-location-container {
+    flex-direction: column;
+    gap: 5px;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .edit-profile-form-location {
+    width: 90%;
+  }
+
+  .edit-profile-form-buttons {
+    justify-content: space-evenly;
   }
 }

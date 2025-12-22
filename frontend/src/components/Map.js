@@ -76,7 +76,7 @@ const Map = ({ onClose, onSave }) => {
             {!position ? (
               <span>Location Not Set</span>
             ) : (
-              <span>{`${position.latitude}, ${position.longitude}, ${position.city}`}</span>
+              <span>{position.city}</span>
             )}
           </div>
         </div>
