@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import LoginButtons from "./LoginButtons";
@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState("");
-  const { login, signup } = useAuth();
+  const { login, signup, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const onLoginSubmit = async (e) => {
@@ -48,6 +48,12 @@ const Login = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
 
   if (error) return <div className="error">{error}</div>;
 
