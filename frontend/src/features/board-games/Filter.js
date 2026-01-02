@@ -63,8 +63,8 @@ const Filter = ({ filters, onChangeFilters }) => {
         <label>
           <input
             type="checkbox"
-            name="4+"
-            checked={filters.includes("4+")}
+            name="4plus"
+            checked={filters.includes("4plus")}
             onChange={handleCheckboxChange}
           />
           4+ players

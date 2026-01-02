@@ -40,7 +40,7 @@ const NavLinks = () => {
             My Games
           </Link>
           <Link onClick={handleClick} to={!user ? "/auth" : "/board-games/new"}>
-            Post a Game
+            Post Game
           </Link>
           <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
             Received Offers
@@ -50,8 +50,8 @@ const NavLinks = () => {
           </Link>
           {user && (
             <>
-              <Link onClick={handleClick} to="/">
-                Edit Profile
+              <Link onClick={handleClick} to="/profile">
+                View Profile
               </Link>
               <Link onClick={handleLogout} to="/">
                 Log Out

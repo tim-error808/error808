@@ -18,35 +18,19 @@ body {
 }
 
 .loader {
-  -webkit-display: flex;
-  -moz-display: flex;
   display: flex;
-  -webkit-flex: 9 1 0;
-  -moz-flex: 9 1 0;
-  flex: 9 1 0;
   justify-content: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  height: 80vh;
 }
 
 .error {
   color: red;
   font-weight: bold;
-  -webkit-display: flex;
-  -moz-display: flex;
   display: flex;
-  -webkit-flex: 9 1 0;
-  -moz-flex: 9 1 0;
-  flex: 9 1 0;
+  height: 80vh;
   justify-content: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 50px;
 }
 
 /* NAVBAR STYLES */
@@ -756,8 +740,6 @@ body {
 }
 
 .game-card-button {
-  -webkit-flex: 1 1 0;
-  -moz-flex: 1 1 0;
   flex: 1 1 0;
   width: 150px;
   align-self: center;
@@ -808,6 +790,361 @@ body {
   line-height: 1.5;
 }
 
+.game-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 100%;
+}
+
+.game-not-found-button {
+  width: 150px;
+  align-self: center;
+  border-radius: 6px;
+  border: 1px solid #05808c;
+  background-color: #05808c;
+  color: white;
+  cursor: pointer;
+  height: 30px;
+  margin-bottom: 50px;
+}
+
+/* PROFILE PAGE STYLES */
+
+.profile-page {
+  max-width: 900px;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 30px;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.profile-page h3 {
+  margin-top: 0px;
+}
+
+.profile-header {
+  display: flex;
+  gap: 30px;
+  padding: 30px;
+  border-radius: 10px;
+  border: 1px solid #05808c;
+}
+
+.profile-avatar-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #d8d8d8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-avatar img {
+  border-radius: 50%;
+  width: 160px;
+  height: 160px;
+  background: #d8d8d8;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile-interests,
+.profile-description,
+.profile-wishlist {
+  border: 1px solid #05808c;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.profile-wishlist a {
+  text-decoration: none;
+  color: black;
+}
+
+.interest-chip {
+  background: #edf2fa;
+  border-radius: 6px;
+  padding: 4px 10px;
+  border: 1px solid #05808c;
+}
+
+.profile-edit-btn {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+  border: 1px solid #05808c;
+  background-color: #05808c;
+  color: white;
+  border-radius: 6px;
+}
+
+/* EDIT PROFILE FORM STYLES */
+
+.edit-profile-form {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  font-family: "Inter", sans-serif;
+}
+
+.edit-profile-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #333;
+  gap: 0.5rem;
+}
+
+.edit-profile-form input,
+.edit-profile-form textarea {
+  padding: 0.75rem 1rem;
+  border: 1px solid grey;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+.edit-profile-form input:focus,
+.edit-profile-form textarea:focus {
+  outline: none;
+  border-color: #05808c;
+  box-shadow: 0 0 0 3px rgba(5, 128, 140, 0.2);
+}
+
+.edit-profile-form-location-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-profile-form-location {
+  padding: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 300px;
+  border-radius: 12px;
+  border: 1px solid grey;
+}
+
+.edit-profile-form-buttons {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 2rem;
+}
+
+.edit-profile-form-button {
+  border: none;
+  height: 30px;
+  border-radius: 6px;
+  background-color: #05808c;
+  color: #fff;
+  cursor: pointer;
+  border: 1px solid #05808c;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+/* MAP STYLES */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-overlay-game-not-found {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.modal-container,
+.modal-container-game-not-found {
+  background-color: white;
+  width: 600px;
+  max-width: 90vw;
+  border-radius: 10px;
+  border: 1px solid #05808c;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #d8d8d8;
+}
+
+.modal-header h3 {
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modal-body input {
+  height: 30px;
+  border-radius: 12px;
+  border: 1px solid #05808c;
+}
+
+.modal-map {
+  height: 350px;
+  border: 2px solid #05808c;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modal-location-preview {
+  font-size: 1rem;
+  color: #283044;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #05808c;
+}
+
+.modal-button {
+  border-radius: 20px;
+  padding: 8px 16px;
+  border: 1px solid #05808c;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-button.primary {
+  background-color: #05808c;
+  color: white;
+}
+
+.modal-button.secondary {
+  background-color: white;
+  color: #05808c;
+}
+
+/* WISHLIST PAGE STYLES */
+
+.wishlist-page {
+  padding: 2rem;
+}
+
+.wishlist-header h2 {
+  color: #05808c;
+}
+
+.wishlist-grid {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.wishlist-card {
+  width: 240px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.wishlist-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.wishlist-info h4 {
+  margin: 0;
+}
+
+.wishlist-status {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+.wishlist-status.available {
+  background: #e0f5f3;
+  color: #05808c;
+}
+
+.wishlist-status.unavailable {
+  background: #fbeaea;
+  color: #c0392b;
+}
+
+.wishlist-remove {
+  margin-top: auto;
+  background: transparent;
+  border: none;
+  color: #05808c;
+  cursor: pointer;
+  font-weight: 500;
+}
+
 /* HOVER & MEDIA QUERIES */
 
 @media (hover: hover) {
@@ -839,6 +1176,25 @@ body {
   .dropdown-content-active a:hover {
     background-color: #05808c;
     color: white;
+  }
+  .modal-button.primary:hover {
+    background-color: white;
+    color: #05808c;
+  }
+  .modal-button.secondary:hover {
+    background-color: #05808c;
+    color: white;
+  }
+  .profile-edit-btn:hover {
+    background-color: white;
+    color: #05808c;
+  }
+  .edit-profile-form button:hover {
+    background-color: white;
+    color: #05808c;
+  }
+  .profile-wishlist a:hover {
+    text-decoration: underline;
   }
 }
 
@@ -909,5 +1265,63 @@ body {
 
   .dropdown-button-text-desktop {
     display: none;
+  }
+
+  .modal-container {
+    width: 95vw;
+    height: 90vh;
+  }
+
+  .modal-map {
+    height: 100%;
+  }
+
+  .modal-body {
+    flex: 1;
+  }
+
+  .edit-profile-form {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .profile-page {
+    width: 90%;
+  }
+
+  .profile-header {
+    flex-direction: column;
+  }
+
+  .profile-edit-btn {
+    width: 100%;
+  }
+
+  .edit-profile-form-location-container {
+    flex-direction: column;
+    gap: 5px;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .edit-profile-form-location {
+    width: 90%;
+  }
+
+  .edit-profile-form-buttons {
+    justify-content: space-evenly;
+  }
+
+  .game-not-found-button {
+    margin-bottom: 20px;
+  }
+
+  .game-not-found p {
+    width: 80%;
+    text-align: center;
+  }
+
+  .modal-container-game-not-found {
+    height: 30vh;
   }
 }

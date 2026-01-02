@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import api from "../api/api";
 import ModelConfig from "../config/ModeConfig";
 
@@ -12,27 +18,49 @@ export const AuthProvider = ({ children }) => {
   const { apiUri } = ModelConfig();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isAuthenticated = !!user;
+
+  const fetchUser = useCallback(async () => {
+    try {
+      const response = await api.get("/user");
+      setUser(response.data);
+    } catch (error) {
+      console.error("Error fetching user data:", error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    api
-      .get("/user")
-      .then((response) => {
-        if (response.status === 200) {
-          setUser(response.data);
-        } else {
-          console.error("Failed to fetch user data, status:", response.status);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error.response.data.status);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+    fetchUser();
+  }, [fetchUser]);
 
   const loginWithGoogle = () => {
     window.location.href = `${apiUri}/auth/google`;
+  };
+
+  const login = async ({ identifier, password }) => {
+    try {
+      const result = await api.post("/auth/login", { identifier, password });
+      await fetchUser();
+      return result;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const signup = async ({ username, email, password }) => {
+    try {
+      const result = await api.post("/auth/register", {
+        username,
+        email,
+        password,
+      });
+      await fetchUser();
+      return result;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = () => {
@@ -52,7 +80,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        isAuthenticated,
+        fetchUser,
+        loginWithGoogle,
+        login,
+        signup,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

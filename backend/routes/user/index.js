@@ -1,9 +1,15 @@
-const express = require('express');
+const express = require("express");
 const userController = require("../../controllers/userController");
-const {secrets: {JWT_SECRET}} = require("../../config");
+const verifyToken = require("../../middlewares/verifyToken");
+const upload = require("../../middlewares/upload");
 
 const router = express.Router();
 
-router.get('/', userController);
+router.use(verifyToken);
 
-module.exports=router;
+router
+  .route("/")
+  .get(userController.getUserData)
+  .put(upload.single("photo"), userController.updateUserData);
+
+module.exports = router;

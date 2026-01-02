@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import LoginButtons from "./LoginButtons";
@@ -10,18 +10,25 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
-  const { login, signUp } = useAuth();
+  const [error, setError] = useState("");
+  const { login, signup, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const onLoginSubmit = (e) => {
+  const onLoginSubmit = async (e) => {
     e.preventDefault();
     setIdentifier("");
     setPassword("");
-    login({ email: identifier, password: password });
-    navigate("/");
+    try {
+      const result = await login({ identifier, password });
+      console.log(result.data.message);
+      navigate("/");
+    } catch (error) {
+      console.log(error.response.data.message);
+      setError(error.response.data.message);
+    }
   };
 
-  const onSignUpSubmit = (e) => {
+  const onSignUpSubmit = async (e) => {
     e.preventDefault();
     setEmail("");
     setUsername("");
@@ -29,11 +36,26 @@ const Login = () => {
     setRepeatPassword("");
     if (password !== repeatPassword) {
       alert("Passwords do not match!");
+      return;
     } else {
-      signUp({ username: username, email: email, password: password });
-      navigate("/");
+      try {
+        const result = await signup({ username, email, password });
+        console.log(result.data.message);
+        navigate("/");
+      } catch (error) {
+        console.log(error.response.data.message);
+        setError(error.response.data.message);
+      }
     }
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (error) return <div className="error">{error}</div>;
 
   return (
     <section className="login-form">
@@ -50,7 +72,7 @@ const Login = () => {
             name="email"
             id="login_email"
             autoComplete="off"
-            placeholder="e.g. john@doe.com"
+            placeholder="e.g. john@doe.com, Anne Smith"
             value={identifier}
             onChange={(e) => setIdentifier(e.target.value)}
             required

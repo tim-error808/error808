@@ -19,7 +19,7 @@ const CategoryTabs = ({ category }) => {
                 <div className="category-card-text">2-4</div>
               </div>
             </Link>
-            <Link to="/board-games?filter=4+">
+            <Link to="/board-games?filter=4plus">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">4+</div>

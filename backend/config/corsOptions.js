@@ -1,14 +1,11 @@
-const { FRONTED_PORT } = require("./index");
+const { FRONTEND_URL, LOCAL_TEST } = require("./");
 
 /**
  * Options for the `cors`
  */
 corsOptions = {
-  origin: [
-    "https://proud-smoke-033478b03.3.azurestaticapps.net",
-    `http://localhost:3000`,
-  ],
-  methods: ["GET", "POST"],
+  origin: LOCAL_TEST ? `http://localhost:3000` : FRONTEND_URL,
+  methods: ["GET", "POST", "PUT"],
   credentials: true,
 };
 
