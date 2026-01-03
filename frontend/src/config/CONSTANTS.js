@@ -1,1 +1,1 @@
-export const REST_API_URI = process.env.REST_API_URL || "<invalid>";
+export const REST_API_URI = "https://backend.error808.tech";
