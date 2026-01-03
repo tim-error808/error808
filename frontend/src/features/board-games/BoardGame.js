@@ -20,7 +20,7 @@ const BoardGame = () => {
       })
       .catch((error) => setError(error.message))
       .finally(() => setIsLoading(false));
-  }, [id]);
+  }, [id, apiUri]);
 
   if (isLoading) {
     return <PulseLoader color="#000" className="loader" />;

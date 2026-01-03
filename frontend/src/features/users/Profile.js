@@ -7,7 +7,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { apiUri } = ModeConfig();
-  const { username, email, location, profile: userProfile, wishlist } = user;
+  const { username, email, location, profile: userProfile } = user;
 
   return (
     <div className="profile-page">
