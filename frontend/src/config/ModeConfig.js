@@ -3,7 +3,7 @@ const ModeConfig = () => {
   const mode =
     process.env.NODE_ENV === "production" ? "production" : "development";
   if (mode === "production") {
-    apiUri = "https://backend.error808.tech"
+    apiUri = "https://backend.error808.tech";
   } else {
     apiUri = "http://localhost:80";
   }
