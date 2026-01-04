@@ -12,6 +12,7 @@ import CreateOffer from "./features/board-games/CreateOffer";
 import Profile from "./features/users/Profile";
 import EditProfileForm from "./features/users/EditProfileForm";
 import WishlistPage from "./features/wishlist/WishlistPage";
+import PublicOnly from "./features/auth/PublicOnly";
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
           {/*public routes*/}
           <Route index element={<Public />} />
           <Route path="auth">
-            <Route index element={<Login />} />
+            <Route element={<PublicOnly />}>
+              <Route index element={<Login />} />
+            </Route>
             <Route path="callback" element={<AuthCallback />} />
           </Route>
           <Route path="board-games">
@@ -40,7 +43,6 @@ function App() {
               <Route index element={<WishlistPage />} />
             </Route>
           </Route>
-          {/*protected routes TODO*/}
         </Route>
       </Routes>
     </AuthProvider>

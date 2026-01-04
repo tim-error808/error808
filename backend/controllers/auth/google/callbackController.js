@@ -15,16 +15,16 @@ const callbackController = (req, res) => {
   res.cookie("access_token", accessToken, {
     httpOnly: true,
     secure: !LOCAL_TEST,
-    sameSite: "none",
+    sameSite: LOCAL_TEST ? "lax" : "none",
     maxAge: 15 * 60 * 1000,
-    domain: LOCAL_TEST?undefined:".error808.tech"
+    domain: LOCAL_TEST ? undefined : ".error808.tech",
   });
   res.cookie("refresh_token", refreshToken, {
     httpOnly: true,
     secure: !LOCAL_TEST,
-    sameSite: "none",
+    sameSite: LOCAL_TEST ? "lax" : "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    domain: LOCAL_TEST?undefined:".error808.tech"
+    domain: LOCAL_TEST ? undefined : ".error808.tech",
   });
 
   if (LOCAL_TEST) {

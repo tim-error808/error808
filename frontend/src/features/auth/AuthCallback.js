@@ -1,16 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 
 const AuthCallback = () => {
-  const { loading, isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+  const [isSuccessful, setIsSuccessful] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && isAuthenticated) {
-      navigate("/");
+    if (isAuthenticated) {
+      setIsSuccessful(true);
     }
-  }, [loading, isAuthenticated, navigate]);
+  }, [isAuthenticated]);
+
+  if (isSuccessful) {
+    return (
+      <div className="auth-done-page">
+        <h1 className="auth-done-text-google">Logged In Successfully!</h1>
+        <h2>Welcome {user.username}!</h2>
+        <button
+          className="auth-done-btn"
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          Go To Front Page
+        </button>
+      </div>
+    );
+  }
 
   return <p className="loader">Signing you in…</p>;
 };

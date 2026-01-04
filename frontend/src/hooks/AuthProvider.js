@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const { apiUri } = ModelConfig();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
   const isAuthenticated = !!user;
 
   const fetchUser = useCallback(async () => {
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const result = await api.post("/auth/login", { identifier, password });
       await fetchUser();
+      setJustLoggedIn(true);
       return result;
     } catch (error) {
       throw error;
@@ -85,6 +87,8 @@ export const AuthProvider = ({ children }) => {
         user,
         loading,
         isAuthenticated,
+        justLoggedIn,
+        setJustLoggedIn,
         fetchUser,
         loginWithGoogle,
         login,

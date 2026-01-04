@@ -74,7 +74,7 @@ const BoardGamesList = ({ filters, searchText }) => {
 
   content = boardGames.map((game, index) => (
     <section key={index} className="game-card">
-      <Link to={`${game.id}`}>
+      <Link to={`${game._id}`}>
         <p className="game-card-img">slika</p>
         <div className="game-card-details">
           <div className="game-title">{game.name}</div>
