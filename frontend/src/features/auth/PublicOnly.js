@@ -1,19 +1,19 @@
-import React from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Navigate, Outlet } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 
-const RequireAuth = () => {
-  const { isAuthenticated, loading } = useAuth();
+const PublicOnly = () => {
+  const { isAuthenticated, loading, justLoggedIn } = useAuth();
 
   if (loading) {
     return <PulseLoader color="#FFF" className="loader" />;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/auth" replace />;
+  if (isAuthenticated && !justLoggedIn) {
+    return <Navigate to="/" replace />;
   }
+
   return <Outlet />;
 };
 
-export default RequireAuth;
+export default PublicOnly;

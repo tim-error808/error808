@@ -18,12 +18,12 @@ const loginController = async (req, res) => {
   }).exec();
 
   if (!foundUser || !foundUser.isActive) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "User Not Found!" });
   }
 
   const match = await bcrypt.compare(password, foundUser.passwordHash);
 
-  if (!match) return res.status(401).json({ message: "Unauthorized" });
+  if (!match) return res.status(401).json({ message: "Wrong Password!" });
 
   const accessToken = jwt.sign({ sub: foundUser._id }, JWT_SECRET, {
     expiresIn: "15m",
