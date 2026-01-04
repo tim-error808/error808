@@ -22,7 +22,7 @@ const NavLinks = () => {
     <>
       {loggedOut && (
         <div className="auth-done-popup">
-          <h1 className="auth-done-text">Logged Out Successfully!</h1>
+          <h1 className="auth-done-text">Log Out Successful!</h1>
           <button className="auth-done-btn" onClick={() => setLoggedOut(false)}>
             Ok
           </button>
