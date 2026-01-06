@@ -13,6 +13,7 @@ import Profile from "./features/users/Profile";
 import EditProfileForm from "./features/users/EditProfileForm";
 import WishlistPage from "./features/wishlist/WishlistPage";
 import PublicOnly from "./features/auth/PublicOnly";
+import MyGames from "./features/board-games/MyGames";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path=":id" element={<BoardGame />} />
             <Route element={<RequireAuth />}>
               <Route path="new" element={<CreateOffer />} />
+              <Route path="my" element={<MyGames />} />
             </Route>
           </Route>
           <Route element={<RequireAuth />}>
