@@ -2,7 +2,6 @@
 const GamesModel = require("../models/GamesModel");
 
 const BoardGameController = async (req, res) => {
-  console.log("board game query: ", req.query);
   const filters = Array.isArray(req.query.filter)
     ? req.query.filter
     : req.query.filter

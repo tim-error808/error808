@@ -12,7 +12,6 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    console.log(originalRequest.url);
     if (originalRequest.url === "/user") {
       try {
         await api.post("/auth/refresh");

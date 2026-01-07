@@ -16,7 +16,7 @@ const AuthCallback = () => {
   if (isSuccessful) {
     return (
       <div className="auth-done-page">
-        <h1 className="auth-done-text-google">Logged In Successfully!</h1>
+        <h1 className="auth-done-text-google">Log In Successful!</h1>
         <h2>Welcome {user.username}!</h2>
         <button
           className="auth-done-btn"
