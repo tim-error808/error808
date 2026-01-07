@@ -85,7 +85,7 @@ const EditProfileForm = () => {
       />
       {photoUrl && (
         <div className="profile-avatar">
-          <img src={`${apiUri}${photoUrl}`} alt="Profile Preview" />
+          <img src={photoUrl} alt="Profile Preview" />
         </div>
       )}
 
