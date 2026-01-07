@@ -8,12 +8,12 @@ import { BoardGamesPage } from "./features/board-games/BoardGamesPage";
 import { AuthProvider } from "./hooks/AuthProvider";
 import AuthCallback from "./features/auth/AuthCallback";
 import RequireAuth from "./features/auth/RequireAuth";
-import CreateOffer from "./features/board-games/CreateOffer";
 import Profile from "./features/users/Profile";
 import EditProfileForm from "./features/users/EditProfileForm";
 import WishlistPage from "./features/wishlist/WishlistPage";
 import PublicOnly from "./features/auth/PublicOnly";
 import MyGames from "./features/board-games/MyGames";
+import PostBoardGameForm from "./features/board-games/PostBoardGameForm";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
             <Route index element={<BoardGamesPage />} />
             <Route path=":id" element={<BoardGame />} />
             <Route element={<RequireAuth />}>
-              <Route path="new" element={<CreateOffer />} />
+              <Route path="new" element={<PostBoardGameForm />} />
               <Route path="my" element={<MyGames />} />
             </Route>
           </Route>

@@ -76,6 +76,7 @@ const BoardGamesList = ({ filters, searchText }) => {
     <section key={index} className="game-card">
       <Link to={`${game._id}`}>
         <p className="game-card-img">slika</p>
+        {/* lazy loading za sliku */}
         <div className="game-card-details">
           <div className="game-title">{game.name}</div>
           <p>Difficulty: {game.difficulty}/5</p>

@@ -1,20 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import api from "../../api/api";
+import { useParams } from "react-router-dom";
 
-const PostBoardGameForm = () => {
+const EditBoardGameForm = () => {
+  const { id } = useParams();
   const [form, setForm] = useState({
-    name: "",
-    genre: "",
-    publisher: "",
-    releaseYear: "",
-    condition: "",
-    minPlayers: "",
-    maxPlayers: "",
-    playTime: "",
-    difficulty: "",
-    image: null,
-    description: "",
+    /* game object vezan uz id */
   });
   const [error, setError] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
@@ -34,7 +25,7 @@ const PostBoardGameForm = () => {
     setImagePreview(previewUrl);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     setError("");
@@ -59,42 +50,7 @@ const PostBoardGameForm = () => {
       return;
     }
 
-    const formData = new FormData();
-
-    Object.entries(form).forEach(([key, value]) => {
-      if (value !== null) {
-        formData.append(key, value);
-      }
-    });
-
-    try {
-      const response = await api.post("post/api/endpoint", formData);
-
-      if (!response.ok) {
-        throw new Error("Failed to post game");
-      }
-
-      const data = await response.json();
-      console.log("Game posted successfully:", data);
-
-      setForm({
-        name: "",
-        genre: "",
-        publisher: "",
-        releaseYear: "",
-        condition: "",
-        minPlayers: "",
-        maxPlayers: "",
-        playTime: "",
-        difficulty: "",
-        image: null,
-        description: "",
-      });
-      setImagePreview(null);
-    } catch (error) {
-      console.error(error);
-      setError("There was a problem posting the game.");
-    }
+    console.log(form);
   };
 
   useEffect(() => {
@@ -107,7 +63,7 @@ const PostBoardGameForm = () => {
 
   return (
     <form className="game-form" onSubmit={handleSubmit}>
-      <h2>Post Board Game</h2>
+      <h2>Edit Board Game</h2>
 
       <div className="form-grid">
         <div className="form-group">
@@ -239,9 +195,9 @@ const PostBoardGameForm = () => {
 
       {error && <div className="form-error">{error}</div>}
 
-      <button className="primary-button form-submit">Post Game</button>
+      <button className="primary-button form-submit">Save Changes</button>
     </form>
   );
 };
 
-export default PostBoardGameForm;
+export default EditBoardGameForm;

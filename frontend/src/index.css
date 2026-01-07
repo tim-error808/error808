@@ -814,6 +814,94 @@ body {
   text-decoration: none;
 }
 
+/* POST BOARD GAME FORM */
+
+.game-form {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #05808c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.game-form h2 {
+  color: #05808c;
+  margin-bottom: 25px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border-radius: 8px;
+  border: 1px solid #05808c;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.players-input {
+  display: flex;
+  gap: 10px;
+}
+
+.image-preview {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.image-preview img {
+  width: 350px;
+  height: 200px;
+  border-radius: 10px;
+  border: 1px solid #05808c;
+  object-fit: contain;
+}
+
+.form-submit {
+  margin-top: 25px;
+  width: 180px;
+}
+
+.legend {
+  margin-top: 10px;
+}
+
+.form-error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background-color: #fdecea;
+  border: 1px solid #f5c2c7;
+  color: #8a1c1c;
+  font-size: 0.95rem;
+}
+
 /* PROFILE PAGE STYLES */
 
 .profile-page {
@@ -1307,5 +1395,48 @@ body {
 
   .auth-done-popup {
     width: 90vw;
+  }
+
+  .game-form {
+    margin: 12px 8px;
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .game-form h2 {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .players-input {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .form-submit {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 1.05rem;
   }
 }
