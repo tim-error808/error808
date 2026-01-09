@@ -7,19 +7,19 @@ const CategoryTabs = ({ category }) => {
         <>
           <div className="categories-title">Number of Players</div>
           <div className="category-cards">
-            <Link to="/board-games?filter=2">
+            <Link to="/listings?filter=2">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">2</div>
               </div>
             </Link>
-            <Link to="/board-games?filter=2-4">
+            <Link to="/listings?filter=2-4">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">2-4</div>
               </div>
             </Link>
-            <Link to="/board-games?filter=4plus">
+            <Link to="/listings?filter=4plus">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">4+</div>
@@ -31,19 +31,19 @@ const CategoryTabs = ({ category }) => {
         <>
           <div className="categories-title">Difficulty</div>
           <div className="category-cards">
-            <Link to="/board-games?filter=easy">
+            <Link to="/listings?filter=easy">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">EASY</div>
               </div>
             </Link>
-            <Link to="/board-games?filter=medium">
+            <Link to="/listings?filter=medium">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">MEDIUM</div>
               </div>
             </Link>
-            <Link to="/board-games?filter=hard">
+            <Link to="/listings?filter=hard">
               <div className="category-card">
                 <div className="category-card-img">slika</div>
                 <div className="category-card-text">HARD</div>

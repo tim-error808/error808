@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CgProfile, CgChevronRight, CgChevronDown } from "react-icons/cg";
 
 const NavLinks = () => {
-  const { user, logout } = useAuth();
+  const { isAuthenticated, user, logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
 
@@ -35,7 +35,7 @@ const NavLinks = () => {
               <CgProfile />
             </span>
             <div className="dropdown-button-text-desktop">
-              {user ? user.username : "My Account"}
+              {isAuthenticated ? user.username : "My Account"}
             </div>
             <span>
               {!isClicked && <CgChevronRight />}
@@ -49,22 +49,31 @@ const NavLinks = () => {
                 : "dropdown-content-inactive"
             }
           >
-            <Link onClick={handleClick} to={!user ? "/auth" : "/"}>
+            <Link
+              onClick={handleClick}
+              to={!isAuthenticated ? "/auth" : "/listings/my"}
+            >
               My Games
             </Link>
             <Link
               onClick={handleClick}
-              to={!user ? "/auth" : "/board-games/new"}
+              to={!isAuthenticated ? "/auth" : "/listings/new"}
             >
               Post Game
             </Link>
-            <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
+            <Link
+              onClick={handleClick}
+              to={!isAuthenticated ? "/auth" : "/offers"}
+            >
               Received Offers
             </Link>
-            <Link onClick={handleClick} to={!user?.email ? "/auth" : "/"}>
+            <Link
+              onClick={handleClick}
+              to={!isAuthenticated ? "/auth" : "/offers/my"}
+            >
               My Offers
             </Link>
-            {user && (
+            {isAuthenticated && (
               <>
                 <Link onClick={handleClick} to="/profile">
                   View Profile
@@ -74,7 +83,7 @@ const NavLinks = () => {
                 </Link>
               </>
             )}
-            {!user && (
+            {!isAuthenticated && (
               <Link onClick={handleClick} to="/auth">
                 Log In
               </Link>
