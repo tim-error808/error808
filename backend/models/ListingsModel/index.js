@@ -13,9 +13,9 @@ const ListingsModel = mongoose.model("listings", new Schema({
     condition: {type: String, required: true},
     createdAt: {type: Date, required: true, default: Date.now},
     description: {type: String},
-    gameId: {type: Schema.Types.ObjectId, ref: "games", required: true },
+    game: {type: Schema.Types.ObjectId, ref: "games", required: true },
     images: [{ type: String, required: true }],
-    userId: {type: Schema.Types.ObjectId, ref: "users", required: true }
+    user: {type: Schema.Types.ObjectId, ref: "users", required: true }
 }))
 
 module.exports = ListingsModel;
