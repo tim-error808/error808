@@ -60,22 +60,22 @@ const ReceivedOffers = () => {
         {offers.map((offer) => (
           <div key={offer._id} className="offer-card">
             <div className="offer-header">
-              <h3>From: {offer.initiatorId.username}</h3>
-              <span>Email: {offer.initiatorId.email}</span>
+              <h3>From: {offer.initiator.username}</h3>
+              <span>Email: {offer.initiator.email}</span>
             </div>
 
             <div className="offer-details">
               <p>Requested Games:</p>
               <ul>
                 {offer.requestedListings.map((listing) => (
-                  <li key={listing._id}>{listing.game.name}</li>
+                  <li key={listing._id}>{listing.name}</li>
                 ))}
               </ul>
 
               <p>Offered Games:</p>
               <ul>
                 {offer.offeredListings.map((listing) => (
-                  <li key={listing._id}>{listing.game.name}</li>
+                  <li key={listing._id}>{listing.name}</li>
                 ))}
               </ul>
             </div>

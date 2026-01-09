@@ -13,7 +13,7 @@ const ListingsList = ({ filters, searchText }) => {
   const [selectedListingId, setSelectedListingId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,12 +51,12 @@ const ListingsList = ({ filters, searchText }) => {
     }
   }, [filters, searchText]);
 
-  const onOfferClicked = ({ listingId }) => {
-    if (!user?.email) {
+  const onOfferClicked = (id) => {
+    if (!isAuthenticated) {
       navigate("/auth");
     }
 
-    setSelectedListingId(listingId);
+    setSelectedListingId(id);
     setShowTradeModal(true);
   };
 
@@ -79,15 +79,15 @@ const ListingsList = ({ filters, searchText }) => {
   }
 
   content = listings.map((listing) => (
-    <section key={listing.listingId} className="game-card">
-      <Link to={`${listing.listingId}`}>
+    <section key={listing._id} className="game-card">
+      <Link to={`${listing._id}`}>
         <p className="game-card-img">slika</p>
         {/* lazy loading za sliku */}
         <div className="game-card-details">
-          <div className="game-title">{listing.game.name}</div>
-          <p>Difficulty: {listing.game.difficulty}/5</p>
-          <p>Min Players: {listing.game.minPlayers}</p>
-          <p>Max Players: {listing.game.maxPlayers}</p>
+          <div className="game-title">{listing.name}</div>
+          <p>Difficulty: {listing.difficulty}/5</p>
+          <p>Min Players: {listing.minPlayers}</p>
+          <p>Max Players: {listing.maxPlayers}</p>
         </div>
       </Link>
       <button
@@ -95,7 +95,7 @@ const ListingsList = ({ filters, searchText }) => {
           if (!isAuthenticated) {
             navigate("/auth");
           }
-          onOfferClicked(listing.listingId);
+          onOfferClicked(listing._id);
         }}
         className="game-card-button"
       >

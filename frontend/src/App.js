@@ -15,13 +15,14 @@ import PublicOnly from "./features/auth/PublicOnly";
 import MyListings from "./features/listings/MyListings";
 import MakeListingForm from "./features/listings/MakeListingForm";
 import ReceivedOffers from "./features/trades/ReceivedOffers";
+import EditListingForm from "./features/listings/EditListingForm";
+import MyOffers from "./features/trades/MyOffers";
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/*" element={<Layout />}>
-          {/*public routes*/}
           <Route index element={<Public />} />
           <Route path="auth">
             <Route element={<PublicOnly />}>
@@ -35,10 +36,12 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path="new" element={<MakeListingForm />} />
               <Route path="my" element={<MyListings />} />
+              <Route path="edit/:id" element={<EditListingForm />} />
             </Route>
           </Route>
           <Route path="offers">
             <Route index element={<ReceivedOffers />} />
+            <Route path="my" element={<MyOffers />} />
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="profile">

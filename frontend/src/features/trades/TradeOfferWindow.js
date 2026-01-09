@@ -5,7 +5,6 @@ import PulseLoader from "react-spinners/PulseLoader";
 const TradeOfferWindow = ({ requestedListingId, onClose }) => {
   const [myListings, setMyListings] = useState([]);
   const [selectedListings, setSelectedListings] = useState([]);
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -40,7 +39,6 @@ const TradeOfferWindow = ({ requestedListingId, onClose }) => {
       await api.post("/trades", {
         requestedListings: [requestedListingId],
         offeredListings: selectedListings,
-        message,
       });
 
       onClose();
@@ -75,18 +73,9 @@ const TradeOfferWindow = ({ requestedListingId, onClose }) => {
               checked={selectedListings.includes(listing._id)}
               onChange={() => toggleListing(listing._id)}
             />
-            <span>{listing.gameId.name}</span>
+            <span>{listing.name}</span>
           </label>
         ))}
-      </div>
-
-      <div className="form-group">
-        <label>Message (optional)</label>
-        <textarea
-          rows="3"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
       </div>
 
       {error && <div className="form-error">{error}</div>}

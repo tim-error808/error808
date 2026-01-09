@@ -67,7 +67,10 @@ const NavLinks = () => {
             >
               Received Offers
             </Link>
-            <Link onClick={handleClick} to={!isAuthenticated ? "/auth" : "/"}>
+            <Link
+              onClick={handleClick}
+              to={!isAuthenticated ? "/auth" : "/offers/my"}
+            >
               My Offers
             </Link>
             {isAuthenticated && (

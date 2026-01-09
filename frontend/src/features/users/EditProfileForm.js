@@ -4,11 +4,9 @@ import Map from "../../components/Map";
 import { useAuth } from "../../hooks/AuthProvider";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
-import ModeConfig from "../../config/ModeConfig";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
-  const { apiUri } = ModeConfig();
   const { user, fetchUser } = useAuth();
   const [username, setUsername] = useState(user.username || "");
   const [description, setDescription] = useState(

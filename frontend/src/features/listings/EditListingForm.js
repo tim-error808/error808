@@ -1,9 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 const EditListingForm = () => {
-  const { id } = useParams();
   const [form, setForm] = useState({
     /* game object vezan uz id */
   });

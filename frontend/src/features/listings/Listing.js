@@ -49,20 +49,18 @@ const Listing = () => {
 
   return (
     <section className="game">
-      <h2 className="game-title">{listing.game.name}</h2>
+      <h2 className="game-title">{listing.name}</h2>
 
       <div className="game-details">
-        <span className="genre">{listing.game.genre}</span>
+        <span className="genre">{listing.genre}</span>
         <span className="publisher">
-          {listing.gameId.publisher} ({listing.game.releaseYear})
+          {listing.publisher} ({listing.releaseYear})
         </span>
         <span className="players">
-          Number Of Players: {listing.game.minPlayers}-{listing.game.maxPlayers}
+          Number Of Players: {listing.minPlayers}-{listing.maxPlayers}
         </span>
-        <span className="playtime">Play Time: {listing.game.playTime} min</span>
-        <span className="difficulty">
-          Difficulty: {listing.game.difficulty}/5
-        </span>
+        <span className="playtime">Play Time: {listing.playTime} min</span>
+        <span className="difficulty">Difficulty: {listing.difficulty}/5</span>
         <span className="condition">Condition {listing.condition}/10</span>
       </div>
 

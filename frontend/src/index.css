@@ -919,6 +919,30 @@ body {
   text-decoration: none;
 }
 
+/* MY OFFERS PAGE STYLES */
+
+.status {
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status.accepted {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status.declined {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
 /* POST BOARD GAME FORM */
 
 .game-form {
