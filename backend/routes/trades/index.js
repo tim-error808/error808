@@ -3,6 +3,7 @@ const {recievedTradesController, newTradeController} = require('../../controller
 const router = express.Router();
 
 router.get('/recieved', recievedTradesController);
+router.
 router.post('/', newTradeController);
 
 module.exports = router;
