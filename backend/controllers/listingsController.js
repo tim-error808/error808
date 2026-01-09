@@ -25,23 +25,13 @@ const listingsController = async (req, res) => {
         if (maxPlayers.length > 0) {
             query.maxPlayers = {$in: maxPlayers};
         }
-        if (req.query.search) {
-            query.name = {$regex: req.query.search, $options: 'i'};
-        }
         const userId = req.user ? req.user._id : "<>";
-        let listings = await ListingsModel.aggregate([
-            {
-                $lookup: {
-                    from: "games",
-                    localField: "game",
-                    "foreignField": "_id",
-                    as: "gameDetails"
-                }
-            },
-            {$unwind: "$gameDetails"},
-            {$match: {'gameDetails': query, 'user': {$ne: userId}}},
-        ])
-
+        let listings = await ListingsModel.find(query).lean();
+        if (req.query.search) {
+            listings = listings.filter((game) =>
+                game.name.toLowerCase().includes(req.query.search.toLowerCase())
+            );
+        }
         return res.status(200).json(listings);
     } catch (err) {
         console.error(err);
@@ -52,12 +42,9 @@ const listingsController = async (req, res) => {
 const addListingController = async (req, res) => {
     try {
         const userId = req.user._id;
-        const {condition, description, gameId} = req.body;
         const _ = await ListingsModel.create({
+            ...req.body,
             user: userId,
-            game: gameId,
-            condition,
-            description
         })
         return res.status(200).json({message: 'Listing added successfully'});
     }catch (err){
@@ -80,7 +67,7 @@ const deleteListingController = async (req, res) => {
 const getUsersListingsController = async (req, res) => {
     try {
         const userId = req.user._id;
-        const listings = await ListingsModel.find({user: userId}).populate('game');
+        const listings = await ListingsModel.find({user: userId});
         return res.status(200).json(listings);
     } catch (err) {
         console.error(err);
