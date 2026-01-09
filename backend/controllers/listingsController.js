@@ -26,7 +26,7 @@ const listingsController = async (req, res) => {
             query.maxPlayers = {$in: maxPlayers};
         }
         const userId = req.user ? req.user._id : "<>";
-        let listings = await ListingsModel.find(query).lean();
+        let listings = await ListingsModel.find(query).populate("user").lean();
         if (req.query.search) {
             listings = listings.filter((game) =>
                 game.name.toLowerCase().includes(req.query.search.toLowerCase())
