@@ -7,7 +7,7 @@ const WishlistController = async (req, res) => {
             throw "Missing user Id";
         }
         const wishlist = await WishlistModel.findOne({userId})
-            .populate('games').lean();
+            .populate('games').lean().exec();
         if (!wishlist) {
             return res.status(200).json(wishlist.games);
         }
@@ -35,7 +35,26 @@ const DeleteFromWishlistController = async (req, res) => {
     }
 }
 
+const AddToWishlistController = async (req, res) => {
+    try{
+        const userId = req.user._id;
+        const gameId = req.gameId;
+
+        if (!userId || !gameId) {
+            throw "Missing userId or gameId";
+        }
+        const _ = await WishlistModel.updateOne(
+            { userId: userId },
+            { $push: { games: gameId } }
+        );
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({message: 'Server error'});
+    }
+}
+
 module.exports = {
     WishlistController,
-    DeleteFromWishlistController
+    DeleteFromWishlistController,
+    AddToWishlistController
 }
