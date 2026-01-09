@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.use('/auth',authRouter);
 router.use('/user',userRouter);
-router.use('/listings',boardGamesRouter);
+router.use('/board-games',boardGamesRouter);
 
 module.exports = router;
