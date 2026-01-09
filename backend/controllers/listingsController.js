@@ -28,6 +28,7 @@ const listingsController = async (req, res) => {
         if (req.query.search) {
             query.name = {$regex: req.query.search, $options: 'i'};
         }
+        const userId = req.user ? req.user._id : "<>";
         let listings = await ListingsModel.aggregate([
             {
                 $lookup: {
@@ -38,7 +39,7 @@ const listingsController = async (req, res) => {
                 }
             },
             {$unwind: "$gameDetails"},
-            {$match: {'gameDetails': query}},
+            {$match: {'gameDetails': query, 'user': {$ne: userId}}},
         ])
 
         return res.status(200).json(listings);
@@ -76,4 +77,15 @@ const deleteListingController = async (req, res) => {
     }
 }
 
-module.exports = {listingsController,addListingController, deleteListingController};
+const getUsersListingsController = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const listings = await ListingsModel.find({user: userId}).populate('game');
+        return res.status(200).json(listings);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({message: 'Error fetching user\'s listings'});
+    }
+}
+
+module.exports = {listingsController,addListingController, deleteListingController, getUsersListingsController};
