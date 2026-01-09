@@ -10,13 +10,12 @@ const recievedTradesController = (req, res) => {
 const newTradeController = async (req, res) => {
     try {
         const userId = req.user._id;
-        const {requestedListings, offeredListings, message} = req.body;
+        const {requestedListings, offeredListings} = req.body;
         const _ = await TradesModel.create({
             requester: userId,
             recipient: req.body.recipient,
             requestedListings,
             offeredListings,
-            message,
             status: 'active'
         });
         return res.status(200).json({message: 'Trade request sent successfully'});
