@@ -11,11 +11,7 @@ const { Schema } = require("mongoose");
 const TradesModel = mongoose.model("trades", new Schema({
     createdAt: { type: Date, required: true, default: Date.now },
     initiatorId: { type: Schema.Types.ObjectId, required: true, ref: "users" },
-    messages: [{
-        senderId: { type: Schema.Types.ObjectId, required: true, ref: "users" },
-        text: { type: String, required: true },
-        timestamp: { type: Date, required: true, default: Date.now }
-    }],
+    message: {type: String},
     offeredListings: [{ type: Schema.Types.ObjectId, ref: "listings", required: true }],
     receiverId: { type: Schema.Types.ObjectId, required: true, ref: "users" },
     requestedListings: [{ type: Schema.Types.ObjectId, ref: "listings", required: true }],
