@@ -1,6 +1,5 @@
 //TODO: document the function
 const UsersModel = require("../models/UsersModel");
-const WishlistModel = require("../models/WishlistModel");
 
 //@desc dohvati podatke o ulogiranom useru
 //@method GET /user
@@ -19,24 +18,22 @@ const getUserData = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const wishlistData = await WishlistModel.findOne({ userId: userData._id })
-      .populate("games")
-      .lean()
-      .exec();
-
-    const userWithWishlist = {
-      ...userData,
-      wishlist: wishlistData ? wishlistData.games : [],
-      notificationsEnabled: wishlistData
-        ? wishlistData.notificationsEnabled
-        : false,
-    };
-
-    return res.status(200).json(userWithWishlist);
+    return res.status(200).json(userData);
   } catch (err) {
     return res.status(500).json({ message: "Server error" });
   }
 };
+
+const getUserWishlist = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const userData = await UsersModel.findOne({ _id: userId },"wishlist")
+          .lean()
+          .exec();
+    } catch (err) {
+        return res.status(500).json({ message: "Error getting a wishlist" });
+    }
+}
 
 //@desc azuriraj podatke ulogiranog usera
 //@method PUT /user
@@ -77,4 +74,38 @@ const updateUserData = async (req, res) => {
   }
 };
 
-module.exports = { getUserData, updateUserData };
+const deleteUserWishlist = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const gameId = req.gameId;
+        const _ = await UsersModel.updateOne(
+          { _id: userId },
+          { $pull: { wishlist: gameId } }
+        );
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({message: 'Error deleting from wishlist'});
+    }
+}
+
+const addUserWishlist = async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const gameId = req.gameId;
+      const _ = await UsersModel.updateOne(
+          {_id: userId},
+          {$push: {wishlist: gameId}}
+      );
+    } catch (err){
+        console.log(err);
+        return res.status(500).json({message: 'Error adding to wishlist'});
+    }
+}
+
+module.exports = {
+  getUserData,
+  updateUserData,
+  deleteUserWishlist,
+  addUserWishlist,
+  getUserWishlist
+};
