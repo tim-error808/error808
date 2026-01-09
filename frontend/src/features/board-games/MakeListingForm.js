@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 
-const PostBoardGameForm = () => {
+const MakeListingForm = () => {
   const [form, setForm] = useState({
     name: "",
     genre: "",
@@ -244,4 +244,4 @@ const PostBoardGameForm = () => {
   );
 };
 
-export default PostBoardGameForm;
+export default MakeListingForm;

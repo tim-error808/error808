@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-const EditBoardGameForm = () => {
+const EditListingForm = () => {
   const { id } = useParams();
   const [form, setForm] = useState({
     /* game object vezan uz id */
@@ -200,4 +200,4 @@ const EditBoardGameForm = () => {
   );
 };
 
-export default EditBoardGameForm;
+export default EditListingForm;

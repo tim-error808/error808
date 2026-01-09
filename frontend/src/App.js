@@ -3,8 +3,8 @@ import Public from "./components/Public";
 import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./features/auth/Login";
-import BoardGame from "./features/board-games/BoardGame";
-import { BoardGamesPage } from "./features/board-games/BoardGamesPage";
+import Listing from "./features/board-games/Listing";
+import ListingsPage from "./features/board-games/ListingsPage";
 import { AuthProvider } from "./hooks/AuthProvider";
 import AuthCallback from "./features/auth/AuthCallback";
 import RequireAuth from "./features/auth/RequireAuth";
@@ -12,8 +12,8 @@ import Profile from "./features/users/Profile";
 import EditProfileForm from "./features/users/EditProfileForm";
 import WishlistPage from "./features/wishlist/WishlistPage";
 import PublicOnly from "./features/auth/PublicOnly";
-import MyGames from "./features/board-games/MyGames";
-import PostBoardGameForm from "./features/board-games/PostBoardGameForm";
+import MyListings from "./features/board-games/MyListings";
+import MakeListingForm from "./features/board-games/MakeListingForm";
 
 function App() {
   return (
@@ -28,12 +28,12 @@ function App() {
             </Route>
             <Route path="callback" element={<AuthCallback />} />
           </Route>
-          <Route path="board-games">
-            <Route index element={<BoardGamesPage />} />
-            <Route path=":id" element={<BoardGame />} />
+          <Route path="listings">
+            <Route index element={<ListingsPage />} />
+            <Route path=":id" element={<Listing />} />
             <Route element={<RequireAuth />}>
-              <Route path="new" element={<PostBoardGameForm />} />
-              <Route path="my" element={<MyGames />} />
+              <Route path="new" element={<MakeListingForm />} />
+              <Route path="my" element={<MyListings />} />
             </Route>
           </Route>
           <Route element={<RequireAuth />}>

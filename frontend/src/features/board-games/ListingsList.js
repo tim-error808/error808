@@ -4,16 +4,16 @@ import PulseLoader from "react-spinners/PulseLoader";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import GameNotFound from "./GameNotFound";
+import ListingNotFound from "./ListingNotFound";
 import TradeOfferWindow from "../trades/TradeOfferWindow";
 
-const BoardGamesList = ({ filters, searchText }) => {
-  const [boardGames, setBoardGames] = useState([]);
+const ListingsList = ({ filters, searchText }) => {
+  const [listings, setListings] = useState([]);
   const [showTradeModal, setShowTradeModal] = useState(false);
   const [selectedListingId, setSelectedListingId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,9 +23,9 @@ const BoardGamesList = ({ filters, searchText }) => {
       params.append("search", searchText);
       const timer = setTimeout(() => {
         api
-          .get(`/board-games?${params.toString()}`)
+          .get(`/listings?${params.toString()}`)
           .then((response) => {
-            setBoardGames(response.data);
+            setListings(response.data);
           })
           .catch((error) => {
             setError(error);
@@ -38,9 +38,9 @@ const BoardGamesList = ({ filters, searchText }) => {
       return () => clearTimeout(timer);
     } else {
       api
-        .get(`/board-games?${params.toString()}`)
+        .get(`/listings?${params.toString()}`)
         .then((response) => {
-          setBoardGames(response.data);
+          setListings(response.data);
         })
         .catch((error) => {
           setError(error);
@@ -75,23 +75,28 @@ const BoardGamesList = ({ filters, searchText }) => {
   }
 
   if (searchText && boardGames.length === 0) {
-    return <GameNotFound searchText={searchText} />;
+    return <ListingNotFound searchText={searchText} />;
   }
 
-  content = boardGames.map((game, index) => (
-    <section key={index} className="game-card">
-      <Link to={`${game._id}`}>
+  content = listings.map((listing) => (
+    <section key={listing.listingId} className="game-card">
+      <Link to={`${listing.listingId}`}>
         <p className="game-card-img">slika</p>
         {/* lazy loading za sliku */}
         <div className="game-card-details">
-          <div className="game-title">{game.name}</div>
-          <p>Difficulty: {game.difficulty}/5</p>
-          <p>Min Players: {game.minPlayers}</p>
-          <p>Max Players: {game.maxPlayers}</p>
+          <div className="game-title">{listing.game.name}</div>
+          <p>Difficulty: {listing.game.difficulty}/5</p>
+          <p>Min Players: {listing.game.minPlayers}</p>
+          <p>Max Players: {listing.game.maxPlayers}</p>
         </div>
       </Link>
       <button
-        onClick={() => onOfferClicked(game._id)}
+        onClick={() => {
+          if (!isAuthenticated) {
+            navigate("/auth");
+          }
+          onOfferClicked(listing.listingId);
+        }}
         className="game-card-button"
       >
         Offer Exchange
@@ -118,4 +123,4 @@ const BoardGamesList = ({ filters, searchText }) => {
   );
 };
 
-export default BoardGamesList;
+export default ListingsList;

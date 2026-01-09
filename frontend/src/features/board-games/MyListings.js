@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import api from "../../api/api";
 import { Link } from "react-router-dom";
 
-const MyGames = () => {
+const MyListings = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const canPost = !!user?.location?.city;
@@ -14,7 +14,7 @@ const MyGames = () => {
       <div className="my-games-header">
         <h2>My Games</h2>
         {canPost && (
-          <Link to="/board-games/new" className="primary-button">
+          <Link to="/listings/new" className="primary-button">
             Post Game
           </Link>
         )}
@@ -116,4 +116,4 @@ const MyGames = () => {
   );
 };
 
-export default MyGames;
+export default MyListings;

@@ -4,10 +4,10 @@ import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import ModeConfig from "../../config/ModeConfig";
 
-const BoardGame = () => {
+const Listing = () => {
   const { apiUri } = ModeConfig();
   const { id } = useParams();
-  const [game, setGame] = useState({});
+  const [listing, setListing] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -15,7 +15,7 @@ const BoardGame = () => {
     axios
       .get(`${apiUri}/board-games/${id}`)
       .then((response) => {
-        setGame(response.data);
+        setListing(response.data);
         setError("");
       })
       .catch((error) => setError(error.message))
@@ -32,24 +32,26 @@ const BoardGame = () => {
 
   return (
     <section className="game">
-      <h2 className="game-title">{game.naziv}</h2>
+      <h2 className="game-title">{listing.game.naziv}</h2>
       <div className="game-details">
-        <span className="genre">{game.žanr}</span>
+        <span className="genre">{listing.game.žanr}</span>
         <span className="publisher">
-          {game.izdavač} ({game.godina_izdanja})
+          {listing.game.izdavač} ({listing.game.godina_izdanja})
         </span>
-        <span className="players">Broj igrača: {game.broj_igrača}</span>
+        <span className="players">Broj igrača: {listing.game.broj_igrača}</span>
         <span className="playtime">
-          Vrijeme igranja: {game.vrijeme_igranja}
+          Vrijeme igranja: {listing.game.vrijeme_igranja}
         </span>
-        <span className="difficulty">Težina: {game.procjena_težine}</span>
+        <span className="difficulty">
+          Težina: {listing.game.procjena_težine}
+        </span>
         <span className="condition">
-          Očuvanost: {game.ocjena_očuvanosti}/10
+          Očuvanost: {listing.game.ocjena_očuvanosti}/10
         </span>
       </div>
-      <p className="description">{game.opis}</p>
+      <p className="description">{listing.game.opis}</p>
     </section>
   );
 };
 
-export default BoardGame;
+export default Listing;

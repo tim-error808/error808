@@ -1019,6 +1019,12 @@ body {
   color: black;
 }
 
+.interest-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
 .interest-chip {
   background: #edf2fa;
   border-radius: 6px;

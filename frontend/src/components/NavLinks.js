@@ -51,13 +51,13 @@ const NavLinks = () => {
           >
             <Link
               onClick={handleClick}
-              to={!isAuthenticated ? "/auth" : "/board-games/my"}
+              to={!isAuthenticated ? "/auth" : "/listings/my"}
             >
               My Games
             </Link>
             <Link
               onClick={handleClick}
-              to={!isAuthenticated ? "/auth" : "/board-games/new"}
+              to={!isAuthenticated ? "/auth" : "/listings/new"}
             >
               Post Game
             </Link>
