@@ -732,6 +732,54 @@ body {
   margin-bottom: 50px;
 }
 
+/* TRADE WINDOW STYLES */
+
+.trade-window {
+  width: 420px;
+  max-width: 90vw;
+}
+
+.trade-hint {
+  font-size: 0.95rem;
+  color: #595959;
+  margin-bottom: 15px;
+}
+
+.trade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.trade-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.trade-item input {
+  cursor: pointer;
+}
+
+.trade-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.form-error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+
+.muted-text {
+  font-size: 0.9rem;
+  color: #888;
+}
+
 /* PROFILE PAGE STYLES */
 
 .profile-page {

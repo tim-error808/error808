@@ -5,9 +5,12 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import GameNotFound from "./GameNotFound";
+import TradeOfferWindow from "../trades/TradeOfferWindow";
 
 const BoardGamesList = ({ filters, searchText }) => {
   const [boardGames, setBoardGames] = useState([]);
+  const [showTradeModal, setShowTradeModal] = useState(false);
+  const [selectedListingId, setSelectedListingId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user } = useAuth();
@@ -48,10 +51,13 @@ const BoardGamesList = ({ filters, searchText }) => {
     }
   }, [filters, searchText]);
 
-  const onOfferClicked = () => {
+  const onOfferClicked = ({ listingId }) => {
     if (!user?.email) {
       navigate("/auth");
     }
+
+    setSelectedListingId(listingId);
+    setShowTradeModal(true);
   };
 
   let content;
@@ -83,13 +89,32 @@ const BoardGamesList = ({ filters, searchText }) => {
           <p>Max Players: {game.maxPlayers}</p>
         </div>
       </Link>
-      <button onClick={onOfferClicked} className="game-card-button">
+      <button
+        onClick={() => onOfferClicked(game._id)}
+        className="game-card-button"
+      >
         Offer Exchange
       </button>
     </section>
   ));
 
-  return <div className="games">{content}</div>;
+  return (
+    <>
+      <div className="games">{content}</div>
+
+      {showTradeModal && (
+        <div className="modal-overlay">
+          <TradeOfferWindow
+            requestedListingId={selectedListingId}
+            onClose={() => {
+              setShowTradeModal(false);
+              setSelectedListingId(null);
+            }}
+          />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default BoardGamesList;
