@@ -92,10 +92,10 @@ const TradeOfferWindow = ({ requestedListingId, onClose }) => {
       {error && <div className="form-error">{error}</div>}
 
       <div className="trade-actions">
-        <button className="modal-button secondary" onClick={onClose}>
+        <button className="secondary-button" onClick={onClose}>
           Cancel
         </button>
-        <button className="modal-button primary" onClick={handleSubmit}>
+        <button className="primary-button" onClick={handleSubmit}>
           Offer
         </button>
       </div>
