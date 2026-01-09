@@ -74,7 +74,7 @@ const ListingsList = ({ filters, searchText }) => {
     return <div className="error">Error: {error.message}</div>;
   }
 
-  if (searchText && boardGames.length === 0) {
+  if (searchText && listings.length === 0) {
     return <ListingNotFound searchText={searchText} />;
   }
 

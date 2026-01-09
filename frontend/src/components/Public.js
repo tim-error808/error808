@@ -6,7 +6,7 @@ const Public = () => {
     <section className="public">
       <h1>Exchange Board Games</h1>
       <p>Portal to world of exchanging board games.</p>
-      <Link className="public-browse-link" to="/board-games">
+      <Link className="public-browse-link" to="/listings">
         Browse All Games
       </Link>
       <h2>Categories</h2>
