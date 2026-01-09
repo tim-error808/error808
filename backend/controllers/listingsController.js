@@ -48,4 +48,32 @@ const listingsController = async (req, res) => {
     }
 }
 
-module.exports = listingsController;
+const addListingController = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const {condition, description, gameId} = req.body;
+        const _ = await ListingsModel.create({
+            user: userId,
+            game: gameId,
+            condition,
+            description
+        })
+        return res.status(200).json({message: 'Listing added successfully'});
+    }catch (err){
+        console.error(err);
+        return res.status(500).json({message: 'Error adding listing'});
+    }
+}
+
+const deleteListingController = async (req, res) => {
+    try {
+        const listingId = req.params.listingId;
+        const listing = await ListingsModel.deleteOne({_id: listingId});
+        return res.status(200).json({message: 'Listing deleted successfully'});
+    }catch (err) {
+        console.error(err);
+        return res.status(500).json({message: 'Error deleting listing'});
+    }
+}
+
+module.exports = {listingsController,addListingController, deleteListingController};
