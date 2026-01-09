@@ -18,6 +18,8 @@ const UsersModel = mongoose.model("users", new Schema({
   isActive: { type: Boolean },
   createdAt: { type: Date, default: Date.now },
   token: { type: String },
+  wishlist: [{type: String}],
+  notificationsEnabled: { type: Boolean, default: true },
 
   location: {
     city: { type: String },
