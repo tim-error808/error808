@@ -3,8 +3,8 @@ import Public from "./components/Public";
 import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./features/auth/Login";
-import Listing from "./features/board-games/Listing";
-import ListingsPage from "./features/board-games/ListingsPage";
+import Listing from "./features/listings/Listing";
+import ListingsPage from "./features/listings/ListingsPage";
 import { AuthProvider } from "./hooks/AuthProvider";
 import AuthCallback from "./features/auth/AuthCallback";
 import RequireAuth from "./features/auth/RequireAuth";
@@ -12,8 +12,8 @@ import Profile from "./features/users/Profile";
 import EditProfileForm from "./features/users/EditProfileForm";
 import WishlistPage from "./features/wishlist/WishlistPage";
 import PublicOnly from "./features/auth/PublicOnly";
-import MyListings from "./features/board-games/MyListings";
-import MakeListingForm from "./features/board-games/MakeListingForm";
+import MyListings from "./features/listings/MyListings";
+import MakeListingForm from "./features/listings/MakeListingForm";
 
 function App() {
   return (
