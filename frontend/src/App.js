@@ -14,6 +14,7 @@ import WishlistPage from "./features/wishlist/WishlistPage";
 import PublicOnly from "./features/auth/PublicOnly";
 import MyListings from "./features/listings/MyListings";
 import MakeListingForm from "./features/listings/MakeListingForm";
+import ReceivedOffers from "./features/trades/ReceivedOffers";
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
               <Route path="new" element={<MakeListingForm />} />
               <Route path="my" element={<MyListings />} />
             </Route>
+          </Route>
+          <Route path="offers">
+            <Route index element={<ReceivedOffers />} />
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="profile">

@@ -779,6 +779,63 @@ body {
   color: #888;
 }
 
+/* RECEIVED OFFERS PAGE STYLES */
+
+.received-offers-page {
+  display: flex;
+  flex-direction: column;
+  width: 70vw;
+  margin: 0 auto;
+  padding-top: 20px;
+}
+
+.offers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.offer-card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #05808c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.offer-header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.offer-header h3 {
+  margin: 0;
+  color: #05808c;
+}
+
+.offer-details p {
+  margin: 0.5em 0 0.2em 0;
+  font-weight: 600;
+}
+
+.offer-details ul {
+  margin: 0 0 10px 20px;
+  padding: 0;
+  list-style: disc;
+  color: #595959;
+}
+
+.offer-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 /* MY GAMES PAGE STYLES */
 
 .my-games-page {
@@ -1492,5 +1549,19 @@ body {
     margin-top: 20px;
     padding: 14px;
     font-size: 1.05rem;
+  }
+
+  .received-offers-page {
+    width: 90vw;
+    padding-top: 10px;
+  }
+
+  .offer-card {
+    padding: 15px;
+  }
+
+  .offer-actions {
+    flex-direction: column;
+    gap: 5px;
   }
 }

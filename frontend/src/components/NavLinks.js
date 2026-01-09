@@ -61,7 +61,10 @@ const NavLinks = () => {
             >
               Post Game
             </Link>
-            <Link onClick={handleClick} to={!isAuthenticated ? "/auth" : "/"}>
+            <Link
+              onClick={handleClick}
+              to={!isAuthenticated ? "/auth" : "/offers"}
+            >
               Received Offers
             </Link>
             <Link onClick={handleClick} to={!isAuthenticated ? "/auth" : "/"}>
