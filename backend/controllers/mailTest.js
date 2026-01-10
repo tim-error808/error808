@@ -1,7 +1,5 @@
 // za testiranje koristiti: https://ethereal.email/ besplatna je opcija, vidi se kako bi izgledao mail
 // za login idu username i lozinka koji su u mailControlleru
-// user: "tabitha99@ethereal.email", // generated ethereal user
-// pass: "S29gqSNMdXJ42GUnGA", // generated ethereal password
 const MailController = require("./mailController.js")
 const mailComposition = require("../models/MailModel/mailComposition.js")
 

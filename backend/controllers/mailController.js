@@ -5,7 +5,6 @@ const mailComposition = require("../models/MailModel/mailComposition.js")
 
 const MailContoller = async (mailComposition) => {
 
-  console.log(mailComposition)
   let transporter = nodemailer.createTransport({
     host: EMAIL_SMTP_HOST,
     port: 587,
