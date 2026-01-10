@@ -1,6 +1,7 @@
 const ListingsModel = require("../models/ListingsModel");
 const MailController = require("./mailController");
 const UsersModel = require("../models/UsersModel");
+const mailComposition = require("../models/MailModel/mailComposition");
 
 const listingsController = async (req, res) => {
     try {
@@ -52,13 +53,15 @@ const addListingController = async (req, res) => {
 
         const users = UsersModel.find({
             wishlist: { $elemMatch: { $eq: req.body.name } },
-        }).select("email").lean();
+        }).lean();
         for(const user of users){
             try {
-                await MailController({
-                    to: user.email,
-                    mailType: "wishlist"
-                });
+                composition = mailComposition;
+                composition.to = user.email;
+                composition.mailType = "wishlist";
+                composition.textParameters.userName = user.username;
+                composition.textParameters.gameName = req.body.name;
+                await MailController(mailComposition);
             } catch (err){
                 console.error(`Error sending wishlist email to ${user.email}: `, err);
             }
