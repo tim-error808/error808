@@ -1,4 +1,6 @@
 const ListingsModel = require("../models/ListingsModel");
+const MailController = require("./mailController");
+const UsersModel = require("../models/UsersModel");
 
 const listingsController = async (req, res) => {
     try {
@@ -47,6 +49,21 @@ const addListingController = async (req, res) => {
             user: userId,
             imageUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
         })
+
+        const users = UsersModel.find({
+            wishlist: { $elemMatch: { $eq: req.body.name } },
+        }).select("email").lean();
+        for(const user of users){
+            try {
+                await MailController({
+                    to: user.email,
+                    mailType: "wishlist"
+                });
+            } catch (err){
+                console.error(`Error sending wishlist email to ${user.email}: `, err);
+            }
+        }
+
         return res.status(200).json({message: 'Listing added successfully'});
     }catch (err){
         console.error(err);
