@@ -18,9 +18,12 @@ const GOOGLE_AUTH = {
 const JWT_SECRET = process.env.JWT_SECRET;
 const REFRESH_SECRET = process.env.REFRESH_SECRET;
 
+const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
+
 module.exports = {
   MONGODB_URI,
   GOOGLE_AUTH,
   JWT_SECRET,
-  REFRESH_SECRET
+  REFRESH_SECRET,
+  EMAIL_PASSWORD
 };

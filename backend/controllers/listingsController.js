@@ -1,4 +1,7 @@
 const ListingsModel = require("../models/ListingsModel");
+const MailController = require("./mailController");
+const UsersModel = require("../models/UsersModel");
+const mailComposition = require("../models/MailModel/mailComposition");
 
 const listingsController = async (req, res) => {
     try {
@@ -47,6 +50,23 @@ const addListingController = async (req, res) => {
             user: userId,
             imageUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
         })
+
+        const users = UsersModel.find({
+            wishlist: { $elemMatch: { $eq: req.body.name } },
+        }).lean();
+        for(const user of users){
+            try {
+                composition = mailComposition;
+                composition.to = user.email;
+                composition.mailType = "wishlist";
+                composition.textParameters.userName = user.username;
+                composition.textParameters.gameName = req.body.name;
+                await MailController(mailComposition);
+            } catch (err){
+                console.error(`Error sending wishlist email to ${user.email}: `, err);
+            }
+        }
+
         return res.status(200).json({message: 'Listing added successfully'});
     }catch (err){
         console.error(err);
