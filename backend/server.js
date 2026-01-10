@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -8,7 +7,6 @@ const {
   REST_API_PORT,
   secrets: { MONGODB_URI },
 } = require("./config");
-const passport = require("./middlewares/passport");
 const originRouter = require("./routes");
 const corsOptions = require("./config/corsOptions");
 
@@ -26,7 +24,6 @@ const app = express()
   .use(cookieParser())
   .use(cors(corsOptions))
   .use(express.json())
-  .use(passport.initialize())
   .use("/uploads", express.static("uploads"))
   .use("/", originRouter);
 
