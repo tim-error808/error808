@@ -1,11 +1,11 @@
 import Filter from "./Filter";
 import Search from "./Search";
-import BoardGamesList from "./BoardGamesList";
+import ListingsList from "./ListingsList";
 import { useState } from "react";
 
 import { useSearchParams } from "react-router-dom";
 
-export const BoardGamesPage = () => {
+const ListingsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialFilter = searchParams.getAll("filter") || "";
 
@@ -33,8 +33,10 @@ export const BoardGamesPage = () => {
       <Filter filters={filters} onChangeFilters={handleFiltersChange} />
       <div className="games-list">
         <Search searchText={searchText} onSearchChange={handleSearchChange} />
-        <BoardGamesList filters={filters} searchText={searchText} />
+        <ListingsList filters={filters} searchText={searchText} />
       </div>
     </div>
   );
 };
+
+export default ListingsPage;

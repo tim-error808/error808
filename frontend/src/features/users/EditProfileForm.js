@@ -1,14 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Map from "../../components/Map";
 import { useAuth } from "../../hooks/AuthProvider";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
-import ModeConfig from "../../config/ModeConfig";
 
 const EditProfileForm = () => {
   const navigate = useNavigate();
-  const { apiUri } = ModeConfig();
   const { user, fetchUser } = useAuth();
   const [username, setUsername] = useState(user.username || "");
   const [description, setDescription] = useState(
@@ -24,6 +22,18 @@ const EditProfileForm = () => {
   const handleMapData = (position) => {
     setLocation(position);
     setShowMap(false);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      return;
+    }
+
+    const previewUrl = URL.createObjectURL(file);
+
+    setPhotoUrl(previewUrl);
+    setPhotoFile(file);
   };
 
   const handleSubmit = (e) => {
@@ -55,6 +65,14 @@ const EditProfileForm = () => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      if (photoUrl) {
+        URL.revokeObjectURL(photoUrl);
+      }
+    };
+  }, [photoUrl]);
+
   if (error) return <div className="error">{error}</div>;
 
   return (
@@ -74,18 +92,11 @@ const EditProfileForm = () => {
         type="file"
         accept="image/*"
         id="edit_profile_photo"
-        onChange={(e) => {
-          const file = e.target.files[0];
-          if (file) {
-            const previewUrl = URL.createObjectURL(file);
-            setPhotoUrl(previewUrl);
-            setPhotoFile(file);
-          }
-        }}
+        onChange={handleFileChange}
       />
       {photoUrl && (
         <div className="profile-avatar">
-          <img src={`${apiUri}${photoUrl}`} alt="Profile Preview" />
+          <img src={photoUrl} alt="Profile Preview" />
         </div>
       )}
 

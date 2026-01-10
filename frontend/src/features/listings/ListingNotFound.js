@@ -3,7 +3,7 @@ import api from "../../api/api";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useState } from "react";
 
-const GameNotFound = () => {
+const ListingNotFound = () => {
   const { isAuthenticated } = useAuth();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -102,4 +102,4 @@ const GameNotFound = () => {
   );
 };
 
-export default GameNotFound;
+export default ListingNotFound;
