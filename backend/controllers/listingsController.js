@@ -45,6 +45,7 @@ const addListingController = async (req, res) => {
         const _ = await ListingsModel.create({
             ...req.body,
             user: userId,
+            imageUrl: req.file ? `/uploads/${req.file.filename}` : undefined,
         })
         return res.status(200).json({message: 'Listing added successfully'});
     }catch (err){
