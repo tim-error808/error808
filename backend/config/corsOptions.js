@@ -5,7 +5,7 @@ const { FRONTEND_URL, LOCAL_TEST } = require("./");
  */
 corsOptions = {
   origin: LOCAL_TEST ? `http://localhost:3000` : FRONTEND_URL,
-  methods: ["GET", "POST", "PUT"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 };
 

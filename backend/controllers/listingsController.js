@@ -61,7 +61,7 @@ const addListingController = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const listing = await ListingsModel.create({
+    await ListingsModel.create({
       user: userId,
 
       name: req.body.name,
@@ -112,7 +112,7 @@ const addListingController = async (req, res) => {
 const deleteListingController = async (req, res) => {
   try {
     const listingId = req.params.listingId;
-    const listing = await ListingsModel.deleteOne({ _id: listingId });
+    await ListingsModel.deleteOne({ _id: listingId });
     return res.status(200).json({ message: "Listing deleted successfully" });
   } catch (err) {
     console.error(err);

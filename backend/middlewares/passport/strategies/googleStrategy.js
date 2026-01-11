@@ -41,7 +41,9 @@ const googleVerify = async (accessToken, refreshToken, profile, done) => {
 const googleStrategyOptions = {
   clientID: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
-  callbackURL: LOCAL_TEST?"http://localhost/auth/google/callback":"https://backend.error808.tech/auth/google/callback",
+  callbackURL: LOCAL_TEST
+    ? "http://localhost/auth/google/callback"
+    : "https://backend.err808.xyz/auth/google/callback",
 };
 
 const googleStrategy = new Strategy(googleStrategyOptions, googleVerify);
