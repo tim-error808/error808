@@ -25,7 +25,12 @@ const ReceivedOffers = () => {
       .finally(() => setLoading(false));
   }, [isAuthenticated]);
 
-  if (loading) return <PulseLoader className="loader" color="#0000" />;
+  if (loading)
+    return (
+      <div className="loader">
+        <PulseLoader color="#0000" />
+      </div>
+    );
 
   if (error) return <div className="error">Error: {error}</div>;
 
@@ -48,6 +53,7 @@ const ReceivedOffers = () => {
   };
 
   const handleEdit = (offer) => {
+    console.log(offer);
     setSelectedOffer(offer);
     setShowTradeModal(true);
   };
@@ -60,8 +66,8 @@ const ReceivedOffers = () => {
         {offers.map((offer) => (
           <div key={offer._id} className="offer-card">
             <div className="offer-header">
-              <h3>From: {offer.initiator.username}</h3>
-              <span>Email: {offer.initiator.email}</span>
+              <h3>From: {offer.initiatorId.username}</h3>
+              <span>Email: {offer.initiatorId.email}</span>
             </div>
 
             <div className="offer-details">
@@ -112,7 +118,8 @@ const ReceivedOffers = () => {
               setShowTradeModal(false);
               setSelectedOffer(null);
             }}
-            isCounterOffer
+            isCounterOffer={true}
+            originalOffer={selectedOffer}
           />
         </div>
       )}

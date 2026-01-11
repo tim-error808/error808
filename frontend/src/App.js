@@ -32,7 +32,7 @@ function App() {
           </Route>
           <Route path="listings">
             <Route index element={<ListingsPage />} />
-            <Route path=":id" element={<Listing />} />
+            <Route path="details/:listingId" element={<Listing />} />
             <Route element={<RequireAuth />}>
               <Route path="new" element={<MakeListingForm />} />
               <Route path="my" element={<MyListings />} />

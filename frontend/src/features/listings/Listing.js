@@ -9,7 +9,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 
 const Listing = () => {
   const { apiUri } = ModeConfig();
-  const { id } = useParams();
+  const { listingId } = useParams();
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
@@ -20,14 +20,14 @@ const Listing = () => {
 
   useEffect(() => {
     axios
-      .get(`${apiUri}/listings/${id}`)
+      .get(`${apiUri}/listings/details/${listingId}`)
       .then((res) => {
         setListing(res.data);
         setError("");
       })
       .catch((err) => setError(err.message))
       .finally(() => setIsLoading(false));
-  }, [id, apiUri]);
+  }, [listingId, apiUri]);
 
   if (isLoading) {
     return <PulseLoader className="loader" color="#0000" />;
@@ -48,30 +48,89 @@ const Listing = () => {
   };
 
   return (
-    <section className="game">
-      <h2 className="game-title">{listing.name}</h2>
+    <section className="listing-page">
+      <h2 className="listing-title">{listing.name}</h2>
 
-      <div className="game-details">
-        <span className="genre">{listing.genre}</span>
-        <span className="publisher">
-          {listing.publisher} ({listing.releaseYear})
-        </span>
-        <span className="players">
-          Number Of Players: {listing.minPlayers}-{listing.maxPlayers}
-        </span>
-        <span className="playtime">Play Time: {listing.playTime} min</span>
-        <span className="difficulty">Difficulty: {listing.difficulty}/5</span>
-        <span className="condition">Condition {listing.condition}/10</span>
+      <div className="listing-main">
+        <div className="listing-image">
+          {listing.imageUrl ? (
+            <img
+              src={`${apiUri}${listing.imageUrl}`}
+              alt={listing.name}
+              loading="lazy"
+            />
+          ) : (
+            <div className="image-placeholder">No image</div>
+          )}
+        </div>
+
+        <div className="listing-info">
+          <div className="listing-details">
+            <span>
+              <strong>Genre:</strong> {listing.genre}
+            </span>
+            <span>
+              <strong>Publisher:</strong> {listing.publisher} (
+              {listing.releaseYear})
+            </span>
+            <span>
+              <strong>Players:</strong> {listing.minPlayers}–
+              {listing.maxPlayers}
+            </span>
+            <span>
+              <strong>Play time:</strong> {listing.playTime} min
+            </span>
+            <span>
+              <strong>Difficulty:</strong> {listing.difficulty}/5
+            </span>
+            <span>
+              <strong>Condition:</strong> {listing.condition}
+            </span>
+            {listing.description && <span>{listing.description}</span>}
+          </div>
+
+          <button
+            className="primary-button offer-button"
+            onClick={handleOfferClick}
+          >
+            Offer Exchange
+          </button>
+        </div>
       </div>
 
-      {listing.description && (
-        <p className="description">{listing.description}</p>
-      )}
+      {listing.user?.location && (
+        <div className="owner-map-layout">
+          <div className="owner-details">
+            <div className="owner-avatar">
+              {listing.user.profile.photoUrl ? (
+                <img
+                  src={
+                    listing.user.googleId
+                      ? listing.user.profile.photoUrl
+                      : `${apiUri}${listing.user.profile.photoUrl}`
+                  }
+                  alt={listing.user.username}
+                  loading="lazy"
+                />
+              ) : (
+                <img src="/default-avatar.png" alt="default-avatar" />
+              )}
+            </div>
 
-      {listing.userId?.location && (
-        <div className="listing-location">
-          <h4>Owners Location</h4>
-          <div className="map-preview">
+            <div className="owner-details-info">
+              <span>
+                <strong>Name:</strong> {listing.user.username}
+              </span>
+              <span>
+                <strong>Contact:</strong> {listing.user.email}
+              </span>
+              <span>
+                <strong>City:</strong> {listing.user.location.city}
+              </span>
+            </div>
+          </div>
+
+          <div className="listing-map">
             <ReadOnlyMap
               latitude={listing.user.location.latitude}
               longitude={listing.user.location.longitude}
@@ -79,10 +138,6 @@ const Listing = () => {
           </div>
         </div>
       )}
-
-      <button className="game-card-button" onClick={handleOfferClick}>
-        Offer Exchange
-      </button>
 
       {showTradeModal && (
         <div className="modal-overlay">

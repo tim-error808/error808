@@ -7,8 +7,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { apiUri } = ModeConfig();
-  const { username, email, location, profile: userProfile } = user;
-
+  const { username, email, location, profile: userProfile, googleId } = user;
   return (
     <div className="profile-page">
       <section className="profile-header">
@@ -16,8 +15,11 @@ const Profile = () => {
           <div className="profile-avatar">
             <img
               src={
-                `${apiUri}${userProfile.photoUrl}` ||
-                "https://placehold.co/100x100/d8d8d8/00000?text=?"
+                googleId
+                  ? userProfile.photoUrl
+                  : userProfile?.photoUrl
+                  ? `${apiUri}${userProfile.photoUrl}`
+                  : "/default-avatar.png"
               }
               alt="Profile"
             />
@@ -32,7 +34,7 @@ const Profile = () => {
             <strong>Email:</strong> {email}
           </p>
           <p>
-            <strong>Location:</strong>{" "}
+            <strong>Location: </strong>
             {location?.latitude && location?.longitude
               ? location.city
               : "Not set"}

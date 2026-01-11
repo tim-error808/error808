@@ -22,7 +22,12 @@ const MyOffers = () => {
       .finally(() => setLoading(false));
   }, [isAuthenticated]);
 
-  if (loading) return <PulseLoader className="loader" color="#05808c" />;
+  if (loading)
+    return (
+      <div className="loader">
+        <PulseLoader color="#0000" />
+      </div>
+    );
 
   if (error) return <div className="error">Error: {error}</div>;
 
@@ -38,8 +43,8 @@ const MyOffers = () => {
         {offers.map((offer) => (
           <div key={offer._id} className="offer-card">
             <div className="offer-header">
-              <h3>To: {offer.receiver.username}</h3>
-              <span>Email: {offer.receiver.email}</span>
+              <h3>To: {offer.receiverId.username}</h3>
+              <span>Email: {offer.receiverId.email}</span>
               <span>
                 Status:
                 <span className={`status ${offer.status}`}>{offer.status}</span>

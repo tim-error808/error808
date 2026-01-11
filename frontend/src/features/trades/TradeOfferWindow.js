@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import api from "../../api/api";
 import PulseLoader from "react-spinners/PulseLoader";
 
-const TradeOfferWindow = ({ requestedListingId, onClose }) => {
+const TradeOfferWindow = ({
+  requestedListing,
+  originalOffer = null,
+  onClose,
+  isCounterOffer,
+}) => {
   const [myListings, setMyListings] = useState([]);
   const [selectedListings, setSelectedListings] = useState([]);
   const [error, setError] = useState("");
@@ -35,12 +40,27 @@ const TradeOfferWindow = ({ requestedListingId, onClose }) => {
       return;
     }
 
+    console.log(isCounterOffer, originalOffer, requestedListing);
     try {
-      await api.post("/trades", {
-        requestedListings: [requestedListingId],
-        offeredListings: selectedListings,
-      });
+      let payload = {};
 
+      if (isCounterOffer && originalOffer) {
+        payload = {
+          requestedListings: selectedListings,
+          offeredListings: originalOffer.offeredListings.map(
+            (listing) => listing._id
+          ),
+          receiverId: originalOffer.initiatorId,
+        };
+      } else {
+        payload = {
+          requestedListing: requestedListing._id,
+          offeredListings: selectedListings,
+          receiverId: requestedListing.user._id,
+        };
+      }
+
+      await api.post("/trades", payload);
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to send offer.");
@@ -53,7 +73,7 @@ const TradeOfferWindow = ({ requestedListingId, onClose }) => {
 
   return (
     <div className="game trade-window">
-      <h3>Offer Trade</h3>
+      <h3>{isCounterOffer ? "Counter Offer" : "Offer Trade"}</h3>
 
       <p className="trade-hint">
         Select the games you want to offer in exchange.
@@ -77,6 +97,17 @@ const TradeOfferWindow = ({ requestedListingId, onClose }) => {
           </label>
         ))}
       </div>
+
+      {isCounterOffer && originalOffer && (
+        <div className="original-offer-preview">
+          <p>Games offered by {originalOffer.initiatorId.username}:</p>
+          <ul>
+            {originalOffer.offeredListings.map((listing) => (
+              <li key={listing._id}>{listing.name}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {error && <div className="form-error">{error}</div>}
 

@@ -6,11 +6,13 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import ListingNotFound from "./ListingNotFound";
 import TradeOfferWindow from "../trades/TradeOfferWindow";
+import ModeConfig from "../../config/ModeConfig";
 
 const ListingsList = ({ filters, searchText }) => {
+  const { apiUri } = ModeConfig();
   const [listings, setListings] = useState([]);
   const [showTradeModal, setShowTradeModal] = useState(false);
-  const [selectedListingId, setSelectedListingId] = useState(null);
+  const [selectedListing, setSelectedListing] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { isAuthenticated } = useAuth();
@@ -51,12 +53,12 @@ const ListingsList = ({ filters, searchText }) => {
     }
   }, [filters, searchText]);
 
-  const onOfferClicked = (id) => {
+  const onOfferClicked = (listing) => {
     if (!isAuthenticated) {
       navigate("/auth");
     }
 
-    setSelectedListingId(id);
+    setSelectedListing(listing);
     setShowTradeModal(true);
   };
 
@@ -80,14 +82,26 @@ const ListingsList = ({ filters, searchText }) => {
 
   content = listings.map((listing) => (
     <section key={listing._id} className="game-card">
-      <Link to={`${listing._id}`}>
-        <p className="game-card-img">slika</p>
-        {/* lazy loading za sliku */}
+      <Link to={`details/${listing._id}`}>
+        <div className="game-card-img">
+          {listing.imageUrl ? (
+            <img
+              src={`${apiUri}${listing.imageUrl}`}
+              alt={listing.name}
+              loading="lazy"
+              className="game-image"
+            />
+          ) : (
+            <div className="image-placeholder">No image</div>
+          )}
+        </div>
         <div className="game-card-details">
           <div className="game-title">{listing.name}</div>
           <p>Difficulty: {listing.difficulty}/5</p>
-          <p>Min Players: {listing.minPlayers}</p>
-          <p>Max Players: {listing.maxPlayers}</p>
+          <p>
+            Players: {listing.minPlayers}-{listing.maxPlayers}
+          </p>
+          <p>Location: {listing.user?.location?.city}</p>
         </div>
       </Link>
       <button
@@ -95,7 +109,7 @@ const ListingsList = ({ filters, searchText }) => {
           if (!isAuthenticated) {
             navigate("/auth");
           }
-          onOfferClicked(listing._id);
+          onOfferClicked(listing);
         }}
         className="game-card-button"
       >
@@ -111,10 +125,10 @@ const ListingsList = ({ filters, searchText }) => {
       {showTradeModal && (
         <div className="modal-overlay">
           <TradeOfferWindow
-            requestedListingId={selectedListingId}
+            requestedListing={selectedListing}
             onClose={() => {
               setShowTradeModal(false);
-              setSelectedListingId(null);
+              setSelectedListing(null);
             }}
           />
         </div>

@@ -17,14 +17,6 @@ const ReadOnlyMap = ({ latitude, longitude }) => {
       center={[latitude, longitude]}
       zoom={12}
       style={{ height: "300px", width: "100%", borderRadius: "10px" }}
-      scrollWheelZoom={false}
-      dragging={false}
-      doubleClickZoom={false}
-      zoomControl={false}
-      attributionControl={false}
-      touchZoom={false}
-      boxZoom={false}
-      keyboard={false}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Marker position={[latitude, longitude]} />
