@@ -1,4 +1,5 @@
 const ListingsModel = require("../models/ListingsModel");
+const TradesModel = require("../models/TradesModel");
 const MailController = require("./mailController");
 const UsersModel = require("../models/UsersModel");
 const mailComposition = require("../models/MailModel/mailComposition");
@@ -123,6 +124,18 @@ const addListingController = async (req, res) => {
 const deleteListingController = async (req, res) => {
   try {
     const listingId = req.params.listingId;
+    trades = TradesModel.find(
+        {
+            $or: [
+                { requestedListings: listingId },
+                { offeredListings: listingId }
+            ],
+            status: 'active'
+        }
+    ).lean()
+    if (trades.length > 0) {
+        return res.status(403).json({ message: "Cannot delete listing involved in active trades" });
+    }
     await ListingsModel.deleteOne({ _id: listingId });
     return res.status(200).json({ message: "Listing deleted successfully" });
   } catch (err) {
@@ -141,7 +154,6 @@ const getUsersListingsController = async (req, res) => {
     return res.status(500).json({ message: "Error fetching user's listings" });
   }
 };
-
 module.exports = {
   listingsController,
   addListingController,
