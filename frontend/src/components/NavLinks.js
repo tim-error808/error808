@@ -59,7 +59,7 @@ const NavLinks = () => {
               onClick={handleClick}
               to={!isAuthenticated ? "/auth" : "/listings/new"}
             >
-              Post Game
+              Make New Listing
             </Link>
             <Link
               onClick={handleClick}

@@ -3,9 +3,11 @@ import { useAuth } from "../../hooks/AuthProvider";
 import api from "../../api/api";
 import { Link } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
+import ModeConfig from "../../config/ModeConfig";
 
 const MyListings = () => {
   const { user } = useAuth();
+  const { apiUri } = ModeConfig();
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -37,16 +39,16 @@ const MyListings = () => {
   return (
     <div className="my-games-page">
       <div className="my-games-header">
-        <h2>My Games</h2>
+        <h2>My Listings</h2>
 
         {canPost ? (
           <Link to="/listings/new" className="primary-button">
-            Post Game
+            Make New Listing
           </Link>
         ) : (
           <div className="info-message">
             Please pick location in your <Link to="/profile">Profile</Link> to
-            post games.
+            make listings.
           </div>
         )}
       </div>
@@ -59,43 +61,34 @@ const MyListings = () => {
 
       <div className="my-games-list">
         {listings.map((listing) => (
-          <div key={listing._id} className="game-card my-game-card">
+          <section key={listing._id} className="game-card">
             <div className="game-card-img">
               {listing.imageUrl ? (
-                <img src={listing.imageUrl} alt={listing.name} loading="lazy" />
+                <img
+                  src={`${apiUri}${listing.imageUrl}`}
+                  alt={listing.name}
+                  loading="lazy"
+                  className="game-image"
+                />
               ) : (
                 <div className="image-placeholder">No image</div>
               )}
             </div>
-
             <div className="game-card-details">
-              <h3 className="game-title">{listing.name}</h3>
-
-              <div className="game-details">
-                <span className="genre">{listing.genre}</span>
-                <span className="publisher">{listing.publisher}</span>
-                <span className="players">
-                  {listing.minPlayers}–{listing.maxPlayers} players
-                </span>
-                <span className="playtime">{listing.playTime} min</span>
-                <span className="difficulty">
-                  Difficulty: {listing.difficulty}
-                </span>
-                <span className="condition">
-                  Condition: {listing.condition}
-                </span>
+              <div className="game-title">{listing.name}</div>
+              <p>Difficulty: {listing.difficulty}/5</p>
+              <p>
+                Players: {listing.minPlayers}-{listing.maxPlayers}
+              </p>
+              <p>Publisher: {listing.publisher}</p>
+              <div className="my-game-actions">
+                <button className="my-game-edit-btn">
+                  <Link to={`/listings/edit/${listing._id}`}>Edit Listing</Link>
+                </button>
+                <button className="secondary-button">Delete Listing</button>
               </div>
             </div>
-
-            <div className="my-game-actions">
-              <Link
-                to={`/listings/edit/${listing._id}`}
-                className="secondary-button"
-              >
-                Edit
-              </Link>
-            </div>
-          </div>
+          </section>
         ))}
       </div>
     </div>

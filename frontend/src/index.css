@@ -1001,6 +1001,7 @@ body {
   flex-wrap: wrap;
   gap: 25px;
   justify-content: flex-start;
+  margin-bottom: 15px;
 }
 
 .my-game-card {
@@ -1015,8 +1016,27 @@ body {
 
 .my-game-actions {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
   margin-bottom: 15px;
+  width: 100%;
+}
+
+.my-game-edit-btn {
+  background-color: #05808c;
+  color: white;
+  border: 1px solid #05808c;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  text-decoration: none;
+  height: 100%;
+}
+
+.my-game-edit-btn a {
+  color: white;
+  text-decoration: none;
 }
 
 .info-message {
@@ -1513,7 +1533,9 @@ body {
   .profile-edit-btn:hover,
   .edit-profile-form button:hover,
   .auth-done-btn:hover,
-  .primary-button:hover {
+  .primary-button:hover,
+  .my-game-edit-btn:hover,
+  .my-game-edit-btn:hover a {
     background-color: white;
     color: #05808c;
   }
@@ -1741,5 +1763,9 @@ body {
     flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
+  }
+
+  .my-games-header {
+    flex-direction: column;
   }
 }

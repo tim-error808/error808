@@ -40,21 +40,20 @@ const TradeOfferWindow = ({
       return;
     }
 
-    console.log(isCounterOffer, originalOffer, requestedListing);
     try {
       let payload = {};
 
       if (isCounterOffer && originalOffer) {
         payload = {
-          requestedListings: selectedListings,
-          offeredListings: originalOffer.offeredListings.map(
+          requestedListings: originalOffer.offeredListings.map(
             (listing) => listing._id
           ),
+          offeredListings: selectedListings,
           receiverId: originalOffer.initiatorId,
         };
       } else {
         payload = {
-          requestedListing: requestedListing._id,
+          requestedListings: requestedListing._id,
           offeredListings: selectedListings,
           receiverId: requestedListing.user._id,
         };

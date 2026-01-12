@@ -99,7 +99,10 @@ const ListingsList = ({ filters, searchText }) => {
           <div className="game-title">{listing.name}</div>
           <p>Difficulty: {listing.difficulty}/5</p>
           <p>
-            Players: {listing.minPlayers}-{listing.maxPlayers}
+            Players:{" "}
+            {listing.minPlayers === listing.maxPlayers
+              ? listing.minPlayers
+              : `${listing.minPlayers}–${listing.maxPlayers}`}
           </p>
           <p>Location: {listing.user?.location?.city}</p>
         </div>

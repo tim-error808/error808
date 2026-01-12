@@ -18,8 +18,6 @@ const Login = () => {
 
   const onLoginSubmit = async (e) => {
     e.preventDefault();
-    setIdentifier("");
-    setPassword("");
     try {
       const result = await login({ identifier, password });
       console.log(result.data.message);
@@ -29,6 +27,7 @@ const Login = () => {
       console.log(error.response.data.message);
       setError(error.response.data.message);
       setAuthDone(true);
+      setPassword("");
     }
   };
 
@@ -72,7 +71,12 @@ const Login = () => {
             onClick={() => {
               setAuthDone(false);
               setJustLoggedIn(false);
-              if (error) return;
+              if (error) {
+                setError("");
+                return;
+              }
+              setIdentifier("");
+              setPassword("");
               navigate("/");
             }}
           >

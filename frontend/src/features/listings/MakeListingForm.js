@@ -2,8 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/AuthProvider";
 
 const MakeListingForm = () => {
+  const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -100,6 +102,13 @@ const MakeListingForm = () => {
   };
 
   useEffect(() => {
+    if (loading) return;
+    if (!user?.location) {
+      navigate("/listings/my");
+    }
+  }, [user, loading, navigate]);
+
+  useEffect(() => {
     return () => {
       if (imagePreview) {
         URL.revokeObjectURL(imagePreview);
@@ -125,7 +134,7 @@ const MakeListingForm = () => {
         </div>
       )}
       <form className="game-form" onSubmit={handleSubmit}>
-        <h2>Post Board Game</h2>
+        <h2>Make New Listing</h2>
 
         <div className="form-grid">
           <div className="form-group">

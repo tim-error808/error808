@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import PulseLoader from "react-spinners/PulseLoader";
 import ModeConfig from "../../config/ModeConfig";
 import TradeOfferWindow from "../trades/TradeOfferWindow";
 import ReadOnlyMap from "../../components/ReadOnlyMap";
 import { useAuth } from "../../hooks/AuthProvider";
+import api from "../../api/api";
 
 const Listing = () => {
   const { apiUri } = ModeConfig();
@@ -19,13 +19,13 @@ const Listing = () => {
   const [showTradeModal, setShowTradeModal] = useState(false);
 
   useEffect(() => {
-    axios
-      .get(`${apiUri}/listings/details/${listingId}`)
+    api
+      .get(`/listings/details/${listingId}`)
       .then((res) => {
         setListing(res.data);
         setError("");
       })
-      .catch((err) => setError(err.message))
+      .catch((error) => setError(error.message))
       .finally(() => setIsLoading(false));
   }, [listingId, apiUri]);
 
@@ -74,8 +74,10 @@ const Listing = () => {
               {listing.releaseYear})
             </span>
             <span>
-              <strong>Players:</strong> {listing.minPlayers}–
-              {listing.maxPlayers}
+              <strong>Players:</strong>
+              {listing.minPlayers === listing.maxPlayers
+                ? listing.minPlayers
+                : `${listing.minPlayers}–${listing.maxPlayers}`}
             </span>
             <span>
               <strong>Play time:</strong> {listing.playTime} min
@@ -142,8 +144,9 @@ const Listing = () => {
       {showTradeModal && (
         <div className="modal-overlay">
           <TradeOfferWindow
-            requestedListingId={listing._id}
+            requestedListing={listing}
             onClose={() => setShowTradeModal(false)}
+            isCounterOffer={false}
           />
         </div>
       )}

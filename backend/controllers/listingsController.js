@@ -10,14 +10,14 @@ const listingsController = async (req, res) => {
       : req.query.filter
       ? [req.query.filter]
       : [];
-    const difficultyMap = { easy: 1, medium: 2, hard: 3 };
+    const difficultyMap = { easy: [1], medium: [2, 3], hard: [4, 5] };
     const playersMap = {
       2: [2],
       "3-4": [3, 4],
       "4plus": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     };
     const difficulty = filters
-      .map((f) => difficultyMap[f])
+      .flatMap((f) => difficultyMap[f] || [])
       .filter((d) => d !== undefined);
     const maxPlayers = filters.flatMap((f) => playersMap[f] || []);
     let query = {};
@@ -27,7 +27,10 @@ const listingsController = async (req, res) => {
     if (maxPlayers.length > 0) {
       query.maxPlayers = { $in: maxPlayers };
     }
-    const userId = req.user ? req.user._id : "<>";
+    const userId = req.user ? req.user._id : null;
+    if (userId) {
+      query.user = { $ne: userId };
+    }
     let listings = await ListingsModel.find(query).populate("user").lean();
     if (req.query.search) {
       listings = listings.filter((game) =>
@@ -60,6 +63,14 @@ const listingDetailsController = async (req, res) => {
 const addListingController = async (req, res) => {
   try {
     const userId = req.user._id;
+
+    const location = req.user?.profile?.location;
+
+    if (!location) {
+      return res.status(403).json({
+        message: "You must set your location before making a listing!",
+      });
+    }
 
     await ListingsModel.create({
       user: userId,

@@ -1,12 +1,26 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import api from "../../api/api";
+import { useParams } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const EditListingForm = () => {
-  const [form, setForm] = useState({
-    /* game object vezan uz id */
-  });
+  const { id } = useParams();
+  const [form, setForm] = useState({});
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [imagePreview, setImagePreview] = useState(null);
+
+  useEffect(() => {
+    api
+      .get(`/listings/details/${id}`)
+      .then((res) => {
+        setForm(res.data);
+        setError("");
+      })
+      .catch((error) => setError(error.message))
+      .finally(() => setIsLoading(false));
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,9 +73,13 @@ const EditListingForm = () => {
     };
   }, [imagePreview]);
 
+  if (isLoading) {
+    return <PulseLoader className="loader" color="#0000" />;
+  }
+
   return (
     <form className="game-form" onSubmit={handleSubmit}>
-      <h2>Edit Board Game</h2>
+      <h2>Edit Listing</h2>
 
       <div className="form-grid">
         <div className="form-group">
