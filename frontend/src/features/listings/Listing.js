@@ -74,7 +74,7 @@ const Listing = () => {
               {listing.releaseYear})
             </span>
             <span>
-              <strong>Players:</strong>
+              <strong>Players:</strong>{" "}
               {listing.minPlayers === listing.maxPlayers
                 ? listing.minPlayers
                 : `${listing.minPlayers}–${listing.maxPlayers}`}
@@ -88,7 +88,6 @@ const Listing = () => {
             <span>
               <strong>Condition:</strong> {listing.condition}
             </span>
-            {listing.description && <span>{listing.description}</span>}
           </div>
 
           <button
@@ -98,6 +97,11 @@ const Listing = () => {
             Offer Exchange
           </button>
         </div>
+      </div>
+
+      <div className="listing-description">
+        <h3>Description</h3>
+        {listing.description && <span>{listing.description}</span>}
       </div>
 
       {listing.user?.location && (

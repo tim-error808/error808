@@ -109,9 +109,6 @@ const ListingsList = ({ filters, searchText }) => {
       </Link>
       <button
         onClick={() => {
-          if (!isAuthenticated) {
-            navigate("/auth");
-          }
           onOfferClicked(listing);
         }}
         className="game-card-button"

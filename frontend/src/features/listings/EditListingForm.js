@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { useParams } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
+import ModeConfig from "../../config/ModeConfig";
 
 const EditListingForm = () => {
+  const { apiUri } = ModeConfig();
   const { id } = useParams();
   const [form, setForm] = useState({});
   const [error, setError] = useState("");
@@ -33,7 +35,7 @@ const EditListingForm = () => {
 
     const previewUrl = URL.createObjectURL(file);
 
-    setForm((prev) => ({ ...prev, image: file }));
+    setForm((prev) => ({ ...prev, imageUrl: file }));
     setImagePreview(previewUrl);
   };
 
@@ -182,16 +184,14 @@ const EditListingForm = () => {
 
         <div className="form-group full-width">
           <label>Game image *</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-            required
-          />
+          <input type="file" accept="image/*" onChange={handleFileChange} />
 
           {imagePreview && (
             <div className="image-preview">
-              <img src={imagePreview} alt="Game preview" />
+              <img
+                src={imagePreview ? imagePreview : `${apiUri}${form.imageUrl}`}
+                alt="Game preview"
+              />
             </div>
           )}
         </div>

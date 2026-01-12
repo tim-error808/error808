@@ -80,14 +80,12 @@ const newTradeController = async (req, res) => {
 
 const acceptTradeController = async (req, res) => {
   try {
-    const model =  await TradesModel.findOneAndUpdate(
-        {
-          _id: req.params.offerId,
-        },
-        {status: "accepted"},
+    const model = await TradesModel.findOneAndUpdate(
+      {
+        _id: req.params.offerId,
+      },
+      { status: "accepted" }
     ).lean();
-    console.log(model);
-    console.log(model.requestedListings);
     model.requestedListings.forEach((listingId) => {
       ListingsModel.findOneAndDelete({
         _id: listingId,
@@ -98,42 +96,42 @@ const acceptTradeController = async (req, res) => {
         _id: listingId,
       }).exec();
     });
-    return res.status(200).json({message: "Trade offer accepted"});
+    return res.status(200).json({ message: "Trade offer accepted" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({message: "Error accepting trade offer"});
+    return res.status(500).json({ message: "Error accepting trade offer" });
   }
-}
+};
 
 const declineTradeController = async (req, res) => {
   try {
     await TradesModel.findOneAndUpdate(
-        {
-          _id: req.params.offerId,
-        },
-        {status: "declined"},
+      {
+        _id: req.params.offerId,
+      },
+      { status: "declined" }
     );
-    return res.status(200).json({message: "Trade offer declined"});
+    return res.status(200).json({ message: "Trade offer declined" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({message: "Error declining trade offer"});
+    return res.status(500).json({ message: "Error declining trade offer" });
   }
-}
+};
 
 const deleteTradeController = async (req, res) => {
   try {
     await TradesModel.findOneAndUpdate(
-        {
-          _id: req.params.offerId,
-        },
-        {status: "deleted"},
+      {
+        _id: req.params.offerId,
+      },
+      { status: "deleted" }
     );
-    return res.status(200).json({message: "Trade offer deleted"});
+    return res.status(200).json({ message: "Trade offer deleted" });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({message: "Error deleting trade offer"});
+    return res.status(500).json({ message: "Error deleting trade offer" });
   }
-}
+};
 
 module.exports = {
   recievedTradesController,
@@ -141,5 +139,5 @@ module.exports = {
   getMyTradesController,
   declineTradeController,
   acceptTradeController,
-  deleteTradeController
+  deleteTradeController,
 };

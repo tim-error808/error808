@@ -747,7 +747,7 @@ body {
 
 .listing-page {
   max-width: 50vw;
-  margin: 0 auto;
+  margin: 0 auto 20px;
 }
 
 .listing-title {
@@ -765,8 +765,9 @@ body {
 .listing-image {
   flex: 1;
   max-width: 400px;
-  max-height: 250px;
+  height: 250px;
   border: 1px solid black;
+  overflow: hidden;
 }
 
 .listing-image img {
@@ -779,13 +780,11 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .listing-details {
   background: #fff;
   border-radius: 16px;
-  padding: 20px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
@@ -794,7 +793,18 @@ body {
 
 .offer-button {
   align-self: flex-start;
-  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.listing-description {
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+  color: #283044;
+  line-height: 1.5;
+}
+
+.listing-description h3 {
+  color: black;
 }
 
 .owner-map-layout {
@@ -907,6 +917,10 @@ body {
   padding-top: 20px;
 }
 
+.received-offers-page h2 {
+  text-align: center;
+}
+
 .offers-list {
   display: flex;
   flex-direction: column;
@@ -967,7 +981,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 30px 0 20px 0;
+  margin: 0 0 20px 0;
 }
 
 .my-games-header h2 {
@@ -1001,7 +1015,7 @@ body {
   flex-wrap: wrap;
   gap: 25px;
   justify-content: flex-start;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .my-game-card {
@@ -1051,6 +1065,11 @@ body {
   max-width: 450px;
 }
 
+.info-message.offers {
+  justify-self: center;
+  align-self: center;
+}
+
 .info-message a {
   color: #05808c;
   font-weight: 600;
@@ -1060,8 +1079,7 @@ body {
 /* MY OFFERS PAGE STYLES */
 
 .status {
-  padding: 2px 8px;
-  border-radius: 8px;
+  margin-left: 5px;
   font-size: 0.85rem;
   text-transform: capitalize;
 }
@@ -1085,7 +1103,7 @@ body {
 
 .game-form {
   max-width: 700px;
-  margin: 40px auto;
+  margin: 20px auto;
   background: #fff;
   padding: 30px;
   border-radius: 12px;
@@ -1676,6 +1694,7 @@ body {
     margin: 12px 8px;
     padding: 16px;
     border-radius: 10px;
+    width: 80vw;
   }
 
   .game-form h2 {
@@ -1686,6 +1705,11 @@ body {
   .form-grid {
     grid-template-columns: 1fr;
     gap: 14px;
+    width: 80vw;
+  }
+
+  .form-group {
+    width: 80vw;
   }
 
   .form-group.full-width {
@@ -1716,12 +1740,21 @@ body {
   }
 
   .received-offers-page {
+    padding: 0;
     width: 90vw;
-    padding-top: 10px;
+  }
+
+  .offers-list {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 0;
+    margin-bottom: 20px;
   }
 
   .offer-card {
     padding: 15px;
+    width: 70vw;
   }
 
   .offer-actions {
@@ -1767,5 +1800,11 @@ body {
 
   .my-games-header {
     flex-direction: column;
+  }
+
+  .my-games-list {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }

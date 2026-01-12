@@ -1,17 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import PulseLoader from "react-spinners/PulseLoader";
-import { useAuth } from "../../hooks/AuthProvider";
 
 const MyOffers = () => {
-  const { isAuthenticated } = useAuth();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-
     api
       .get("/trades/my")
       .then((response) => {
@@ -20,7 +16,7 @@ const MyOffers = () => {
       })
       .catch((error) => setError(error.message))
       .finally(() => setLoading(false));
-  }, [isAuthenticated]);
+  }, []);
 
   if (loading)
     return (
@@ -37,7 +33,7 @@ const MyOffers = () => {
 
       <div className="offers-list">
         {offers.length === 0 && (
-          <div className="info-message">You have no offers.</div>
+          <div className="info-message offers">You have no offers.</div>
         )}
 
         {offers.map((offer) => (

@@ -124,17 +124,15 @@ const addListingController = async (req, res) => {
 const deleteListingController = async (req, res) => {
   try {
     const listingId = req.params.listingId;
-    trades = TradesModel.find(
-        {
-            $or: [
-                { requestedListings: listingId },
-                { offeredListings: listingId }
-            ],
-            status: 'active'
-        }
-    ).lean()
+    trades = await TradesModel.find({
+      $or: [{ requestedListings: listingId }, { offeredListings: listingId }],
+      status: "active",
+    }).lean();
+
     if (trades.length > 0) {
-        return res.status(403).json({ message: "Cannot delete listing involved in active trades" });
+      return res
+        .status(403)
+        .json({ message: "Cannot delete listing involved in active trades" });
     }
     await ListingsModel.deleteOne({ _id: listingId });
     return res.status(200).json({ message: "Listing deleted successfully" });
@@ -156,24 +154,24 @@ const getUsersListingsController = async (req, res) => {
 };
 
 const editListingController = async (req, res) => {
-    try {
-        const listingId = req.params.listingId;
-        const updateData = req.body;
-        if (req.file) {
-            updateData.imageUrl = `/uploads/${req.file.filename}`;
-        }
-        await ListingsModel.updateOne({ _id: listingId }, updateData);
-        return res.status(200).json({ message: "Listing updated successfully" });
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: "Error updating listing" });
+  try {
+    const listingId = req.params.listingId;
+    const updateData = req.body;
+    if (req.file) {
+      updateData.imageUrl = `/uploads/${req.file.filename}`;
     }
-}
+    await ListingsModel.updateOne({ _id: listingId }, updateData);
+    return res.status(200).json({ message: "Listing updated successfully" });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error updating listing" });
+  }
+};
 module.exports = {
   listingsController,
   addListingController,
   deleteListingController,
   getUsersListingsController,
   listingDetailsController,
-  editListingController
+  editListingController,
 };

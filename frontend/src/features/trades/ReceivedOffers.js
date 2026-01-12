@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import PulseLoader from "react-spinners/PulseLoader";
-import { useAuth } from "../../hooks/AuthProvider";
 import TradeOfferWindow from "../trades/TradeOfferWindow";
 
 const ReceivedOffers = () => {
-  const { isAuthenticated } = useAuth();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -13,17 +11,15 @@ const ReceivedOffers = () => {
   const [showTradeModal, setShowTradeModal] = useState(false);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-
     api
       .get(`/trades/received`)
       .then((response) => {
         setOffers(response.data);
         setError("");
       })
-      .catch((error) => setError(error.message))
+      .catch((error) => setError(error.response?.data?.message))
       .finally(() => setLoading(false));
-  }, [isAuthenticated]);
+  }, []);
 
   if (loading)
     return (
@@ -39,7 +35,7 @@ const ReceivedOffers = () => {
       await api.put(`/trades/${offerId}/accept`);
       setOffers((prev) => prev.filter((offer) => offer._id !== offerId));
     } catch (error) {
-      console.log(error);
+      setError(error.response?.data?.message);
     }
   };
 
@@ -47,13 +43,12 @@ const ReceivedOffers = () => {
     try {
       await api.put(`/trades/${offerId}/decline`);
       setOffers((prev) => prev.filter((offer) => offer._id !== offerId));
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      setError(error.response?.data?.message);
     }
   };
 
   const handleEdit = (offer) => {
-    console.log(offer);
     setSelectedOffer(offer);
     setShowTradeModal(true);
   };
@@ -61,8 +56,12 @@ const ReceivedOffers = () => {
   return (
     <div className="received-offers-page">
       <h2>Received Offers</h2>
-
       <div className="offers-list">
+        {offers.length === 0 && (
+          <div className="info-message offers">
+            You have no new received offers.
+          </div>
+        )}
         {offers.map((offer) => (
           <div key={offer._id} className="offer-card">
             <div className="offer-header">

@@ -266,7 +266,7 @@ const MakeListingForm = () => {
 
         {error && <div className="form-error">{error}</div>}
 
-        <button className="primary-button form-submit">Post Game</button>
+        <button className="primary-button form-submit">Submit</button>
       </form>
     </>
   );
