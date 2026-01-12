@@ -106,10 +106,27 @@ const declineTradeController = async (req, res) => {
     return res.status(500).json({message: "Error declining trade offer"});
   }
 }
+
+const deleteTradeController = async (req, res) => {
+  try {
+    await TradesModel.findOneAndUpdate(
+        {
+          _id: req.params.offerId,
+        },
+        {status: "deleted"},
+    );
+    return res.status(200).json({message: "Trade offer deleted"});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({message: "Error deleting trade offer"});
+  }
+}
+
 module.exports = {
   recievedTradesController,
   newTradeController,
   getMyTradesController,
   declineTradeController,
   acceptTradeController,
+  deleteTradeController
 };
