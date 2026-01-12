@@ -1,4 +1,5 @@
 const TradesModel = require("../models/TradesModel");
+const ListingsModel = require("../models/ListingsModel");
 
 const recievedTradesController = async (req, res) => {
   try {
@@ -79,12 +80,24 @@ const newTradeController = async (req, res) => {
 
 const acceptTradeController = async (req, res) => {
   try {
-    await TradesModel.findOneAndUpdate(
+    const model =  await TradesModel.findOneAndUpdate(
         {
           _id: req.params.offerId,
         },
         {status: "accepted"},
-    );
+    ).lean();
+    console.log(model);
+    console.log(model.requestedListings);
+    model.requestedListings.forEach((listingId) => {
+      ListingsModel.findOneAndDelete({
+        _id: listingId,
+      }).exec();
+    });
+    model.offeredListings.forEach((listingId) => {
+      ListingsModel.findOneAndDelete({
+        _id: listingId,
+      }).exec();
+    });
     return res.status(200).json({message: "Trade offer accepted"});
   } catch (err) {
     console.error(err);
