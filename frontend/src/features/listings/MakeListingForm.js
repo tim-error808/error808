@@ -103,7 +103,7 @@ const MakeListingForm = () => {
 
   useEffect(() => {
     if (loading) return;
-    if (!user?.location) {
+    if (!user?.location?.city) {
       navigate("/listings/my");
     }
   }, [user, loading, navigate]);

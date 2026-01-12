@@ -29,11 +29,7 @@ const MyListings = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="loader">
-        <PulseLoader color="#05808c" />
-      </div>
-    );
+    return <PulseLoader className="loader" color="#0000" />;
   }
 
   return (

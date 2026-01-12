@@ -64,7 +64,7 @@ const addListingController = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const location = req.user?.profile?.location;
+    const location = req.user?.location;
 
     if (!location) {
       return res.status(403).json({
