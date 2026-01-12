@@ -77,8 +77,39 @@ const newTradeController = async (req, res) => {
   }
 };
 
+const acceptTradeController = async (req, res) => {
+  try {
+    await TradesModel.findOneAndUpdate(
+        {
+          _id: req.params.offerId,
+        },
+        {status: "accepted"},
+    );
+    return res.status(200).json({message: "Trade offer accepted"});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({message: "Error accepting trade offer"});
+  }
+}
+
+const declineTradeController = async (req, res) => {
+  try {
+    await TradesModel.findOneAndUpdate(
+        {
+          _id: req.params.offerId,
+        },
+        {status: "declined"},
+    );
+    return res.status(200).json({message: "Trade offer declined"});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({message: "Error declining trade offer"});
+  }
+}
 module.exports = {
   recievedTradesController,
   newTradeController,
   getMyTradesController,
+  declineTradeController,
+  acceptTradeController,
 };
