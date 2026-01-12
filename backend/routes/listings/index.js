@@ -5,6 +5,7 @@ const {
   addListingController,
   getUsersListingsController,
   listingDetailsController,
+  editListingController
 } = require("../../controllers/listingsController");
 const verifyToken = require("../../middlewares/verifyToken");
 const verifyTokenIfLoggedIn = require("../../middlewares/verifyTokenIfLoggedIn");
@@ -17,6 +18,7 @@ router.get(
   listingDetailsController
 );
 router.delete("/remove/:listingId", verifyToken, deleteListingController);
+router.post("/edit/:listingId", verifyToken, upload.single("image"), editListingController);
 router.post("/new", verifyToken, upload.single("image"), addListingController);
 router.get("/my", verifyToken, getUsersListingsController);
 

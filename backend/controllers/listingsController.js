@@ -154,10 +154,26 @@ const getUsersListingsController = async (req, res) => {
     return res.status(500).json({ message: "Error fetching user's listings" });
   }
 };
+
+const editListingController = async (req, res) => {
+    try {
+        const listingId = req.params.listingId;
+        const updateData = req.body;
+        if (req.file) {
+            updateData.imageUrl = `/uploads/${req.file.filename}`;
+        }
+        await ListingsModel.updateOne({ _id: listingId }, updateData);
+        return res.status(200).json({ message: "Listing updated successfully" });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error updating listing" });
+    }
+}
 module.exports = {
   listingsController,
   addListingController,
   deleteListingController,
   getUsersListingsController,
   listingDetailsController,
+  editListingController
 };
