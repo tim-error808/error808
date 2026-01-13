@@ -4,8 +4,10 @@ import api from "../../api/api";
 import { useParams } from "react-router-dom";
 import PulseLoader from "react-spinners/PulseLoader";
 import ModeConfig from "../../config/ModeConfig";
+import { useNavigate } from "react-router-dom";
 
 const EditListingForm = () => {
+  const navigate = useNavigate();
   const { apiUri } = ModeConfig();
   const { id } = useParams();
   const [form, setForm] = useState({});
@@ -64,7 +66,26 @@ const EditListingForm = () => {
       return;
     }
 
-    console.log(form);
+    const formData = new FormData();
+    Object.keys(form).forEach((key) => {
+      if (key === "user") {
+        formData.append("user", form[key]._id);
+        console.log(form[key]._id);
+      } else {
+        formData.append(key, form[key]);
+      }
+    });
+
+    api
+      .put(`/listings/edit/${id}`, formData)
+      .then((res) => {
+        console.log(res.data.message);
+        navigate("/listings/my");
+        window.location.reload();
+      })
+      .catch((error) => {
+        setError(error.response?.data?.message);
+      });
   };
 
   useEffect(() => {
@@ -189,7 +210,7 @@ const EditListingForm = () => {
           {imagePreview && (
             <div className="image-preview">
               <img
-                src={imagePreview ? imagePreview : `${apiUri}${form.imageUrl}`}
+                src={imagePreview || `${apiUri}${form.imageUrl}`}
                 alt="Game preview"
               />
             </div>

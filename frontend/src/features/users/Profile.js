@@ -1,13 +1,26 @@
 import React from "react";
 import { useAuth } from "../../hooks/AuthProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ModeConfig from "../../config/ModeConfig";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const Profile = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { apiUri } = ModeConfig();
-  const { username, email, location, profile: userProfile, googleId } = user;
+  const {
+    username,
+    email,
+    location,
+    profile: userProfile,
+    googleId,
+    wishlist,
+  } = user;
+
+  if (!user) {
+    return <PulseLoader className="loader" color="#0000" />;
+  }
+
   return (
     <div className="profile-page">
       <section className="profile-header">
@@ -64,7 +77,15 @@ const Profile = () => {
 
       <section className="profile-wishlist">
         <h3>My Wishlist</h3>
-        <Link to="/wishlist">View Wishlist&rarr;</Link>
+        {wishlist && wishlist.length > 0 ? (
+          <ul className="wishlist-list">
+            {wishlist.map((game, index) => (
+              <li key={index}>{game}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="profile-empty">Your wishlist is empty.</p>
+        )}
       </section>
       <button className="profile-edit-btn" onClick={() => navigate("edit")}>
         Edit Profile

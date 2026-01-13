@@ -25,15 +25,15 @@ const getUserData = async (req, res) => {
 };
 
 const getUserWishlist = async (req, res) => {
-    try {
-        const userId = req.user._id;
-        const userData = await UsersModel.findOne({ _id: userId },"wishlist")
-          .lean()
-          .exec();
-    } catch (err) {
-        return res.status(500).json({ message: "Error getting a wishlist" });
-    }
-}
+  try {
+    const userId = req.user._id;
+    const userData = await UsersModel.findOne({ _id: userId }, "wishlist")
+      .lean()
+      .exec();
+  } catch (err) {
+    return res.status(500).json({ message: "Error getting a wishlist" });
+  }
+};
 
 //@desc azuriraj podatke ulogiranog usera
 //@method PUT /user
@@ -75,37 +75,38 @@ const updateUserData = async (req, res) => {
 };
 
 const deleteUserWishlist = async (req, res) => {
-    try {
-        const userId = req.user._id;
-        const gameId = req.gameId;
-        const _ = await UsersModel.updateOne(
-          { _id: userId },
-          { $pull: { wishlist: gameId } }
-        );
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({message: 'Error deleting from wishlist'});
-    }
-}
+  try {
+    const userId = req.user._id;
+    const gameId = req.gameId;
+    const _ = await UsersModel.updateOne(
+      { _id: userId },
+      { $pull: { wishlist: gameId } }
+    );
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Error deleting from wishlist" });
+  }
+};
 
 const addUserWishlist = async (req, res) => {
-    try {
-      const userId = req.user._id;
-      const gameId = req.gameId;
-      const _ = await UsersModel.updateOne(
-          {_id: userId},
-          {$push: {wishlist: gameId}}
-      );
-    } catch (err){
-        console.log(err);
-        return res.status(500).json({message: 'Error adding to wishlist'});
-    }
-}
+  try {
+    const userId = req.user._id;
+    const { gameName } = req.body;
+    const _ = await UsersModel.updateOne(
+      { _id: userId },
+      { $push: { wishlist: gameName } }
+    );
+    return res.status(200).json({ message: "Added to wishlist" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Error adding to wishlist" });
+  }
+};
 
 module.exports = {
   getUserData,
   updateUserData,
   deleteUserWishlist,
   addUserWishlist,
-  getUserWishlist
+  getUserWishlist,
 };

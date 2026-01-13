@@ -15,8 +15,9 @@ const ListingNotFound = () => {
     try {
       setLoading(true);
 
-      await api.post("/wishlist", gameName);
+      await api.post("/wishlist", { gameName });
 
+      setError("");
       setSuccess(true);
       setPopup(false);
     } catch (error) {
