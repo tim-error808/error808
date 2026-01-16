@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
 import { useState } from "react";
 import { CgProfile, CgChevronRight, CgChevronDown } from "react-icons/cg";
+import ModeConfig from "../config/ModeConfig";
 
 const NavLinks = () => {
+  const { apiUri } = ModeConfig();
   const { isAuthenticated, user, logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
@@ -29,66 +31,101 @@ const NavLinks = () => {
         </div>
       )}
       <div className="nav-links">
-        <div className="dropdown">
-          <button onClick={handleClick} className="dropdown-button">
-            <span>
-              <CgProfile />
-            </span>
-            <div className="dropdown-button-text-desktop">
-              {isAuthenticated ? user.username : "My Account"}
-            </div>
-            <span>
-              {!isClicked && <CgChevronRight />}
-              {isClicked && <CgChevronDown />}
-            </span>
-          </button>
-          <div
-            className={
-              isClicked
-                ? "dropdown-content-active"
-                : "dropdown-content-inactive"
-            }
-          >
-            <Link
-              onClick={handleClick}
-              to={!isAuthenticated ? "/auth" : "/listings/my"}
-            >
-              My Games
-            </Link>
-            <Link
-              onClick={handleClick}
-              to={!isAuthenticated ? "/auth" : "/listings/new"}
-            >
-              Make New Listing
-            </Link>
-            <Link
-              onClick={handleClick}
-              to={!isAuthenticated ? "/auth" : "/offers"}
-            >
-              Received Offers
-            </Link>
-            <Link
-              onClick={handleClick}
-              to={!isAuthenticated ? "/auth" : "/offers/my"}
-            >
-              My Offers
-            </Link>
-            {isAuthenticated && (
-              <>
-                <Link onClick={handleClick} to="/profile">
-                  View Profile
-                </Link>
-                <Link onClick={handleLogout} to="/">
-                  Log Out
-                </Link>
-              </>
-            )}
-            {!isAuthenticated && (
-              <Link onClick={handleClick} to="/auth">
-                Log In
-              </Link>
-            )}
+        <NavLink end className="nav-link" to="/listings">
+          Browse All Games
+        </NavLink>
+        <NavLink end className="nav-link" to="/listings/my">
+          My Games
+        </NavLink>
+        <NavLink end className="nav-link" to="/listings/new">
+          Make New Listing
+        </NavLink>
+        <NavLink end className="nav-link" to="/offers">
+          Received Offers
+        </NavLink>
+        <NavLink end className="nav-link" to="/offers/my">
+          My Offers
+        </NavLink>
+
+        {isAuthenticated ? (
+          <>
+            <NavLink end className="nav-link profile" to="/profile">
+              <img
+                src={
+                  `${apiUri}${user.profile.photoUrl}` || "/default-avatar.png"
+                }
+                alt={user.username}
+                className="profile-img-nav"
+              />
+            </NavLink>
+            <button onClick={handleLogout} className="nav-special">
+              Log out
+            </button>
+          </>
+        ) : (
+          <NavLink end className="nav-link nav-special" to="/auth">
+            Log In
+          </NavLink>
+        )}
+      </div>
+
+      <div className="dropdown">
+        <button onClick={handleClick} className="dropdown-button">
+          <span>
+            <CgProfile />
+          </span>
+          <div className="dropdown-button-text-desktop">
+            {isAuthenticated ? user.username : "My Account"}
           </div>
+          <span>
+            {!isClicked && <CgChevronRight />}
+            {isClicked && <CgChevronDown />}
+          </span>
+        </button>
+        <div
+          className={
+            isClicked ? "dropdown-content-active" : "dropdown-content-inactive"
+          }
+        >
+          <Link
+            onClick={handleClick}
+            to={!isAuthenticated ? "/auth" : "/listings/my"}
+          >
+            My Games
+          </Link>
+          <Link
+            onClick={handleClick}
+            to={!isAuthenticated ? "/auth" : "/listings/new"}
+          >
+            Make New Listing
+          </Link>
+          <Link
+            onClick={handleClick}
+            to={!isAuthenticated ? "/auth" : "/offers"}
+          >
+            Received Offers
+          </Link>
+          <Link
+            onClick={handleClick}
+            to={!isAuthenticated ? "/auth" : "/offers/my"}
+          >
+            My Offers
+          </Link>
+          {isAuthenticated && (
+            <>
+              <Link onClick={handleClick} to="/profile">
+                View Profile
+              </Link>
+              <Link onClick={handleLogout} to="/">
+                Log Out
+              </Link>
+            </>
+          )}
+          {!isAuthenticated && (
+            <Link onClick={handleClick} to="/auth">
+              Log In
+            </Link>
+          )}
         </div>
       </div>
     </>

@@ -21,15 +21,10 @@ router.delete("/remove/:listingId", verifyToken, deleteListingController);
 router.put(
   "/edit/:listingId",
   verifyToken,
-  upload.single("image"),
+  upload.single("imageUrl"),
   editListingController
 );
-router.post(
-  "/new",
-  verifyToken,
-  upload.single("imageUrl"),
-  addListingController
-);
+router.post("/new", verifyToken, upload.single("image"), addListingController);
 router.get("/my", verifyToken, getUsersListingsController);
 
 module.exports = router;

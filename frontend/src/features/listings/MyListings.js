@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import api from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
-import PulseLoader from "react-spinners/PulseLoader";
+import { PulseLoader } from "react-spinners";
 import ModeConfig from "../../config/ModeConfig";
 
 const MyListings = () => {
@@ -50,7 +50,11 @@ const MyListings = () => {
   };
 
   if (loading) {
-    return <PulseLoader className="loader" color="#0000" />;
+    return (
+      <div className="loader">
+        <PulseLoader color="black" />
+      </div>
+    );
   }
 
   return (
@@ -86,7 +90,9 @@ const MyListings = () => {
         </div>
 
         {listings.length === 0 && !error && (
-          <div className="info-message">You haven’t posted any games yet.</div>
+          <div className="info-message offers">
+            You haven’t posted any games yet.
+          </div>
         )}
 
         <div className="my-games-list">

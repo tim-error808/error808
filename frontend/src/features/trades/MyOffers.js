@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
-import PulseLoader from "react-spinners/PulseLoader";
+import { PulseLoader } from "react-spinners";
 
 const MyOffers = () => {
   const [offers, setOffers] = useState([]);
@@ -18,12 +18,13 @@ const MyOffers = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading)
+  if (loading) {
     return (
       <div className="loader">
-        <PulseLoader color="#0000" />
+        <PulseLoader color="black" />
       </div>
     );
+  }
 
   if (error) return <div className="error">Error: {error}</div>;
 

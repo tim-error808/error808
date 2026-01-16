@@ -10,17 +10,18 @@ import AuthCallback from "./features/auth/AuthCallback";
 import RequireAuth from "./features/auth/RequireAuth";
 import Profile from "./features/users/Profile";
 import EditProfileForm from "./features/users/EditProfileForm";
-import WishlistPage from "./features/wishlist/WishlistPage";
 import PublicOnly from "./features/auth/PublicOnly";
 import MyListings from "./features/listings/MyListings";
 import MakeListingForm from "./features/listings/MakeListingForm";
 import ReceivedOffers from "./features/trades/ReceivedOffers";
 import EditListingForm from "./features/listings/EditListingForm";
 import MyOffers from "./features/trades/MyOffers";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
       <Routes>
         <Route path="/*" element={<Layout />}>
           <Route index element={<Public />} />
@@ -47,9 +48,6 @@ function App() {
             <Route path="profile">
               <Route index element={<Profile />} />
               <Route path="edit" element={<EditProfileForm />} />
-            </Route>
-            <Route path="wishlist">
-              <Route index element={<WishlistPage />} />
             </Route>
           </Route>
         </Route>

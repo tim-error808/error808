@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { useParams } from "react-router-dom";
-import PulseLoader from "react-spinners/PulseLoader";
+import { PulseLoader } from "react-spinners";
 import ModeConfig from "../../config/ModeConfig";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,8 @@ const EditListingForm = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [imagePreview, setImagePreview] = useState(null);
+  const [submitDone, setSubmitDone] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     api
@@ -70,7 +72,6 @@ const EditListingForm = () => {
     Object.keys(form).forEach((key) => {
       if (key === "user") {
         formData.append("user", form[key]._id);
-        console.log(form[key]._id);
       } else {
         formData.append(key, form[key]);
       }
@@ -78,10 +79,9 @@ const EditListingForm = () => {
 
     api
       .put(`/listings/edit/${id}`, formData)
-      .then((res) => {
-        console.log(res.data.message);
-        navigate("/listings/my");
-        window.location.reload();
+      .then((response) => {
+        setMessage(response.data.message);
+        setSubmitDone(true);
       })
       .catch((error) => {
         setError(error.response?.data?.message);
@@ -97,143 +97,164 @@ const EditListingForm = () => {
   }, [imagePreview]);
 
   if (isLoading) {
-    return <PulseLoader className="loader" color="#0000" />;
+    return (
+      <div className="loader">
+        <PulseLoader color="black" />
+      </div>
+    );
   }
 
   return (
-    <form className="game-form" onSubmit={handleSubmit}>
-      <h2>Edit Listing</h2>
-
-      <div className="form-grid">
-        <div className="form-group">
-          <label>Game name *</label>
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Genre *</label>
-          <input
-            name="genre"
-            value={form.genre}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Publisher *</label>
-          <input
-            name="publisher"
-            value={form.publisher}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Release year *</label>
-          <input
-            name="releaseYear"
-            value={form.releaseYear}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Condition *</label>
-          <select
-            name="condition"
-            value={form.condition}
-            onChange={handleChange}
-            required
+    <>
+      {submitDone && (
+        <div className="auth-done-popup">
+          <h1 className="auth-done-text">{message}</h1>
+          <button
+            className="auth-done-btn"
+            onClick={() => {
+              setSubmitDone(false);
+              if (error) return;
+              navigate("/listings/my");
+            }}
           >
-            <option value="">Select</option>
-            <option value="new">New</option>
-            <option value="like-new">Like new</option>
-            <option value="used">Used</option>
-          </select>
+            OK
+          </button>
         </div>
+      )}
+      <form className="game-form" onSubmit={handleSubmit}>
+        <h2>Edit Listing</h2>
 
-        <div className="form-group">
-          <label>Players *</label>
-          <div className="players-input">
+        <div className="form-grid">
+          <div className="form-group">
+            <label>Game name *</label>
             <input
-              name="minPlayers"
-              placeholder="Min"
-              value={form.minPlayers}
-              onChange={handleChange}
-              required
-            />
-            <input
-              name="maxPlayers"
-              placeholder="Max"
-              value={form.maxPlayers}
+              name="name"
+              value={form.name}
               onChange={handleChange}
               required
             />
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>Play time (min) *</label>
-          <input
-            min="0"
-            name="playTime"
-            value={form.playTime}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Genre *</label>
+            <input
+              name="genre"
+              value={form.genre}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div className="form-group">
-          <label>Difficulty (1–5) *</label>
-          <input
-            min="1"
-            max="5"
-            name="difficulty"
-            value={form.difficulty}
-            onChange={handleChange}
-            required
-          />
-        </div>
+          <div className="form-group">
+            <label>Publisher *</label>
+            <input
+              name="publisher"
+              value={form.publisher}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <div className="form-group full-width">
-          <label>Game image *</label>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
+          <div className="form-group">
+            <label>Release year *</label>
+            <input
+              name="releaseYear"
+              value={form.releaseYear}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-          {imagePreview && (
-            <div className="image-preview">
-              <img
-                src={imagePreview || `${apiUri}${form.imageUrl}`}
-                alt="Game preview"
+          <div className="form-group">
+            <label>Condition *</label>
+            <select
+              name="condition"
+              value={form.condition}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select</option>
+              <option value="new">New</option>
+              <option value="like-new">Like new</option>
+              <option value="used">Used</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label>Players *</label>
+            <div className="players-input">
+              <input
+                name="minPlayers"
+                placeholder="Min"
+                value={form.minPlayers}
+                onChange={handleChange}
+                required
+              />
+              <input
+                name="maxPlayers"
+                placeholder="Max"
+                value={form.maxPlayers}
+                onChange={handleChange}
+                required
               />
             </div>
-          )}
+          </div>
+
+          <div className="form-group">
+            <label>Play time (min) *</label>
+            <input
+              min="0"
+              name="playTime"
+              value={form.playTime}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Difficulty (1–5) *</label>
+            <input
+              min="1"
+              max="5"
+              name="difficulty"
+              value={form.difficulty}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group full-width">
+            <label>Game image *</label>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+
+            {imagePreview && (
+              <div className="image-preview">
+                <img
+                  src={imagePreview || `${apiUri}${form.imageUrl}`}
+                  alt="Game preview"
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="form-group full-width">
+            <label>Description (optional)</label>
+            <textarea
+              name="description"
+              rows="4"
+              value={form.description}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
-        <div className="form-group full-width">
-          <label>Description (optional)</label>
-          <textarea
-            name="description"
-            rows="4"
-            value={form.description}
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+        <div className="legend">* means that the field is required</div>
 
-      <div className="legend">* means that the field is required</div>
+        {error && <div className="form-error">{error}</div>}
 
-      {error && <div className="form-error">{error}</div>}
-
-      <button className="primary-button form-submit">Save Changes</button>
-    </form>
+        <button className="primary-button form-submit">Save Changes</button>
+      </form>
+    </>
   );
 };
 
