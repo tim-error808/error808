@@ -17,14 +17,14 @@ const callbackController = (req, res) => {
     secure: !LOCAL_TEST,
     sameSite: "strict",
     maxAge: 15 * 60 * 1000,
-    domain: LOCAL_TEST ? undefined : ".error808.tech",
+    domain: LOCAL_TEST ? undefined : ".err808.xyz",
   });
   res.cookie("refresh_token", refreshToken, {
     httpOnly: true,
     secure: !LOCAL_TEST,
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
-    domain: LOCAL_TEST ? undefined : ".error808.tech",
+    domain: LOCAL_TEST ? undefined : ".err808.xyz",
   });
 
   if (LOCAL_TEST) {
