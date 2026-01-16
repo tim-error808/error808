@@ -73,28 +73,58 @@ body {
 }
 
 .nav-links {
-  -webkit-display: flex;
-  -moz-display: flex;
   display: flex;
-  -webkit-flex-flow: row;
-  -moz-flex-flow: row;
-  flex-flow: row;
-  gap: 20px;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
+  flex-direction: row;
   justify-content: center;
-  -webkit-align-items: center;
-  -moz-align-items: center;
   align-items: center;
 }
 
-.nav-links a {
+.nav-link {
+  padding: 8px 14px;
+  border-radius: 10px;
   text-decoration: none;
+  color: black;
+  transition: all 0.2s ease;
+}
+
+.nav-link.profile {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link img {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-special {
+  border: 1px solid #05808c;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background-color: #05808c;
+  color: white;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.nav-link:hover {
+  background: #f0f0f0;
+}
+
+.nav-link.active {
+  background: #05808c;
+  color: white;
 }
 
 .dropdown {
   position: relative;
-  display: inline-block;
+  display: none;
+}
+
+.dropdown a {
+  text-decoration: none;
 }
 
 .dropdown-button {
@@ -1619,6 +1649,14 @@ body {
     margin-top: 50px;
   }
 
+  .nav-links {
+    display: none;
+  }
+
+  .dropdown {
+    display: flex;
+  }
+
   .dropdown-button {
     transition: none;
     width: 50px;
@@ -1691,10 +1729,10 @@ body {
   }
 
   .game-form {
-    margin: 12px 8px;
+    margin: 12px auto;
     padding: 16px;
     border-radius: 10px;
-    width: 80vw;
+    width: 78vw;
   }
 
   .game-form h2 {
@@ -1705,11 +1743,11 @@ body {
   .form-grid {
     grid-template-columns: 1fr;
     gap: 14px;
-    width: 80vw;
+    width: 78vw;
   }
 
   .form-group {
-    width: 80vw;
+    width: 78vw;
   }
 
   .form-group.full-width {

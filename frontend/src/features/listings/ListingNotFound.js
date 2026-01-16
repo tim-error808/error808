@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/AuthProvider";
 import { useState } from "react";
 
 const ListingNotFound = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, fetchUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [gameName, setGameName] = useState("");
@@ -20,6 +20,7 @@ const ListingNotFound = () => {
       setError("");
       setSuccess(true);
       setPopup(false);
+      fetchUser();
     } catch (error) {
       console.log(error.response.data.message || error.message);
       setPopup(false);
