@@ -2,11 +2,12 @@ import React from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import ModeConfig from "../../config/ModeConfig";
-import PulseLoader from "react-spinners/PulseLoader";
+import { PulseLoader } from "react-spinners";
+import api from "../../api/api";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, fetchUser, loading } = useAuth();
   const { apiUri } = ModeConfig();
   const {
     username,
@@ -17,8 +18,34 @@ const Profile = () => {
     wishlist,
   } = user;
 
+  let imgUrl;
+
+  if (googleId) {
+    imgUrl = userProfile.photoUrl;
+  } else if (userProfile?.photoUrl) {
+    imgUrl = `${apiUri}${userProfile.photoUrl}`;
+  } else {
+    imgUrl = "/default-avatar.png";
+  }
+
+  const removeFromWishlist = (gameName) => {
+    api
+      .delete(`wishlist/${gameName}`)
+      .then((response) => {
+        console.log(response.data.message);
+        fetchUser();
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+  };
+
   if (!user) {
-    return <PulseLoader className="loader" color="#0000" />;
+    return (
+      <div className="loader">
+        <PulseLoader color="#0000" />
+      </div>
+    );
   }
 
   return (
@@ -26,16 +53,7 @@ const Profile = () => {
       <section className="profile-header">
         <div className="profile-avatar-section">
           <div className="profile-avatar">
-            <img
-              src={
-                googleId
-                  ? userProfile.photoUrl
-                  : userProfile?.photoUrl
-                  ? `${apiUri}${userProfile.photoUrl}`
-                  : "/default-avatar.png"
-              }
-              alt="Profile"
-            />
+            <img src={imgUrl} alt="Profile" />
           </div>
         </div>
 
@@ -78,11 +96,27 @@ const Profile = () => {
       <section className="profile-wishlist">
         <h3>My Wishlist</h3>
         {wishlist && wishlist.length > 0 ? (
-          <ul className="wishlist-list">
-            {wishlist.map((game, index) => (
-              <li key={index}>{game}</li>
-            ))}
-          </ul>
+          <div className="wishlist-list">
+            {wishlist.map((game, index) =>
+              loading ? (
+                <div>
+                  <PulseLoader color="#0000" />
+                </div>
+              ) : (
+                <div key={index} className="wishlist-item">
+                  <span>{game}</span>
+
+                  <button
+                    className="wishlist-remove-btn"
+                    onClick={() => removeFromWishlist(game)}
+                    title="Remove"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )
+            )}
+          </div>
         ) : (
           <p className="profile-empty">Your wishlist is empty.</p>
         )}

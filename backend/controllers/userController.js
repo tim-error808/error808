@@ -77,11 +77,12 @@ const updateUserData = async (req, res) => {
 const deleteUserWishlist = async (req, res) => {
   try {
     const userId = req.user._id;
-    const gameId = req.gameId;
+    const { gameName } = req.params;
     const _ = await UsersModel.updateOne(
       { _id: userId },
-      { $pull: { wishlist: gameId } }
+      { $pull: { wishlist: gameName } }
     );
+    return res.status(200).json({ message: "Removed from wishlist" });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Error deleting from wishlist" });
@@ -94,7 +95,7 @@ const addUserWishlist = async (req, res) => {
     const { gameName } = req.body;
     const _ = await UsersModel.updateOne(
       { _id: userId },
-      { $push: { wishlist: gameName } }
+      { $addToSet: { wishlist: gameName } }
     );
     return res.status(200).json({ message: "Added to wishlist" });
   } catch (err) {

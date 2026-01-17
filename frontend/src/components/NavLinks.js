@@ -10,6 +10,16 @@ const NavLinks = () => {
   const [isClicked, setIsClicked] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
 
+  let imgUrl;
+
+  if (user?.googleId) {
+    imgUrl = user?.profile?.photoUrl;
+  } else if (user?.profile?.photoUrl) {
+    imgUrl = `${apiUri}${user?.profile?.photoUrl}`;
+  } else {
+    imgUrl = "/default-avatar.png";
+  }
+
   const handleClick = () => {
     setIsClicked((prev) => !prev);
   };
@@ -31,45 +41,44 @@ const NavLinks = () => {
         </div>
       )}
       <div className="nav-links">
-        <NavLink end className="nav-link" to="/listings">
+        <NavLink end={true} className="nav-link" to="/listings">
           Browse All Games
         </NavLink>
-        <NavLink end className="nav-link" to="/listings/my">
+        <NavLink end={true} className="nav-link" to="/listings/my">
           My Games
         </NavLink>
-        <NavLink end className="nav-link" to="/listings/new">
+        <NavLink end={true} className="nav-link" to="/listings/new">
           Make New Listing
         </NavLink>
-        <NavLink end className="nav-link" to="/offers">
+        <NavLink end={true} className="nav-link" to="/offers">
           Received Offers
         </NavLink>
-        <NavLink end className="nav-link" to="/offers/my">
+        <NavLink end={true} className="nav-link" to="/offers/my">
           My Offers
         </NavLink>
 
         {isAuthenticated ? (
           <>
-            <NavLink end className="nav-link profile" to="/profile">
-              <img
-                src={
-                  `${apiUri}${user.profile.photoUrl}` || "/default-avatar.png"
-                }
-                alt={user.username}
-                className="profile-img-nav"
-              />
+            <NavLink end={true} className="nav-link profile" to="/profile">
+              <img src={imgUrl} alt={user.username} />
             </NavLink>
             <button onClick={handleLogout} className="nav-special">
               Log out
             </button>
           </>
         ) : (
-          <NavLink end className="nav-link nav-special" to="/auth">
+          <NavLink end={true} className="nav-link nav-special" to="/auth">
             Log In
           </NavLink>
         )}
       </div>
 
       <div className="dropdown">
+        {isAuthenticated && (
+          <NavLink end={true} className="nav-link profile" to="/profile">
+            <img src={imgUrl} alt={user.username} />
+          </NavLink>
+        )}
         <button onClick={handleClick} className="dropdown-button">
           <span>
             <CgProfile />
@@ -87,6 +96,9 @@ const NavLinks = () => {
             isClicked ? "dropdown-content-active" : "dropdown-content-inactive"
           }
         >
+          <Link onClick={handleClick} to="/listings">
+            Browse All Games
+          </Link>
           <Link
             onClick={handleClick}
             to={!isAuthenticated ? "/auth" : "/listings/my"}
@@ -112,14 +124,9 @@ const NavLinks = () => {
             My Offers
           </Link>
           {isAuthenticated && (
-            <>
-              <Link onClick={handleClick} to="/profile">
-                View Profile
-              </Link>
-              <Link onClick={handleLogout} to="/">
-                Log Out
-              </Link>
-            </>
+            <Link onClick={handleLogout} to="/">
+              Log Out
+            </Link>
           )}
           {!isAuthenticated && (
             <Link onClick={handleClick} to="/auth">
