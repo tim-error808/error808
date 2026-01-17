@@ -20,9 +20,9 @@ const Profile = () => {
 
   let imgUrl;
 
-  if (googleId) {
+  if (googleId && userProfile.photoUrl.startsWith("https://")) {
     imgUrl = userProfile.photoUrl;
-  } else if (userProfile?.photoUrl) {
+  } else if (userProfile.photoUrl) {
     imgUrl = `${apiUri}${userProfile.photoUrl}`;
   } else {
     imgUrl = "/default-avatar.png";
@@ -114,7 +114,7 @@ const Profile = () => {
                     ✕
                   </button>
                 </div>
-              )
+              ),
             )}
           </div>
         ) : (

@@ -1,6 +1,12 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
-import { useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+  useMap,
+} from "react-leaflet";
+import { useState, useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -12,25 +18,41 @@ L.Icon.Default.mergeOptions({
 
 const Map = ({ onClose, onSave }) => {
   const [position, setPosition] = useState(null);
+  const [query, setQuery] = useState("");
 
-  const ClickHandler = ({ onClick }) => {
+  const ClickHandler = () => {
     useMapEvents({
-      click(e) {
+      click: async (e) => {
         const { lat, lng } = e.latlng;
-        onClick({ lat, lng });
+        const { city } = await reverseGeocode(lat, lng);
+
+        setPosition({
+          city,
+          latitude: lat,
+          longitude: lng,
+        });
       },
     });
     return null;
   };
 
-  const handleMapClick = async ({ lat, lng }) => {
-    const { city } = await reverseGeocode(lat, lng);
-    setPosition({ city, latitude: lat, longitude: lng });
+  const MapController = () => {
+    const map = useMap();
+
+    useEffect(() => {
+      if (position) {
+        map.setView([position.latitude, position.longitude], 14, {
+          animate: true,
+        });
+      }
+    }, [map]);
+
+    return null;
   };
 
   const reverseGeocode = async (lat, lng) => {
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`
+      `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`,
     );
     const data = await response.json();
 
@@ -46,6 +68,25 @@ const Map = ({ onClose, onSave }) => {
     };
   };
 
+  const searchLocation = async () => {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${query}`,
+    );
+    const data = await res.json();
+
+    if (!data.length) return;
+
+    const { lat, lon } = data[0];
+
+    const { city } = await reverseGeocode(lat, lon);
+
+    setPosition({
+      city,
+      latitude: parseFloat(lat),
+      longitude: parseFloat(lon),
+    });
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-container">
@@ -57,6 +98,21 @@ const Map = ({ onClose, onSave }) => {
         </div>
 
         <div className="modal-body">
+          <div className="modal-search">
+            <input
+              type="text"
+              placeholder="Search location..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+            <button
+              type="button"
+              className="primary-button"
+              onClick={searchLocation}
+            >
+              Search
+            </button>
+          </div>
           <div className="modal-map">
             <MapContainer
               center={[45.80342378462427, 15.969765143127974]}
@@ -65,7 +121,8 @@ const Map = ({ onClose, onSave }) => {
               style={{ height: "100%", width: "100%" }}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <ClickHandler onClick={handleMapClick} />
+              <MapController />
+              <ClickHandler />
               {position && (
                 <Marker position={[position.latitude, position.longitude]} />
               )}

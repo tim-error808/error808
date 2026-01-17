@@ -34,6 +34,14 @@ app.get("/check", (req, res) => {
   res.json({ status: "Server is working" });
 });
 
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  return res.status(400).json({
+    message: err.message || "Something went wrong",
+  });
+});
+
 const listenCallback = (error) => {
   if (error) {
     console.log("Error while starting REST API");
