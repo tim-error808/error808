@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import LoginButtons from "./LoginButtons";
@@ -15,6 +15,7 @@ const Login = () => {
   const [authDone, setAuthDone] = useState(false);
   const { login, signup, setJustLoggedIn, user } = useAuth();
   const navigate = useNavigate();
+  const popupRef = useRef(null);
 
   const onLoginSubmit = async (e) => {
     e.preventDefault();
@@ -60,10 +61,19 @@ const Login = () => {
     setMessage("");
   }, [isFlipped]);
 
+  useEffect(() => {
+    if (authDone && popupRef.current) {
+      popupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [authDone]);
+
   return (
     <>
       {authDone && (
-        <div className="auth-done-popup">
+        <div ref={popupRef} className="auth-done-popup">
           <h1 className="auth-done-text">{message ? message : error}</h1>
           {!error && <h2>Welcome {user.username}!</h2>}
           <button
