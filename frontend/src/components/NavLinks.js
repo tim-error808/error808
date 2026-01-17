@@ -12,10 +12,10 @@ const NavLinks = () => {
 
   let imgUrl;
 
-  if (user?.googleId) {
-    imgUrl = user?.profile?.photoUrl;
+  if (user?.googleId && user?.profile?.photoUrl.startsWith("https://")) {
+    imgUrl = user.profile.photoUrl;
   } else if (user?.profile?.photoUrl) {
-    imgUrl = `${apiUri}${user?.profile?.photoUrl}`;
+    imgUrl = `${apiUri}${user.profile.photoUrl}`;
   } else {
     imgUrl = "/default-avatar.png";
   }

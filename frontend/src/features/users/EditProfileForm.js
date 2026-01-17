@@ -10,7 +10,7 @@ const EditProfileForm = () => {
   const { user, fetchUser } = useAuth();
   const [username, setUsername] = useState(user.username || "");
   const [description, setDescription] = useState(
-    user.profile?.description || ""
+    user.profile?.description || "",
   );
   const [interests, setInterests] = useState(user.profile?.interests || []);
   const [photoUrl, setPhotoUrl] = useState(user.profile?.photoUrl || "");
@@ -52,17 +52,17 @@ const EditProfileForm = () => {
   };
 
   const onSaveProfile = async (updatedProfile) => {
-    try {
-      const response = await api.put("/user", updatedProfile);
-      console.log(response.data.message);
-
-      await fetchUser();
-
-      navigate("/profile");
-    } catch (error) {
-      setError(error.response.data.message);
-      console.log(error.response.data.message);
-    }
+    api
+      .put("/user", updatedProfile)
+      .then((response) => {
+        console.log(response.data.message);
+        fetchUser();
+        navigate("/profile");
+      })
+      .catch((error) => {
+        setError(error.response.data.message);
+        console.log(error.response.data.message);
+      });
   };
 
   useEffect(() => {
@@ -73,12 +73,8 @@ const EditProfileForm = () => {
     };
   }, [photoUrl]);
 
-  if (error) return <div className="error">{error}</div>;
-
   return (
     <form className="edit-profile-form" onSubmit={handleSubmit}>
-      {error && <div className="error">{error}</div>}
-
       <label htmlFor="edit_username">Username:</label>
       <input
         type="text"
@@ -131,6 +127,8 @@ const EditProfileForm = () => {
           Pick Location
         </button>
       </div>
+
+      {error && <div className="form-error">{error}</div>}
 
       <div className="edit-profile-form-buttons">
         <button

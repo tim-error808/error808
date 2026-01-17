@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../../api/api";
 import { useParams } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
@@ -16,6 +16,7 @@ const EditListingForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [submitDone, setSubmitDone] = useState(false);
   const [message, setMessage] = useState("");
+  const popupRef = useRef(null);
 
   useEffect(() => {
     api
@@ -96,6 +97,15 @@ const EditListingForm = () => {
     };
   }, [imagePreview]);
 
+  useEffect(() => {
+    if (submitDone && popupRef.current) {
+      popupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [submitDone]);
+
   if (isLoading) {
     return (
       <div className="loader">
@@ -107,7 +117,7 @@ const EditListingForm = () => {
   return (
     <>
       {submitDone && (
-        <div className="auth-done-popup">
+        <div ref={popupRef} className="auth-done-popup">
           <h1 className="auth-done-text">{message}</h1>
           <button
             className="auth-done-btn"

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
@@ -24,6 +24,7 @@ const MakeListingForm = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [submitDone, setSubmitDone] = useState(false);
   const [message, setMessage] = useState("");
+  const popupRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -116,10 +117,19 @@ const MakeListingForm = () => {
     };
   }, [imagePreview]);
 
+  useEffect(() => {
+    if (submitDone && popupRef.current) {
+      popupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [submitDone]);
+
   return (
     <>
       {submitDone && (
-        <div className="auth-done-popup">
+        <div ref={popupRef} className="auth-done-popup">
           <h1 className="auth-done-text">{message}</h1>
           <button
             className="auth-done-btn"

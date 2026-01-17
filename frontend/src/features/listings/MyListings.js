@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../hooks/AuthProvider";
 import api from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +15,7 @@ const MyListings = () => {
   const [submitDone, setSubmitDone] = useState(false);
   const [message, setMessage] = useState("");
   const canPost = !!user?.location?.city;
+  const popupRef = useRef(null);
 
   useEffect(() => {
     const fetchMyListings = async () => {
@@ -39,7 +40,7 @@ const MyListings = () => {
     try {
       await api.delete(`/listings/remove/${listingId}`);
       setListings((prev) =>
-        prev.filter((listing) => listing._id !== listingId)
+        prev.filter((listing) => listing._id !== listingId),
       );
       setMessage("Listing deleted successfully.");
       setSubmitDone(true);
@@ -48,6 +49,15 @@ const MyListings = () => {
       setSubmitDone(true);
     }
   };
+
+  useEffect(() => {
+    if (submitDone && popupRef.current) {
+      popupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
+  }, [submitDone]);
 
   if (loading) {
     return (
@@ -60,7 +70,7 @@ const MyListings = () => {
   return (
     <>
       {submitDone && (
-        <div className="auth-done-popup">
+        <div ref={popupRef} className="auth-done-popup">
           <h1 className="auth-done-text">{error ? error : message}</h1>
           <button
             className="auth-done-btn"

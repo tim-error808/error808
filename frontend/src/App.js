@@ -40,11 +40,11 @@ function App() {
               <Route path="edit/:id" element={<EditListingForm />} />
             </Route>
           </Route>
-          <Route path="offers">
-            <Route index element={<ReceivedOffers />} />
-            <Route path="my" element={<MyOffers />} />
-          </Route>
           <Route element={<RequireAuth />}>
+            <Route path="offers">
+              <Route index element={<ReceivedOffers />} />
+              <Route path="my" element={<MyOffers />} />
+            </Route>
             <Route path="profile">
               <Route index element={<Profile />} />
               <Route path="edit" element={<EditProfileForm />} />
