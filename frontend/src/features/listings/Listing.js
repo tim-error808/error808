@@ -11,8 +11,7 @@ const Listing = () => {
   const { apiUri } = ModeConfig();
   const { listingId } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-
+  const { isAuthenticated, user } = useAuth();
   const [listing, setListing] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -90,12 +89,14 @@ const Listing = () => {
             </span>
           </div>
 
-          <button
-            className="primary-button offer-button"
-            onClick={handleOfferClick}
-          >
-            Offer Exchange
-          </button>
+          {listing?.user.username !== user.username && (
+            <button
+              className="primary-button offer-button"
+              onClick={handleOfferClick}
+            >
+              Offer Exchange
+            </button>
+          )}
         </div>
       </div>
 
