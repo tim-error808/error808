@@ -29,6 +29,7 @@ const NavLinks = () => {
     handleClick();
     setLoggedOut(true);
   };
+  console.log(user);
 
   return (
     <>
@@ -59,6 +60,11 @@ const NavLinks = () => {
 
         {isAuthenticated ? (
           <>
+            {user?.scope && (
+              <NavLink end={true} className="nav-link" to="/admin">
+                Admin Panel
+              </NavLink>
+            )}
             <NavLink end={true} className="nav-link profile" to="/profile">
               <img src={imgUrl} alt={user.username} />
             </NavLink>
@@ -124,9 +130,16 @@ const NavLinks = () => {
             My Offers
           </Link>
           {isAuthenticated && (
-            <Link onClick={handleLogout} to="/">
-              Log Out
-            </Link>
+            <>
+              {user?.scope && (
+                <Link onClick={handleClick} to="/admin">
+                  Admin Panel
+                </Link>
+              )}
+              <Link onClick={handleLogout} to="/">
+                Log Out
+              </Link>
+            </>
           )}
           {!isAuthenticated && (
             <Link onClick={handleClick} to="/auth">

@@ -662,8 +662,8 @@ body {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  height: 400px;
   width: 300px;
+  max-height: fit-content;
   border: 1px solid #05808c;
   display: flex;
   flex-direction: column;
@@ -713,6 +713,7 @@ body {
 .game-card-button {
   flex: 1 1 0;
   width: 150px;
+  min-height: 40px;
   align-self: center;
   border-radius: 10px;
   border: 1px solid #05808c;
@@ -1035,6 +1036,11 @@ body {
   text-decoration: none;
 }
 
+.primary-button.danger {
+  background-color: #c0392b;
+  border-color: black;
+}
+
 .secondary-button {
   background-color: white;
   color: #05808c;
@@ -1176,12 +1182,26 @@ body {
 .form-group textarea {
   border-radius: 8px;
   border: 1px solid #05808c;
-  padding: 8px 10px;
+  padding: 8px 0 8px 10px;
   font-size: 0.95rem;
 }
 
 .form-group textarea {
   resize: vertical;
+}
+
+.available {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.available label {
+  margin-bottom: 0;
+}
+
+.available input {
+  cursor: pointer;
 }
 
 .players-input {
@@ -1406,6 +1426,77 @@ body {
   transition:
     background-color 0.2s,
     transform 0.1s;
+}
+
+/* ADMIN PANEL STYLES */
+
+.admin-panel {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-tabs button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  background: #e6f3f4;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.admin-tabs button.active {
+  background: #05808c;
+  color: white;
+}
+
+.admin-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+.admin-modal.users {
+  width: 500px;
+}
+
+.admin-modal.listings {
+  width: 700px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 /* MAP STYLES */
@@ -1638,6 +1729,11 @@ body {
   .profile-wishlist a:hover,
   .info-message a:hover {
     text-decoration: underline;
+  }
+
+  .primary-button.danger:hover {
+    background-color: white;
+    color: #c0392b;
   }
 }
 
@@ -1886,5 +1982,20 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .admin-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-modal.users,
+  .admin-modal.listings {
+    width: 78vw;
+  }
+
+  .admin-modal.listings {
+    height: 90vh;
+    overflow: scroll;
   }
 }
