@@ -1337,7 +1337,7 @@ body {
 /* EDIT PROFILE FORM STYLES */
 
 .edit-profile-form {
-  max-width: 600px;
+  width: 40vw;
   margin-left: auto;
   margin-right: auto;
   padding: 2rem;
@@ -1721,6 +1721,7 @@ body {
   }
 
   .edit-profile-form {
+    width: 70vw;
     padding: 1rem;
     gap: 1rem;
   }

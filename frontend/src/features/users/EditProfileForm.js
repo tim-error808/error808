@@ -18,6 +18,7 @@ const EditProfileForm = () => {
   const [location, setLocation] = useState(user.location || null);
   const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleMapData = (position) => {
     setLocation(position);
@@ -51,17 +52,21 @@ const EditProfileForm = () => {
     onSaveProfile(updatedProfile);
   };
 
-  const onSaveProfile = async (updatedProfile) => {
+  const onSaveProfile = (updatedProfile) => {
+    setLoading(true);
+
     api
       .put("/user", updatedProfile)
       .then((response) => {
         console.log(response.data.message);
+        setLoading(false);
         fetchUser();
         navigate("/profile");
       })
       .catch((error) => {
         setError(error.response.data.message);
         console.log(error.response.data.message);
+        setLoading(false);
       });
   };
 
@@ -137,8 +142,12 @@ const EditProfileForm = () => {
         >
           Cancel
         </button>
-        <button className="edit-profile-form-button" type="submit">
-          Save Profile
+        <button
+          disabled={loading}
+          className="edit-profile-form-button"
+          type="submit"
+        >
+          {loading ? "Saving..." : "Save"}
         </button>
       </div>
 

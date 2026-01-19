@@ -13,6 +13,7 @@ const EditListingForm = () => {
   const [form, setForm] = useState({});
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingSave, setLoadingSave] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [submitDone, setSubmitDone] = useState(false);
   const [message, setMessage] = useState("");
@@ -46,6 +47,8 @@ const EditListingForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setLoadingSave(true);
 
     setError("");
 
@@ -83,9 +86,11 @@ const EditListingForm = () => {
       .then((response) => {
         setMessage(response.data.message);
         setSubmitDone(true);
+        setLoadingSave(false);
       })
       .catch((error) => {
         setError(error.response?.data?.message);
+        setLoadingSave(false);
       });
   };
 
@@ -262,7 +267,13 @@ const EditListingForm = () => {
 
         {error && <div className="form-error">{error}</div>}
 
-        <button className="primary-button form-submit">Save Changes</button>
+        <button
+          type="submit"
+          disabled={loadingSave}
+          className="primary-button form-submit"
+        >
+          {loadingSave ? "Saving changes..." : "Save changes"}
+        </button>
       </form>
     </>
   );

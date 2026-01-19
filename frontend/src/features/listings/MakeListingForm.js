@@ -21,6 +21,7 @@ const MakeListingForm = () => {
     description: "",
   });
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [submitDone, setSubmitDone] = useState(false);
   const [message, setMessage] = useState("");
@@ -41,8 +42,10 @@ const MakeListingForm = () => {
     setImagePreview(previewUrl);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     setError("");
 
@@ -74,32 +77,33 @@ const MakeListingForm = () => {
       }
     });
 
-    try {
-      const response = await api.post("/listings/new", formData);
-
-      setMessage(response.data.message);
-
-      setForm({
-        name: "",
-        genre: "",
-        publisher: "",
-        releaseYear: "",
-        condition: "",
-        minPlayers: "",
-        maxPlayers: "",
-        playTime: "",
-        difficulty: "",
-        image: null,
-        description: "",
+    api
+      .post("/listings/new", formData)
+      .then((response) => {
+        console.log(response.data.message);
+        setMessage(response.data.message);
+        setForm({
+          name: "",
+          genre: "",
+          publisher: "",
+          releaseYear: "",
+          condition: "",
+          minPlayers: "",
+          maxPlayers: "",
+          playTime: "",
+          difficulty: "",
+          image: null,
+          description: "",
+        });
+        setImagePreview(null);
+        setIsLoading(false);
+        setSubmitDone(true);
+      })
+      .catch((error) => {
+        console.error(error.response.data.message);
+        setError(error.response.data.message);
+        setIsLoading(false);
       });
-
-      setImagePreview(null);
-
-      setSubmitDone(true);
-    } catch (error) {
-      console.error(error);
-      setError("There was a problem posting the game.");
-    }
   };
 
   useEffect(() => {
@@ -276,7 +280,13 @@ const MakeListingForm = () => {
 
         {error && <div className="form-error">{error}</div>}
 
-        <button className="primary-button form-submit">Submit</button>
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="primary-button form-submit"
+        >
+          {isLoading ? "Submitting..." : "Submit"}
+        </button>
       </form>
     </>
   );
