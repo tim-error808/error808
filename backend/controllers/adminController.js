@@ -5,7 +5,9 @@ const getAllUsers = async (req, res) => {
   try {
     const users = await UsersModel.find().select(" -passwordHash").lean();
     res.status(200).json(users);
+
   } catch (err) {
+    
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
@@ -16,7 +18,9 @@ const getUserById = async (req, res) => {
     const user = await UsersModel.findById(req.params.id).select("-passwordHash").lean();
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json(user);
+
   } catch (err) {
+
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
@@ -39,17 +43,22 @@ const updateUserByAdmin = async (req, res) => {
 
     if (username !== undefined) 
         updateData.username = username;
+
     if (email !== undefined) 
         updateData.email = email;
+
     if (scope !== undefined) 
         updateData.scope = scope;
+
     if (isActive !== undefined) 
         updateData.isActive = isActive;
+
 
     const updatedUser = await UsersModel.findByIdAndUpdate(req.params.id, updateData, { new: true }).select("-passwordHash").lean();
     if (!updatedUser) return res.status(404).json({ message: "User not found" });
 
     res.status(200).json(updatedUser);
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error " });
@@ -71,7 +80,9 @@ const getListingById = async (req, res) => {
     const listing = await ListingsModel.findById(req.params.id).lean();
     if (!listing) return res.status(404).json({ message: "Listing not found" });
     res.status(200).json(listing);
+
   } catch (err) {
+
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
@@ -81,6 +92,7 @@ const deleteListing = async (req, res) => {
   try {
     await ListingsModel.findByIdAndDelete(req.params.id);
     res.status(200).json({ message: "Objava izbrisana" });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -89,15 +101,18 @@ const deleteListing = async (req, res) => {
 
 const updateListingByAdmin = async (req, res) => {
   try {
-    const updateData = req.body; // očekuje se JSON s poljima za update
+    const updateData = req.body;
     const updatedListing = await ListingsModel.findByIdAndUpdate(req.params.id, updateData, { new: true }).lean();
     if (!updatedListing) return res.status(404).json({ message: "Listing not found" });
     res.status(200).json(updatedListing);
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
 
 module.exports = {
   getAllUsers,
