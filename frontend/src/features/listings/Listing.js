@@ -89,7 +89,7 @@ const Listing = () => {
             </span>
           </div>
 
-          {listing?.user.username !== user.username && (
+          {listing?.user?.username !== user?.username && (
             <button
               className="primary-button offer-button"
               onClick={handleOfferClick}
