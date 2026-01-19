@@ -60,7 +60,7 @@ const NavLinks = () => {
 
         {isAuthenticated ? (
           <>
-            {user?.scope && (
+            {user?.scope.includes("admin") && (
               <NavLink end={true} className="nav-link" to="/admin">
                 Admin Panel
               </NavLink>
@@ -131,7 +131,7 @@ const NavLinks = () => {
           </Link>
           {isAuthenticated && (
             <>
-              {user?.scope && (
+              {user?.scope.includes("admin") && (
                 <Link onClick={handleClick} to="/admin">
                   Admin Panel
                 </Link>

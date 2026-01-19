@@ -2,8 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/AuthProvider";
 
 const AdminPanel = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("users");
   const [users, setUsers] = useState([]);
   const [listings, setListings] = useState([]);
@@ -14,6 +16,13 @@ const AdminPanel = () => {
   const [formData, setFormData] = useState({});
   const [popup, setPopup] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user?.scope.includes("admin")) {
+      navigate("/");
+      return;
+    }
+  }, [navigate, user.scope]);
 
   useEffect(() => {
     if (popup) {
