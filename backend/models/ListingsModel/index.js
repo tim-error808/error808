@@ -22,8 +22,7 @@ const ListingsModel = mongoose.model("listings", new Schema({
     difficulty: {type: Number},
     imageUrl: String,
     description: String,
-    user: {type: Schema.Types.ObjectId, ref: "users", required: true },
-    taken: {type: Boolean, required: true, default: false}
+    user: {type: Schema.Types.ObjectId, ref: "users", required: true }
 }))
 
 module.exports = ListingsModel;
