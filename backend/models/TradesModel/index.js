@@ -14,7 +14,7 @@ const TradesModel = mongoose.model("trades", new Schema({
     offeredListings: [{ type: Schema.Types.ObjectId, ref: "listings", required: true }],
     receiverId: { type: Schema.Types.ObjectId, required: true, ref: "users" },
     requestedListings: [{ type: Schema.Types.ObjectId, ref: "listings", required: true }],
-    status: { type: String, required: true }
+    status: { type: String, required: true },
 }));
 
 module.exports = TradesModel;

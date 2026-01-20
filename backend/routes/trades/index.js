@@ -5,13 +5,17 @@ const {
   getMyTradesController,
   acceptTradeController,
   declineTradeController,
-  deleteTradeController
+  deleteTradeController,
+  acceptedTradeController,
+  historyTradeController
 } = require("../../controllers/tradesController");
 const verifyToken = require("../../middlewares/verifyToken");
 const router = express.Router();
 
 router.use(verifyToken);
 router.get("/received", recievedTradesController);
+router.get("/accepted",acceptedTradeController);
+router.get("/history",historyTradeController)
 router.get("/my", getMyTradesController);
 router.post("/", newTradeController);
 router.put("/:offerId/accept", acceptTradeController);

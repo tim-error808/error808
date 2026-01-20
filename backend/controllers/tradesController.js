@@ -87,14 +87,14 @@ const acceptTradeController = async (req, res) => {
       { status: "accepted" }
     ).lean();
     model.requestedListings.forEach((listingId) => {
-      ListingsModel.findOneAndDelete({
+      ListingsModel.findOneAndUpdate({
         _id: listingId,
-      }).exec();
+      },{taken: true}).exec();
     });
     model.offeredListings.forEach((listingId) => {
-      ListingsModel.findOneAndDelete({
+      ListingsModel.findOneAndUpdate({
         _id: listingId,
-      }).exec();
+      },{taken: true}).exec();
     });
     return res.status(200).json({ message: "Trade offer accepted" });
   } catch (err) {
@@ -133,6 +133,39 @@ const deleteTradeController = async (req, res) => {
   }
 };
 
+const historyTradeController = async (req,res) => {
+  try {
+    const userId = req.user._id;
+    const trades = await TradesModel.find({
+      receiverId: userId,
+    })
+      .populate("offeredListings")
+      .populate("requestedListings")
+      .populate("initiatorId", "username email");
+
+    return res.status(200).json(trades);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error fetching trade history of a user" });
+  }
+}
+
+const acceptedTradeController = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const trades = await TradesModel.find({
+      receiverId: userId,
+      status: "accepted",
+    })
+      .populate("offeredListings")
+      .populate("requestedListings")
+      .populate("initiatorId", "username email");
+    return res.status(200).json(trades);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error fetching accepted trades" });
+  }
+};
 module.exports = {
   recievedTradesController,
   newTradeController,
@@ -140,4 +173,6 @@ module.exports = {
   declineTradeController,
   acceptTradeController,
   deleteTradeController,
+  historyTradeController,
+  acceptedTradeController
 };
