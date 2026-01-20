@@ -76,7 +76,7 @@ const updateUserByAdmin = async (req, res) => {
     if (!updatedUser)
       return res.status(404).json({ message: "User not found" });
 
-    res.status(200).json({ updatedUser, message: "User updated successfully" });
+    res.status(200).json({ updatedUser, message: "User update success" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error " });
@@ -124,7 +124,7 @@ const deleteListing = async (req, res) => {
 
     await ListingsModel.findByIdAndDelete(req.params.id);
 
-    res.status(200).json({ message: "Objava i slika uspješno obrisani" });
+    res.status(200).json({ message: "Listing delete success" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -141,7 +141,7 @@ const updateListingByAdmin = async (req, res) => {
     ).lean();
     if (!updatedListing)
       return res.status(404).json({ message: "Listing not found" });
-    res.status(200).json(updatedListing);
+    res.status(200).json({ updatedListing, message: "Listing edit success" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

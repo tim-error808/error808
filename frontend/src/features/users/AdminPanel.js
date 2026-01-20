@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ const AdminPanel = () => {
   const [formData, setFormData] = useState({});
   const [popup, setPopup] = useState(false);
   const navigate = useNavigate();
+  const popupRef = useRef(null);
 
   useEffect(() => {
     if (!user?.scope.includes("admin")) {
@@ -25,6 +26,12 @@ const AdminPanel = () => {
   }, [navigate, user.scope]);
 
   useEffect(() => {
+    if (popup && popupRef.current) {
+      popupRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    }
     if (popup) {
       const timer = setTimeout(() => {
         setPopup(false);
@@ -109,11 +116,13 @@ const AdminPanel = () => {
           console.log(response.data.message);
           setEditingItem(null);
           fetchData();
+          setPopup(true);
         })
         .catch((error) => {
           setError(error.response.data.message);
           console.log(error.response.data.message);
           setEditingItem(null);
+          setPopup(true);
         });
     }
   };
@@ -122,14 +131,25 @@ const AdminPanel = () => {
     const endpoint =
       activeTab === "users" ? `/admin/users/${id}` : `/admin/listings/${id}`;
 
-    api.delete(endpoint);
-    fetchData();
+    api
+      .delete(endpoint)
+      .then((response) => {
+        console.log(response.data.message);
+        setMessage(response.data.message);
+        fetchData();
+        setPopup(true);
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+        setError(error.response.data.message);
+        setPopup(true);
+      });
   };
 
   return (
     <section className="admin-panel">
       {popup && (
-        <div className="auth-done-popup">
+        <div ref={popupRef} className="auth-done-popup">
           <h1 className="auth-done-text">{error ? error : message}</h1>
         </div>
       )}
