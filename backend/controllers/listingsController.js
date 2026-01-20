@@ -22,6 +22,7 @@ const listingsController = async (req, res) => {
       .filter((d) => d !== undefined);
     const maxPlayers = filters.flatMap((f) => playersMap[f] || []);
     let query = {};
+    query.taken = {$ne: true}; // $ne umjesto equal da uključi one koji nemaju to polje
     if (difficulty.length > 0) {
       query.difficulty = { $in: difficulty };
     }
