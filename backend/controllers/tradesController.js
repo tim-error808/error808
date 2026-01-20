@@ -159,6 +159,27 @@ const deleteTradeController = async (req, res) => {
   }
 };
 
+const historyTradeController = async (req,res) => {
+  try {
+    const userId = req.user._id;
+    const trades = await TradesModel.find({
+      $or: [
+        {receiverId: userId},
+        {initiatorId: userId}
+      ]
+    })
+      .populate("offeredListings")
+      .populate("requestedListings")
+      .populate("initiatorId", "username email")
+      .populate("receiverId","username email");
+
+    return res.status(200).json(trades);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error getting trade history of a user" });
+  }
+}
+
 module.exports = {
   recievedTradesController,
   newTradeController,
@@ -166,4 +187,5 @@ module.exports = {
   declineTradeController,
   acceptTradeController,
   deleteTradeController,
+  historyTradeController
 };
