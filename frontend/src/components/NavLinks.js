@@ -29,7 +29,6 @@ const NavLinks = () => {
     handleClick();
     setLoggedOut(true);
   };
-  console.log(user);
 
   return (
     <>
@@ -81,7 +80,12 @@ const NavLinks = () => {
 
       <div className="dropdown">
         {isAuthenticated && (
-          <NavLink end={true} className="nav-link profile" to="/profile">
+          <NavLink
+            onClick={isClicked ? handleClick : ""}
+            end={true}
+            className="nav-link profile"
+            to="/profile"
+          >
             <img src={imgUrl} alt={user.username} />
           </NavLink>
         )}

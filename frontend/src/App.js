@@ -18,6 +18,7 @@ import EditListingForm from "./features/listings/EditListingForm";
 import MyOffers from "./features/trades/MyOffers";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminPanel from "./features/users/AdminPanel";
+import History from "./features/trades/History";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             <Route path="profile">
               <Route index element={<Profile />} />
               <Route path="edit" element={<EditProfileForm />} />
+              <Route path="history" element={<History />} />
             </Route>
             <Route path="admin">
               <Route index element={<AdminPanel />} />

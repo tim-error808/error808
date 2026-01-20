@@ -121,9 +121,17 @@ const Profile = () => {
           <p className="profile-empty">Your wishlist is empty.</p>
         )}
       </section>
-      <button className="profile-edit-btn" onClick={() => navigate("edit")}>
-        Edit Profile
-      </button>
+      <div className="profile-btns">
+        <button className="profile-edit-btn" onClick={() => navigate("edit")}>
+          Edit Profile
+        </button>
+        <button
+          className="profile-edit-btn"
+          onClick={() => navigate("history")}
+        >
+          Trade History
+        </button>
+      </div>
     </div>
   );
 };

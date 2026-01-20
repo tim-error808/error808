@@ -1004,6 +1004,18 @@ body {
   margin-top: 10px;
 }
 
+.offer-status.accepted {
+  color: #0f766e;
+}
+
+.offer-status.declined {
+  color: #b91c1c;
+}
+
+.offer-status.active {
+  color: green;
+}
+
 /* MY GAMES PAGE STYLES */
 
 .my-games-page {
@@ -1344,14 +1356,21 @@ body {
   border: 1px solid #05808c;
 }
 
+.profile-btns {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .profile-edit-btn {
-  width: 100px;
-  height: 30px;
+  width: 150px;
+  height: 40px;
   cursor: pointer;
   border: 1px solid #05808c;
   background-color: #05808c;
   color: white;
   border-radius: 6px;
+  font-size: 16px;
 }
 
 /* EDIT PROFILE FORM STYLES */
@@ -1397,35 +1416,38 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .edit-profile-form-location {
   padding: 12px;
   padding-left: 16px;
   padding-right: 16px;
-  width: 300px;
   border-radius: 12px;
   border: 1px solid grey;
+  flex: 1;
 }
 
 .edit-profile-form-buttons {
   display: flex;
-  justify-content: start;
+  justify-content: space-around;
   align-items: center;
-  gap: 2rem;
 }
 
 .edit-profile-form-button {
   border: none;
-  height: 30px;
+  height: 40px;
+  width: 100px;
   border-radius: 6px;
   background-color: #05808c;
   color: #fff;
   cursor: pointer;
   border: 1px solid #05808c;
-  transition:
-    background-color 0.2s,
-    transform 0.1s;
+  font-size: 16px;
+}
+
+.edit-profile-form-button.loaction {
+  width: 150px;
 }
 
 /* ADMIN PANEL STYLES */
@@ -1830,6 +1852,11 @@ body {
     flex-direction: column;
   }
 
+  .profile-btns {
+    flex-direction: column;
+    gap: 15px;
+  }
+
   .profile-edit-btn {
     width: 100%;
   }
@@ -1842,11 +1869,15 @@ body {
   }
 
   .edit-profile-form-location {
-    width: 90%;
+    width: calc(100% - 32px);
   }
 
   .edit-profile-form-buttons {
     justify-content: space-evenly;
+  }
+
+  .edit-profile-form-button.loaction {
+    width: 100%;
   }
 
   .game-not-found-button {

@@ -159,26 +159,40 @@ const deleteTradeController = async (req, res) => {
   }
 };
 
-const historyTradeController = async (req,res) => {
+const historyTradeController = async (req, res) => {
   try {
     const userId = req.user._id;
-    const trades = await TradesModel.find({
-      $or: [
-        {receiverId: userId},
-        {initiatorId: userId}
-      ]
-    })
-      .populate("offeredListings")
-      .populate("requestedListings")
-      .populate("initiatorId", "username email")
-      .populate("receiverId","username email");
 
-    return res.status(200).json(trades);
+    const trades = await TradesModel.find({
+      $or: [{ initiatorId: userId }, { receiverId: userId }],
+      status: { $ne: "active" },
+    })
+      .sort({ createdAt: -1 })
+      .populate("offeredListings", "name")
+      .populate("requestedListings", "name")
+      .populate("initiatorId", "username email")
+      .populate("receiverId", "username email")
+      .lean();
+
+    const tradesWithRole = trades.map((t) => ({
+      ...t,
+      role:
+        t.initiatorId._id.toString() === userId.toString()
+          ? "initiator"
+          : "receiver",
+    }));
+
+    return res.status(200).json({
+      trades: tradesWithRole,
+      message: "Trade history fetch success",
+    });
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: "Error getting trade history of a user" });
+    console.error("Error fetching trade history:", err);
+    return res
+      .status(500)
+      .json({ message: "Error getting trade history of a user" });
   }
-}
+};
 
 module.exports = {
   recievedTradesController,
@@ -187,5 +201,5 @@ module.exports = {
   declineTradeController,
   acceptTradeController,
   deleteTradeController,
-  historyTradeController
+  historyTradeController,
 };
