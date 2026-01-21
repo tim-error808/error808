@@ -176,6 +176,8 @@ const historyTradeController = async (req, res) => {
 
     const tradesWithRole = trades.map((t) => ({
       ...t,
+      offeredListings: t.offeredListings.map((o) => o.name),
+      requestedListings: t.requestedListings.map((r) => r.name),
       role:
         t.initiatorId._id.toString() === userId.toString()
           ? "initiator"
