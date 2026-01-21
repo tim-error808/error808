@@ -3,6 +3,7 @@ const {
   listingsController,
   deleteListingController,
   addListingController,
+  getMyListingsController,
   getUsersListingsController,
   listingDetailsController,
   editListingController,
@@ -15,16 +16,17 @@ router.get("/", verifyTokenIfLoggedIn, listingsController);
 router.get(
   "/details/:listingId",
   verifyTokenIfLoggedIn,
-  listingDetailsController
+  listingDetailsController,
 );
 router.delete("/remove/:listingId", verifyToken, deleteListingController);
 router.put(
   "/edit/:listingId",
   verifyToken,
   upload.single("imageUrl"),
-  editListingController
+  editListingController,
 );
 router.post("/new", verifyToken, upload.single("image"), addListingController);
-router.get("/my", verifyToken, getUsersListingsController);
+router.get("/my", verifyToken, getMyListingsController);
+router.get("/:id", verifyToken, getUsersListingsController);
 
 module.exports = router;

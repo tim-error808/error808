@@ -21,6 +21,11 @@ const ReceivedOffers = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const canAct = (offer) => {
+    if (!offer.lastCounterBy) return true;
+    return offer.lastCounterBy !== offer.receiverId;
+  };
+
   if (loading) {
     return (
       <div className="loader">
@@ -63,60 +68,80 @@ const ReceivedOffers = () => {
             You have no new received offers.
           </div>
         )}
-        {offers.map((offer) => (
-          <div key={offer._id} className="offer-card">
-            <div className="offer-header">
-              <h3>From: {offer.initiatorId.username}</h3>
-              <span>Email: {offer.initiatorId.email}</span>
-            </div>
+        {offers.map((offer) => {
+          const act = canAct(offer);
+          return (
+            <div key={offer._id} className="offer-card">
+              <div className="offer-header">
+                <h3>From: {offer.initiatorId.username}</h3>
+                <span>Email: {offer.initiatorId.email}</span>
+                <span>
+                  Status:{" "}
+                  <span className={`offer-status ${offer.status}`}>
+                    {offer.status}
+                  </span>
+                </span>
+              </div>
 
-            <div className="offer-details">
-              <p>Requested Games:</p>
-              <ul>
-                {offer.requestedListings.map((listing) => (
-                  <li key={listing._id}>{listing.name}</li>
-                ))}
-              </ul>
+              <div className="offer-details">
+                <p>You have:</p>
+                <ul>
+                  {offer.requestedListings.map((listing) => (
+                    <li key={listing._id}>{listing.name}</li>
+                  ))}
+                </ul>
 
-              <p>Offered Games:</p>
-              <ul>
-                {offer.offeredListings.map((listing) => (
-                  <li key={listing._id}>{listing.name}</li>
-                ))}
-              </ul>
-            </div>
+                <p>
+                  {offer.status === "counter"
+                    ? "You want:"
+                    : `${offer.initiatorId.username} offered:`}
+                </p>
+                <ul>
+                  {offer.offeredListings.map((listing) => (
+                    <li key={listing._id}>{listing.name}</li>
+                  ))}
+                </ul>
+              </div>
 
-            <div className="offer-actions">
-              <button
-                className="primary-button"
-                onClick={() => handleAccept(offer._id)}
-              >
-                Accept
-              </button>
-              <button
-                className="secondary-button"
-                onClick={() => handleDecline(offer._id)}
-              >
-                Decline
-              </button>
-              <button
-                className="secondary-button"
-                onClick={() => handleEdit(offer)}
-              >
-                Edit Offer
-              </button>
+              {act ? (
+                <div className="offer-actions">
+                  <button
+                    className="primary-button"
+                    onClick={() => handleAccept(offer._id)}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="secondary-button"
+                    onClick={() => handleDecline(offer._id)}
+                  >
+                    Decline
+                  </button>
+                  <button
+                    className="secondary-button"
+                    onClick={() => handleEdit(offer)}
+                  >
+                    Edit Offer
+                  </button>
+                </div>
+              ) : (
+                <p>
+                  Waiting for {offer.initiatorId.username} to accept or decline
+                  offer.
+                </p>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {showTradeModal && selectedOffer && (
         <div className="modal-overlay">
           <TradeOfferWindow
-            requestedListingId={selectedOffer._id}
             onClose={() => {
               setShowTradeModal(false);
               setSelectedOffer(null);
+              window.location.reload();
             }}
             isCounterOffer={true}
             originalOffer={selectedOffer}

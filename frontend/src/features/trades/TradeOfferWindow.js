@@ -8,35 +8,56 @@ const TradeOfferWindow = ({
   onClose,
   isCounterOffer,
 }) => {
-  const [myListings, setMyListings] = useState([]);
+  const [usersListings, setUsersListings] = useState([]);
   const [selectedListings, setSelectedListings] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMyListings = async () => {
-      try {
-        const res = await api.get("/listings/my?available=true");
-        setMyListings(res.data);
-      } catch (err) {
-        setError("Failed to load your games.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (isCounterOffer) {
+      const fetchUsersListings = async () => {
+        try {
+          const res = await api.get(
+            `/listings/${originalOffer.initiatorId._id ? originalOffer.initiatorId._id : originalOffer.receiverId._id}`,
+          );
+          setUsersListings(res.data);
+        } catch (error) {
+          setError(error.response.data.message);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchMyListings();
-  }, []);
+      fetchUsersListings();
+    } else {
+      const fetchMyListings = async () => {
+        try {
+          const res = await api.get("/listings/my");
+          setUsersListings(res.data);
+        } catch (error) {
+          setError(error.response.data.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchMyListings();
+    }
+  }, [
+    isCounterOffer,
+    originalOffer?.initiatorId?._id,
+    originalOffer?.receiverId?._id,
+  ]);
 
   const toggleListing = (id) => {
     setSelectedListings((prev) =>
-      prev.includes(id) ? prev.filter((l) => l !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((l) => l !== id) : [...prev, id],
     );
   };
 
   const handleSubmit = async () => {
     if (selectedListings.length === 0) {
-      setError("You must offer at least one game.");
+      setError("You must select at least one game.");
       return;
     }
 
@@ -45,11 +66,10 @@ const TradeOfferWindow = ({
 
       if (isCounterOffer && originalOffer) {
         payload = {
-          requestedListings: originalOffer.offeredListings.map(
-            (listing) => listing._id
-          ),
-          offeredListings: selectedListings,
+          offeredListings: originalOffer.requestedListings.map((l) => l._id),
+          requestedListings: selectedListings,
           receiverId: originalOffer.initiatorId,
+          originalOfferId: originalOffer._id,
         };
       } else {
         payload = {
@@ -75,17 +95,19 @@ const TradeOfferWindow = ({
       <h3>{isCounterOffer ? "Counter Offer" : "Offer Trade"}</h3>
 
       <p className="trade-hint">
-        Select the games you want to offer in exchange.
+        {isCounterOffer
+          ? "Select the games you want for exchange"
+          : "Select the games you want to offer"}
       </p>
 
       <div className="trade-list">
-        {myListings.length === 0 && (
+        {usersListings.length === 0 && (
           <p className="muted-text">
             You don't have any available games for trade.
           </p>
         )}
 
-        {myListings.map((listing) => (
+        {usersListings.map((listing) => (
           <label key={listing._id} className="trade-item">
             <input
               type="checkbox"
@@ -99,7 +121,13 @@ const TradeOfferWindow = ({
 
       {isCounterOffer && originalOffer && (
         <div className="original-offer-preview">
-          <p>Games offered by {originalOffer.initiatorId.username}:</p>
+          <p>
+            Games offered by{" "}
+            {originalOffer.initiatorId.username
+              ? originalOffer.initiatorId.username
+              : originalOffer.receiverId.username}
+            :
+          </p>
           <ul>
             {originalOffer.offeredListings.map((listing) => (
               <li key={listing._id}>{listing.name}</li>

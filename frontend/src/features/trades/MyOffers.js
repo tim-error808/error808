@@ -18,6 +18,11 @@ const MyOffers = () => {
       .finally(() => setLoading(false));
   }, []);
 
+  const canAct = (offer) => {
+    if (!offer.lastCounterBy) return false;
+    return offer.lastCounterBy !== offer.initiatorId;
+  };
+
   if (loading) {
     return (
       <div className="loader">
@@ -28,6 +33,24 @@ const MyOffers = () => {
 
   if (error) return <div className="error">Error: {error}</div>;
 
+  const handleAccept = async (offerId) => {
+    try {
+      await api.put(`/trades/${offerId}/accept`);
+      setOffers((prev) => prev.filter((offer) => offer._id !== offerId));
+    } catch (error) {
+      setError(error.response?.data?.message);
+    }
+  };
+
+  const handleDecline = async (offerId) => {
+    try {
+      await api.put(`/trades/${offerId}/decline`);
+      setOffers((prev) => prev.filter((offer) => offer._id !== offerId));
+    } catch (error) {
+      setError(error.response?.data?.message);
+    }
+  };
+
   return (
     <div className="received-offers-page">
       <h2>My Offers</h2>
@@ -37,36 +60,65 @@ const MyOffers = () => {
           <div className="info-message offers">You have no offers.</div>
         )}
 
-        {offers.map((offer) => (
-          <div key={offer._id} className="offer-card">
-            <div className="offer-header">
-              <h3>To: {offer.receiverId.username}</h3>
-              <span>Email: {offer.receiverId.email}</span>
-              <span>
-                Status:{" "}
-                <span className={`offer-status ${offer.status}`}>
-                  {offer.status}
+        {offers.map((offer) => {
+          const act = canAct(offer);
+
+          return (
+            <div key={offer._id} className="offer-card">
+              <div className="offer-header">
+                <h3>To: {offer.receiverId.username}</h3>
+                <span>
+                  Status:{" "}
+                  <span className={`offer-status ${offer.status}`}>
+                    {offer.status}
+                  </span>
                 </span>
-              </span>
-            </div>
+              </div>
 
-            <div className="offer-details">
-              <p>Your Offered Games:</p>
-              <ul>
-                {offer.offeredListings.map((listing) => (
-                  <li key={listing._id}>{listing.name}</li>
-                ))}
-              </ul>
+              <div className="offer-details">
+                <p>
+                  {offer.status === "active"
+                    ? "You offered"
+                    : `${offer.receiverId.username} wants:`}
+                </p>
+                <ul>
+                  {offer.offeredListings.map((l) => (
+                    <li key={l._id}>{l.name}</li>
+                  ))}
+                </ul>
 
-              <p>Requested Games:</p>
-              <ul>
-                {offer.requestedListings.map((listing) => (
-                  <li key={listing._id}>{listing.name}</li>
-                ))}
-              </ul>
+                <p>{offer.receiverId.username} has:</p>
+                <ul>
+                  {offer.requestedListings.map((l) => (
+                    <li key={l._id}>{l.name}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {act ? (
+                <div className="offer-actions">
+                  <button
+                    className="primary-button"
+                    onClick={() => handleAccept(offer._id)}
+                  >
+                    Accept
+                  </button>
+                  <button
+                    className="secondary-button"
+                    onClick={() => handleDecline(offer._id)}
+                  >
+                    Decline
+                  </button>
+                </div>
+              ) : (
+                <p>
+                  Waiting for {offer.receiverId.username} to edit, accept or
+                  decline offer.
+                </p>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

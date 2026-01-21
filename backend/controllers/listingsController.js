@@ -52,7 +52,6 @@ const listingDetailsController = async (req, res) => {
     const { listingId } = req.params;
     const listing = await ListingsModel.findOne({
       _id: listingId,
-      available: true,
     })
       .populate("user")
       .lean();
@@ -147,7 +146,7 @@ const deleteListingController = async (req, res) => {
   }
 };
 
-const getUsersListingsController = async (req, res) => {
+const getMyListingsController = async (req, res) => {
   try {
     const userId = req.user._id;
     const listings = await ListingsModel.find({
@@ -157,7 +156,21 @@ const getUsersListingsController = async (req, res) => {
     return res.status(200).json(listings);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: "Error fetching user's listings" });
+    return res.status(500).json({ message: "Error fetching my listings" });
+  }
+};
+
+const getUsersListingsController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const listings = await ListingsModel.find({
+      user: id,
+      available: true,
+    });
+    return res.status(200).json(listings);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Error fetching users listings" });
   }
 };
 
@@ -179,6 +192,7 @@ module.exports = {
   listingsController,
   addListingController,
   deleteListingController,
+  getMyListingsController,
   getUsersListingsController,
   listingDetailsController,
   editListingController,

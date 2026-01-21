@@ -1036,6 +1036,10 @@ body {
   color: green;
 }
 
+.offer-status.counter {
+  color: darkgoldenrod;
+}
+
 /* MY GAMES PAGE STYLES */
 
 .my-games-page {

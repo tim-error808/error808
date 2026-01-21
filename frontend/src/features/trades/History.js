@@ -13,16 +13,17 @@ const History = () => {
       .then((response) => {
         setTrades(response.data.trades);
         setError("");
-        console.log(response.data.message);
       })
-      .catch((error) => setError(error.response?.data?.message))
+      .catch((error) =>
+        setError(error.response?.data?.message || "Failed to load history"),
+      )
       .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
     return (
       <div className="loader">
-        <PulseLoader color="#0000" />
+        <PulseLoader color="black" />
       </div>
     );
   }
@@ -41,22 +42,24 @@ const History = () => {
         <div className="offers-list">
           {trades.map((trade) => {
             const isInitiator = trade.role === "initiator";
-            let tradeYou, tradeOtherUser;
-            if (isInitiator) {
-              tradeYou = trade.offeredListings;
-              tradeOtherUser = trade.requestedListings;
-            } else {
-              tradeYou = trade.requestedListings;
-              tradeOtherUser = trade.offeredListings;
-            }
+
             const otherUser = isInitiator
               ? trade.receiverId
               : trade.initiatorId;
 
+            const youGave = isInitiator
+              ? trade.offeredListings
+              : trade.requestedListings;
+
+            const youReceived = isInitiator
+              ? trade.requestedListings
+              : trade.offeredListings;
+
             return (
               <div key={trade._id} className="offer-card">
                 <div className="offer-header">
-                  <h3>Trade with {otherUser?.username || "Unknown"}</h3>
+                  <h3>Trade with {otherUser?.username || "Unknown user"}</h3>
+
                   <span>
                     Status:{" "}
                     <span className={`offer-status ${trade.status}`}>
@@ -67,23 +70,27 @@ const History = () => {
 
                 <div className="offer-details">
                   <div>
-                    <p>{isInitiator ? "You offered:" : "You requested:"}</p>
+                    <p>
+                      {trade.status === "declined"
+                        ? "You would receive:"
+                        : "You received:"}
+                    </p>
                     <ul>
-                      {tradeYou.map((listing) => (
-                        <li key={listing._id}>{listing}</li>
+                      {youReceived.map((listing) => (
+                        <li key={listing}>{listing}</li>
                       ))}
                     </ul>
                   </div>
 
                   <div>
                     <p>
-                      {isInitiator
-                        ? `${otherUser.username} requested:`
-                        : `${otherUser.username} offered:`}
+                      {trade.status === "declined"
+                        ? "You would give:"
+                        : "You gave:"}
                     </p>
                     <ul>
-                      {tradeOtherUser.map((listing) => (
-                        <li key={listing._id}>{listing}</li>
+                      {youGave.map((listing) => (
+                        <li key={listing}>{listing}</li>
                       ))}
                     </ul>
                   </div>

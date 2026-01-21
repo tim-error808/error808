@@ -6,7 +6,7 @@ const recievedTradesController = async (req, res) => {
     const userId = req.user._id;
     const trades = await TradesModel.find({
       receiverId: userId,
-      status: "active",
+      status: { $in: ["active", "counter"] },
     })
       .populate("offeredListings")
       .populate("requestedListings")
@@ -25,7 +25,7 @@ const getMyTradesController = async (req, res) => {
 
     const trades = await TradesModel.find({
       initiatorId: userId,
-      status: "active",
+      status: { $in: ["active", "counter"] },
     })
       .populate("requestedListings")
       .populate("offeredListings")
@@ -57,10 +57,20 @@ const newTradeController = async (req, res) => {
         return res.status(404).json({ message: "Original offer not found" });
       }
 
-      finalReceiverId = originalOffer.initiatorId;
-      finalOfferedListings = originalOffer.offeredListings.map(
-        (listing) => listing._id,
-      );
+      if (originalOffer?.lastCounterBy === userId) {
+        return res
+          .status(403)
+          .json({ message: "You cannot counter twice in a row" });
+      }
+
+      originalOffer.offeredListings = requestedListings;
+      originalOffer.requestedListings = offeredListings;
+      originalOffer.status = "counter";
+      originalOffer.lastCounterBy = userId;
+
+      await originalOffer.save();
+
+      return res.status(200).json({ message: "Trade countered successfully" });
     }
 
     await TradesModel.create({
@@ -82,7 +92,7 @@ const acceptTradeController = async (req, res) => {
   try {
     const trade = await TradesModel.findOne({
       _id: req.params.offerId,
-      status: "active",
+      status: { $in: ["active", "counter"] },
     });
 
     if (!trade) {
@@ -107,13 +117,19 @@ const acceptTradeController = async (req, res) => {
       { available: false },
     );
 
+    if (trade?.lastCounterBy === req.user._id) {
+      return res
+        .status(403)
+        .json({ message: "You cannot accept your own counter" });
+    }
+
     trade.status = "accepted";
     await trade.save();
 
     await TradesModel.updateMany(
       {
         _id: { $ne: trade._id },
-        status: "active",
+        status: { $in: ["active", "counter"] },
         $or: [
           { offeredListings: { $in: allListings } },
           { requestedListings: { $in: allListings } },
@@ -174,15 +190,18 @@ const historyTradeController = async (req, res) => {
       .populate("receiverId", "username email")
       .lean();
 
-    const tradesWithRole = trades.map((t) => ({
-      ...t,
-      offeredListings: t.offeredListings.map((o) => o.name),
-      requestedListings: t.requestedListings.map((r) => r.name),
-      role:
-        t.initiatorId._id.toString() === userId.toString()
-          ? "initiator"
-          : "receiver",
-    }));
+    let value;
+    const tradesWithRole = trades.map(
+      (t) => (
+        (value = t.initiatorId._id.toString() === userId.toString()),
+        {
+          ...t,
+          offeredListings: t.offeredListings.map((o) => o.name),
+          requestedListings: t.requestedListings.map((r) => r.name),
+          role: value ? "initiator" : "receiver",
+        }
+      ),
+    );
 
     return res.status(200).json({
       trades: tradesWithRole,
