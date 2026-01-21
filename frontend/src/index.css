@@ -779,6 +779,26 @@ body {
   margin-bottom: 50px;
 }
 
+.scroll-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  padding: 10px 15px;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  background-color: #05808c;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.scroll-btn.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* LISTING DETAILS PAGE STYLES */
 
 .listing-page {
@@ -2028,5 +2048,10 @@ body {
   .admin-modal.listings {
     height: 90vh;
     overflow: scroll;
+  }
+
+  .scroll-btn {
+    right: 20px;
+    bottom: 40px;
   }
 }

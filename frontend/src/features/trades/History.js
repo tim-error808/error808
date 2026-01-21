@@ -13,6 +13,7 @@ const History = () => {
       .then((response) => {
         setTrades(response.data.trades);
         setError("");
+        console.log(response.data.message);
       })
       .catch((error) => setError(error.response?.data?.message))
       .finally(() => setLoading(false));
