@@ -70,7 +70,7 @@ const History = () => {
                     <p>{isInitiator ? "You offered:" : "You requested:"}</p>
                     <ul>
                       {tradeYou.map((listing) => (
-                        <li key={listing._id}>{listing.name}</li>
+                        <li key={listing._id}>{listing}</li>
                       ))}
                     </ul>
                   </div>
@@ -83,7 +83,7 @@ const History = () => {
                     </p>
                     <ul>
                       {tradeOtherUser.map((listing) => (
-                        <li key={listing._id}>{listing.name}</li>
+                        <li key={listing._id}>{listing}</li>
                       ))}
                     </ul>
                   </div>
