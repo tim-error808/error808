@@ -43,8 +43,10 @@ const MyOffers = () => {
               <h3>To: {offer.receiverId.username}</h3>
               <span>Email: {offer.receiverId.email}</span>
               <span>
-                Status:
-                <span className={`status ${offer.status}`}>{offer.status}</span>
+                Status:{" "}
+                <span className={`offer-status ${offer.status}`}>
+                  {offer.status}
+                </span>
               </span>
             </div>
 

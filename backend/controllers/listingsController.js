@@ -9,8 +9,8 @@ const listingsController = async (req, res) => {
     const filters = Array.isArray(req.query.filter)
       ? req.query.filter
       : req.query.filter
-      ? [req.query.filter]
-      : [];
+        ? [req.query.filter]
+        : [];
     const difficultyMap = { easy: [1], medium: [2, 3], hard: [4, 5] };
     const playersMap = {
       2: [2],
@@ -21,7 +21,9 @@ const listingsController = async (req, res) => {
       .flatMap((f) => difficultyMap[f] || [])
       .filter((d) => d !== undefined);
     const maxPlayers = filters.flatMap((f) => playersMap[f] || []);
-    let query = {};
+    let query = {
+      available: true,
+    };
     if (difficulty.length > 0) {
       query.difficulty = { $in: difficulty };
     }
@@ -35,7 +37,7 @@ const listingsController = async (req, res) => {
     let listings = await ListingsModel.find(query).populate("user").lean();
     if (req.query.search) {
       listings = listings.filter((game) =>
-        game.name.toLowerCase().includes(req.query.search.toLowerCase())
+        game.name.toLowerCase().includes(req.query.search.toLowerCase()),
       );
     }
     return res.status(200).json(listings);
@@ -48,7 +50,10 @@ const listingsController = async (req, res) => {
 const listingDetailsController = async (req, res) => {
   try {
     const { listingId } = req.params;
-    const listing = await ListingsModel.findById(listingId)
+    const listing = await ListingsModel.findOne({
+      _id: listingId,
+      available: true,
+    })
       .populate("user")
       .lean();
     if (!listing) {
@@ -134,7 +139,7 @@ const deleteListingController = async (req, res) => {
         .status(403)
         .json({ message: "Cannot delete listing involved in active trades" });
     }
-    await ListingsModel.deleteOne({ _id: listingId });
+    await ListingsModel.updateOne({ _id: listingId }, { available: false });
     return res.status(200).json({ message: "Listing deleted successfully" });
   } catch (err) {
     console.error(err);
@@ -145,7 +150,10 @@ const deleteListingController = async (req, res) => {
 const getUsersListingsController = async (req, res) => {
   try {
     const userId = req.user._id;
-    const listings = await ListingsModel.find({ user: userId });
+    const listings = await ListingsModel.find({
+      user: userId,
+      available: true,
+    });
     return res.status(200).json(listings);
   } catch (err) {
     console.error(err);

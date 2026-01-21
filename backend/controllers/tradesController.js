@@ -59,7 +59,7 @@ const newTradeController = async (req, res) => {
 
       finalReceiverId = originalOffer.initiatorId;
       finalOfferedListings = originalOffer.offeredListings.map(
-        (listing) => listing._id
+        (listing) => listing._id,
       );
     }
 
@@ -80,22 +80,48 @@ const newTradeController = async (req, res) => {
 
 const acceptTradeController = async (req, res) => {
   try {
-    const model = await TradesModel.findOneAndUpdate(
+    const trade = await TradesModel.findOne({
+      _id: req.params.offerId,
+      status: "active",
+    });
+
+    if (!trade) {
+      return res.status(404).json({ message: "Trade not found or inactive" });
+    }
+
+    const allListings = [...trade.requestedListings, ...trade.offeredListings];
+
+    const validListings = await ListingsModel.find({
+      _id: { $in: allListings },
+      available: true,
+    });
+
+    if (validListings.length !== allListings.length) {
+      return res
+        .status(400)
+        .json({ message: "Some listings are no longer available" });
+    }
+
+    await ListingsModel.updateMany(
+      { _id: { $in: allListings } },
+      { available: false },
+    );
+
+    trade.status = "accepted";
+    await trade.save();
+
+    await TradesModel.updateMany(
       {
-        _id: req.params.offerId,
+        _id: { $ne: trade._id },
+        status: "active",
+        $or: [
+          { offeredListings: { $in: allListings } },
+          { requestedListings: { $in: allListings } },
+        ],
       },
-      { status: "accepted" }
-    ).lean();
-    model.requestedListings.forEach((listingId) => {
-      ListingsModel.findOneAndDelete({
-        _id: listingId,
-      }).exec();
-    });
-    model.offeredListings.forEach((listingId) => {
-      ListingsModel.findOneAndDelete({
-        _id: listingId,
-      }).exec();
-    });
+      { status: "declined" },
+    );
+
     return res.status(200).json({ message: "Trade offer accepted" });
   } catch (err) {
     console.error(err);
@@ -109,7 +135,7 @@ const declineTradeController = async (req, res) => {
       {
         _id: req.params.offerId,
       },
-      { status: "declined" }
+      { status: "declined" },
     );
     return res.status(200).json({ message: "Trade offer declined" });
   } catch (err) {
@@ -124,12 +150,47 @@ const deleteTradeController = async (req, res) => {
       {
         _id: req.params.offerId,
       },
-      { status: "deleted" }
+      { status: "deleted" },
     );
     return res.status(200).json({ message: "Trade offer deleted" });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Error deleting trade offer" });
+  }
+};
+
+const historyTradeController = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const trades = await TradesModel.find({
+      $or: [{ initiatorId: userId }, { receiverId: userId }],
+      status: { $ne: "active" },
+    })
+      .sort({ createdAt: -1 })
+      .populate("offeredListings", "name")
+      .populate("requestedListings", "name")
+      .populate("initiatorId", "username email")
+      .populate("receiverId", "username email")
+      .lean();
+
+    const tradesWithRole = trades.map((t) => ({
+      ...t,
+      role:
+        t.initiatorId._id.toString() === userId.toString()
+          ? "initiator"
+          : "receiver",
+    }));
+
+    return res.status(200).json({
+      trades: tradesWithRole,
+      message: "Trade history fetch success",
+    });
+  } catch (err) {
+    console.error("Error fetching trade history:", err);
+    return res
+      .status(500)
+      .json({ message: "Error getting trade history of a user" });
   }
 };
 
@@ -140,4 +201,5 @@ module.exports = {
   declineTradeController,
   acceptTradeController,
   deleteTradeController,
+  historyTradeController,
 };

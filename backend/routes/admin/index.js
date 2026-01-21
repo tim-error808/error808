@@ -8,17 +8,13 @@ const router = express.Router();
 router.use(verifyToken);
 router.use(verifyAdmin);
 
-router
-  .route("/users")
-  .get(adminController.getAllUsers);
+router.route("/users").get(adminController.getAllUsers);
 router
   .route("/users/:id")
   .get(adminController.getUserById)
   .put(adminController.updateUserByAdmin)
   .delete(adminController.deleteUser);
-router
-  .route("/listings")
-  .get(adminController.getAllListings);
+router.route("/listings").get(adminController.getAllListings);
 
 router
   .route("/listings/:id")
@@ -26,7 +22,4 @@ router
   .put(adminController.updateListingByAdmin)
   .delete(adminController.deleteListing);
 
-
-
-  
 module.exports = router;

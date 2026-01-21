@@ -59,6 +59,11 @@ const NavLinks = () => {
 
         {isAuthenticated ? (
           <>
+            {user?.scope.includes("admin") && (
+              <NavLink end={true} className="nav-link" to="/admin">
+                Admin Panel
+              </NavLink>
+            )}
             <NavLink end={true} className="nav-link profile" to="/profile">
               <img src={imgUrl} alt={user.username} />
             </NavLink>
@@ -75,7 +80,12 @@ const NavLinks = () => {
 
       <div className="dropdown">
         {isAuthenticated && (
-          <NavLink end={true} className="nav-link profile" to="/profile">
+          <NavLink
+            onClick={isClicked ? handleClick : ""}
+            end={true}
+            className="nav-link profile"
+            to="/profile"
+          >
             <img src={imgUrl} alt={user.username} />
           </NavLink>
         )}
@@ -124,9 +134,16 @@ const NavLinks = () => {
             My Offers
           </Link>
           {isAuthenticated && (
-            <Link onClick={handleLogout} to="/">
-              Log Out
-            </Link>
+            <>
+              {user?.scope.includes("admin") && (
+                <Link onClick={handleClick} to="/admin">
+                  Admin Panel
+                </Link>
+              )}
+              <Link onClick={handleLogout} to="/">
+                Log Out
+              </Link>
+            </>
           )}
           {!isAuthenticated && (
             <Link onClick={handleClick} to="/auth">

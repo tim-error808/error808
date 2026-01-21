@@ -662,8 +662,8 @@ body {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  height: 400px;
   width: 300px;
+  max-height: fit-content;
   border: 1px solid #05808c;
   display: flex;
   flex-direction: column;
@@ -713,6 +713,7 @@ body {
 .game-card-button {
   flex: 1 1 0;
   width: 150px;
+  min-height: 40px;
   align-self: center;
   border-radius: 10px;
   border: 1px solid #05808c;
@@ -776,6 +777,26 @@ body {
   cursor: pointer;
   height: 30px;
   margin-bottom: 50px;
+}
+
+.scroll-btn {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  padding: 10px 15px;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  background-color: #05808c;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.scroll-btn.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* LISTING DETAILS PAGE STYLES */
@@ -1003,6 +1024,18 @@ body {
   margin-top: 10px;
 }
 
+.offer-status.accepted {
+  color: #0f766e;
+}
+
+.offer-status.declined {
+  color: #b91c1c;
+}
+
+.offer-status.active {
+  color: green;
+}
+
 /* MY GAMES PAGE STYLES */
 
 .my-games-page {
@@ -1033,6 +1066,11 @@ body {
   cursor: pointer;
   font-size: 1rem;
   text-decoration: none;
+}
+
+.primary-button.danger {
+  background-color: #c0392b;
+  border-color: black;
 }
 
 .secondary-button {
@@ -1176,12 +1214,26 @@ body {
 .form-group textarea {
   border-radius: 8px;
   border: 1px solid #05808c;
-  padding: 8px 10px;
+  padding: 8px 0 8px 10px;
   font-size: 0.95rem;
 }
 
 .form-group textarea {
   resize: vertical;
+}
+
+.available {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.available label {
+  margin-bottom: 0;
+}
+
+.available input {
+  cursor: pointer;
 }
 
 .players-input {
@@ -1324,14 +1376,21 @@ body {
   border: 1px solid #05808c;
 }
 
+.profile-btns {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .profile-edit-btn {
-  width: 100px;
-  height: 30px;
+  width: 150px;
+  height: 40px;
   cursor: pointer;
   border: 1px solid #05808c;
   background-color: #05808c;
   color: white;
   border-radius: 6px;
+  font-size: 16px;
 }
 
 /* EDIT PROFILE FORM STYLES */
@@ -1377,35 +1436,109 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 }
 
 .edit-profile-form-location {
   padding: 12px;
   padding-left: 16px;
   padding-right: 16px;
-  width: 300px;
   border-radius: 12px;
   border: 1px solid grey;
+  flex: 1;
 }
 
 .edit-profile-form-buttons {
   display: flex;
-  justify-content: start;
+  justify-content: space-around;
   align-items: center;
-  gap: 2rem;
 }
 
 .edit-profile-form-button {
   border: none;
-  height: 30px;
+  height: 40px;
+  width: 100px;
   border-radius: 6px;
   background-color: #05808c;
   color: #fff;
   cursor: pointer;
   border: 1px solid #05808c;
-  transition:
-    background-color 0.2s,
-    transform 0.1s;
+  font-size: 16px;
+}
+
+.edit-profile-form-button.loaction {
+  width: 150px;
+}
+
+/* ADMIN PANEL STYLES */
+
+.admin-panel {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-tabs button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  border: none;
+  background: #e6f3f4;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.admin-tabs button.active {
+  background: #05808c;
+  color: white;
+}
+
+.admin-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.admin-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+}
+
+.admin-modal.users {
+  width: 500px;
+}
+
+.admin-modal.listings {
+  width: 700px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 /* MAP STYLES */
@@ -1639,6 +1772,11 @@ body {
   .info-message a:hover {
     text-decoration: underline;
   }
+
+  .primary-button.danger:hover {
+    background-color: white;
+    color: #c0392b;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -1734,6 +1872,11 @@ body {
     flex-direction: column;
   }
 
+  .profile-btns {
+    flex-direction: column;
+    gap: 15px;
+  }
+
   .profile-edit-btn {
     width: 100%;
   }
@@ -1746,11 +1889,15 @@ body {
   }
 
   .edit-profile-form-location {
-    width: 90%;
+    width: calc(100% - 32px);
   }
 
   .edit-profile-form-buttons {
     justify-content: space-evenly;
+  }
+
+  .edit-profile-form-button.loaction {
+    width: 100%;
   }
 
   .game-not-found-button {
@@ -1886,5 +2033,25 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .admin-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .admin-modal.users,
+  .admin-modal.listings {
+    width: 78vw;
+  }
+
+  .admin-modal.listings {
+    height: 90vh;
+    overflow: scroll;
+  }
+
+  .scroll-btn {
+    right: 20px;
+    bottom: 40px;
   }
 }

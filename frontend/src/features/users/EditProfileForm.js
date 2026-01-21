@@ -125,7 +125,7 @@ const EditProfileForm = () => {
           {!location ? "Not set" : location.city}
         </div>
         <button
-          className="edit-profile-form-button"
+          className="edit-profile-form-button loaction"
           type="button"
           onClick={() => setShowMap(true)}
         >
