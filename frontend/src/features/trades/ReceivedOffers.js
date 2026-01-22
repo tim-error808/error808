@@ -3,6 +3,8 @@ import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
 import TradeOfferWindow from "../trades/TradeOfferWindow";
 import { useUnreadOffers } from "../../hooks/UnreadOffersProvider";
+import { Link } from "react-router-dom";
+import ScrollButton from "../../components/ScrollButton";
 
 const ReceivedOffers = () => {
   const { unreadOffers, setUnreadOffers } = useUnreadOffers();
@@ -92,7 +94,14 @@ const ReceivedOffers = () => {
                 <p>You have:</p>
                 <ul>
                   {offer.requestedListings.map((listing) => (
-                    <li key={listing._id}>{listing.name}</li>
+                    <li key={listing._id}>
+                      <Link
+                        className="listing-link"
+                        to={`/listings/details/${listing._id}`}
+                      >
+                        {listing.name}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
 
@@ -103,7 +112,14 @@ const ReceivedOffers = () => {
                 </p>
                 <ul>
                   {offer.offeredListings.map((listing) => (
-                    <li key={listing._id}>{listing.name}</li>
+                    <li key={listing._id}>
+                      <Link
+                        className="listing-link"
+                        to={`/listings/details/${listing._id}`}
+                      >
+                        {listing.name}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -153,6 +169,7 @@ const ReceivedOffers = () => {
           />
         </div>
       )}
+      <ScrollButton />
     </div>
   );
 };

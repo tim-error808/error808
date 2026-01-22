@@ -1,9 +1,9 @@
 import Filter from "./Filter";
 import Search from "./Search";
 import ListingsList from "./ListingsList";
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import ScrollButton from "../../components/ScrollButton";
 
 const ListingsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,7 +11,6 @@ const ListingsPage = () => {
 
   const [searchText, setSearchText] = useState("");
   const [filters, setFilters] = useState(initialFilter);
-  const [showScrollBtn, setShowScrollBtn] = useState(false);
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
@@ -29,29 +28,6 @@ const ListingsPage = () => {
     setSearchParams(params);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 500) {
-        setShowScrollBtn(true);
-      } else {
-        setShowScrollBtn(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <div className="board-games-page">
       <Filter filters={filters} onChangeFilters={handleFiltersChange} />
@@ -59,13 +35,7 @@ const ListingsPage = () => {
         <Search searchText={searchText} onSearchChange={handleSearchChange} />
         <ListingsList filters={filters} searchText={searchText} />
       </div>
-      <button
-        onClick={scrollToTop}
-        className={`scroll-btn ${showScrollBtn ? "show" : ""}`}
-        title="Go to top"
-      >
-        &#8593;
-      </button>
+      <ScrollButton />
     </div>
   );
 };

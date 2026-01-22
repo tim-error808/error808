@@ -4,6 +4,7 @@ import api from "../../api/api";
 import { Link, useNavigate } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import ModeConfig from "../../config/ModeConfig";
+import ScrollButton from "../../components/ScrollButton";
 
 const MyListings = () => {
   const { user } = useAuth();
@@ -147,6 +148,7 @@ const MyListings = () => {
             </section>
           ))}
         </div>
+        <ScrollButton />
       </div>
     </>
   );

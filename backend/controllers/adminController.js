@@ -74,8 +74,16 @@ const updateUserByAdmin = async (req, res) => {
     )
       .select("-passwordHash")
       .lean();
+
     if (!updatedUser)
       return res.status(404).json({ message: "User not found" });
+
+    if (isActive === false) {
+      await ListingsModel.updateMany(
+        { user: req.params.id },
+        { $set: { available: false } },
+      );
+    }
 
     res.status(200).json({ updatedUser, message: "User update success" });
   } catch (err) {

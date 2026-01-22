@@ -6,7 +6,7 @@ const UsersModel = require("../models/UsersModel");
 
 const getUserData = async (req, res) => {
   try {
-    const { email, username, googleId } = req.user;
+    const { email, googleId } = req.user;
 
     let userData;
 
@@ -19,7 +19,7 @@ const getUserData = async (req, res) => {
         .exec();
     } else {
       userData = await UsersModel.findOne({
-        $or: [{ email }, { username }],
+        email,
       })
         .select("-_id -passwordHash")
         .lean()

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
+import ScrollButton from "../../components/ScrollButton";
 
 const History = () => {
   const [trades, setTrades] = useState([]);
@@ -58,8 +59,8 @@ const History = () => {
             return (
               <div key={trade._id} className="offer-card">
                 <div className="offer-header">
-                  <h3>Trade with {otherUser?.username || "Unknown user"}</h3>
-
+                  <h3>Trade with {otherUser.username}</h3>
+                  <span>Email: {otherUser.email}</span>
                   <span>
                     Status:{" "}
                     <span className={`offer-status ${trade.status}`}>
@@ -106,6 +107,7 @@ const History = () => {
           })}
         </div>
       )}
+      <ScrollButton />
     </div>
   );
 };

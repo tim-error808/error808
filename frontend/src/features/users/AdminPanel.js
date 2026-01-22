@@ -3,6 +3,7 @@ import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
+import ScrollButton from "../../components/ScrollButton";
 
 const AdminPanel = () => {
   const { user } = useAuth();
@@ -389,6 +390,7 @@ const AdminPanel = () => {
           </div>
         </div>
       )}
+      <ScrollButton />
     </section>
   );
 };

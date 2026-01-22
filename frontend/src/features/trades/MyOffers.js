@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
+import { Link } from "react-router-dom";
+import ScrollButton from "../../components/ScrollButton";
 
 const MyOffers = () => {
   const [offers, setOffers] = useState([]);
@@ -67,6 +69,7 @@ const MyOffers = () => {
             <div key={offer._id} className="offer-card">
               <div className="offer-header">
                 <h3>To: {offer.receiverId.username}</h3>
+                <span>Email: {offer.receiverId.email}</span>
                 <span>
                   Status:{" "}
                   <span className={`offer-status ${offer.status}`}>
@@ -82,15 +85,29 @@ const MyOffers = () => {
                     : `${offer.receiverId.username} wants:`}
                 </p>
                 <ul>
-                  {offer.offeredListings.map((l) => (
-                    <li key={l._id}>{l.name}</li>
+                  {offer.offeredListings.map((listing) => (
+                    <li key={listing._id}>
+                      <Link
+                        className="listing-link"
+                        to={`/listings/details/${listing._id}`}
+                      >
+                        {listing.name}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
 
                 <p>{offer.receiverId.username} has:</p>
                 <ul>
-                  {offer.requestedListings.map((l) => (
-                    <li key={l._id}>{l.name}</li>
+                  {offer.requestedListings.map((listing) => (
+                    <li key={listing._id}>
+                      <Link
+                        className="listing-link"
+                        to={`/listings/details/${listing._id}`}
+                      >
+                        {listing.name}
+                      </Link>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -120,6 +137,7 @@ const MyOffers = () => {
           );
         })}
       </div>
+      <ScrollButton />
     </div>
   );
 };
