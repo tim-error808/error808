@@ -33,7 +33,7 @@ const MailContoller = async (mailComposition) => {
     case "editedoffer":
       finishedMail = await ComposeEditedOfferMail(mailComposition);
       break;
-    case "newoffermail":
+    case "newoffer":
       finishedMail = await ComposeNewOfferMail(mailComposition);
       break;
   }

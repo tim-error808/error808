@@ -1,5 +1,8 @@
 const TradesModel = require("../models/TradesModel");
 const ListingsModel = require("../models/ListingsModel");
+const MailContoller = require("./mailController");
+const UsersModel = requrie("../models/UsersModel");
+const mailComposition = require("../models/MailModel/mailComposition");
 
 const recievedTradesController = async (req, res) => {
   try {
@@ -86,6 +89,26 @@ const newTradeController = async (req, res) => {
       offeredListings,
       status: "active",
     });
+    
+    recieverUser = UsersModel.findById(receiverId).lean()
+    requesterUser = UsersModel.findById(userId).lean()
+
+    try {
+      const composition = {
+        ...mailComposition,
+        to: recieverUser.email,
+        mailType: "newoffer",
+        textParameters: {
+          userName: recieverUser.username,
+          requesterName: requesterUser.username,
+          requesterEmail: requesterUser.email
+        },
+      };
+
+      await MailController(composition);
+    } catch (err) {
+      console.error(`Error sending new offer email to ${recieverUser.email}:`, err);
+    }
 
     return res.status(200).json({ message: "Trade request sent successfully" });
   } catch (err) {
