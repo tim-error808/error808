@@ -218,6 +218,7 @@ const AdminPanel = () => {
             {activeTab === "users" ? (
               <div className="form-grid">
                 <div className="form-group full-width">
+                  <label htmlFor="username">Username:</label>
                   <input
                     name="username"
                     value={formData.username || ""}
@@ -226,6 +227,7 @@ const AdminPanel = () => {
                   />
                 </div>
                 <div className="form-group full-width">
+                  <label htmlFor="email">Email:</label>
                   <input
                     name="email"
                     value={formData.email || ""}
@@ -234,6 +236,7 @@ const AdminPanel = () => {
                   />
                 </div>
                 <div className="form-group full-width">
+                  <label htmlFor="scope">Scope:</label>
                   <input
                     name="scope"
                     value={formData.scope || ""}

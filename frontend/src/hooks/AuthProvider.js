@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const { apiUri } = ModelConfig();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [justLoggedIn, setJustLoggedIn] = useState(false);
   const isAuthenticated = !!user;
 
@@ -26,7 +27,8 @@ export const AuthProvider = ({ children }) => {
       const response = await api.get("/user");
       setUser(response.data);
     } catch (error) {
-      console.error("Error fetching user data:", error.response.data.message);
+      console.error(error.response.data.message);
+      setError(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -87,6 +89,7 @@ export const AuthProvider = ({ children }) => {
         user,
         loading,
         isAuthenticated,
+        error,
         justLoggedIn,
         setJustLoggedIn,
         fetchUser,
