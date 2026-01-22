@@ -6,13 +6,25 @@ const UsersModel = require("../models/UsersModel");
 
 const getUserData = async (req, res) => {
   try {
-    const { email, username } = req.user;
-    const userData = await UsersModel.findOne({
-      $or: [{ email }, { username }],
-    })
-      .select("-_id -passwordHash")
-      .lean()
-      .exec();
+    const { email, username, googleId } = req.user;
+
+    let userData;
+
+    if (googleId) {
+      userData = await UsersModel.findOne({
+        googleId,
+      })
+        .select("-_id -passwordHash")
+        .lean()
+        .exec();
+    } else {
+      userData = await UsersModel.findOne({
+        $or: [{ email }, { username }],
+      })
+        .select("-_id -passwordHash")
+        .lean()
+        .exec();
+    }
 
     if (!userData) {
       return res.status(404).json({ message: "User not found" });
@@ -64,7 +76,7 @@ const updateUserData = async (req, res) => {
     }
 
     await UsersModel.findByIdAndUpdate(userId, updateData).select(
-      "-passwordHash"
+      "-passwordHash",
     );
 
     res.status(200).json({ message: "Profile updated successfully" });
@@ -80,7 +92,7 @@ const deleteUserWishlist = async (req, res) => {
     const { gameName } = req.params;
     const _ = await UsersModel.updateOne(
       { _id: userId },
-      { $pull: { wishlist: gameName } }
+      { $pull: { wishlist: gameName } },
     );
     return res.status(200).json({ message: "Removed from wishlist" });
   } catch (err) {
@@ -95,7 +107,7 @@ const addUserWishlist = async (req, res) => {
     const { gameName } = req.body;
     const _ = await UsersModel.updateOne(
       { _id: userId },
-      { $addToSet: { wishlist: gameName } }
+      { $addToSet: { wishlist: gameName } },
     );
     return res.status(200).json({ message: "Added to wishlist" });
   } catch (err) {
