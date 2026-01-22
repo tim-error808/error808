@@ -46,6 +46,19 @@ const Listing = () => {
     setShowTradeModal(true);
   };
 
+  const setImage = (user) => {
+    let imgUrl;
+
+    if (user?.profile?.photoUrl.startsWith("https://")) {
+      imgUrl = user.profile.photoUrl;
+    } else if (user.profile.photoUrl) {
+      imgUrl = `${apiUri}${user.profile.photoUrl}`;
+    } else {
+      imgUrl = "/default-avatar.png";
+    }
+    return imgUrl;
+  };
+
   return (
     <section className="listing-page">
       <h2 className="listing-title">{listing.name}</h2>
@@ -111,11 +124,7 @@ const Listing = () => {
             <div className="owner-avatar">
               {listing.user.profile.photoUrl ? (
                 <img
-                  src={
-                    listing.user.googleId
-                      ? listing.user.profile.photoUrl
-                      : `${apiUri}${listing.user.profile.photoUrl}`
-                  }
+                  src={setImage(listing.user)}
                   alt={listing.user.username}
                   loading="lazy"
                 />
@@ -132,7 +141,7 @@ const Listing = () => {
                 <strong>Contact:</strong> {listing.user.email}
               </span>
               <span>
-                <strong>City:</strong> {listing.user.location.city}
+                <strong>Location:</strong> {listing.user.location.city}
               </span>
             </div>
           </div>

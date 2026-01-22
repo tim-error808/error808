@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import api from "../../api/api";
 import { PulseLoader } from "react-spinners";
 import TradeOfferWindow from "../trades/TradeOfferWindow";
+import { useUnreadOffers } from "../../hooks/UnreadOffersProvider";
 
 const ReceivedOffers = () => {
+  const { unreadOffers, setUnreadOffers } = useUnreadOffers();
   const [offers, setOffers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -11,6 +13,9 @@ const ReceivedOffers = () => {
   const [showTradeModal, setShowTradeModal] = useState(false);
 
   useEffect(() => {
+    if (unreadOffers > 0) {
+      setUnreadOffers(0);
+    }
     api
       .get(`/trades/received`)
       .then((response) => {
@@ -19,7 +24,7 @@ const ReceivedOffers = () => {
       })
       .catch((error) => setError(error.response?.data?.message))
       .finally(() => setLoading(false));
-  }, []);
+  }, [unreadOffers, setUnreadOffers]);
 
   const canAct = (offer) => {
     if (!offer.lastCounterBy) return true;

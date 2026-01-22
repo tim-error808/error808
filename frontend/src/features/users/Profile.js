@@ -9,24 +9,22 @@ const Profile = () => {
   const navigate = useNavigate();
   const { user, fetchUser, loading } = useAuth();
   const { apiUri } = ModeConfig();
-  const {
-    username,
-    email,
-    location,
-    profile: userProfile,
-    googleId,
-    wishlist,
-  } = user;
+  const { username, email, location, profile: userProfile, wishlist } = user;
 
-  let imgUrl;
+  const setImage = (user) => {
+    let imgUrl;
 
-  if (googleId && userProfile.photoUrl.startsWith("https://")) {
-    imgUrl = userProfile.photoUrl;
-  } else if (userProfile.photoUrl) {
-    imgUrl = `${apiUri}${userProfile.photoUrl}`;
-  } else {
-    imgUrl = "/default-avatar.png";
-  }
+    if (user?.profile?.photoUrl) {
+      if (user?.profile?.photoUrl.startsWith("https://")) {
+        imgUrl = user.profile.photoUrl;
+      } else {
+        imgUrl = `${apiUri}${user.profile.photoUrl}`;
+      }
+    } else {
+      imgUrl = "/default-avatar.png";
+    }
+    return imgUrl;
+  };
 
   const removeFromWishlist = (gameName) => {
     api
@@ -53,7 +51,7 @@ const Profile = () => {
       <section className="profile-header">
         <div className="profile-avatar-section">
           <div className="profile-avatar">
-            <img src={imgUrl} alt="Profile" />
+            <img src={setImage(user)} alt="Profile" />
           </div>
         </div>
 

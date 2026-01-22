@@ -19,45 +19,48 @@ import MyOffers from "./features/trades/MyOffers";
 import ScrollToTop from "./components/ScrollToTop";
 import AdminPanel from "./features/users/AdminPanel";
 import History from "./features/trades/History";
+import { UnreadOffersProvider } from "./hooks/UnreadOffersProvider";
 
 function App() {
   return (
     <AuthProvider>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/*" element={<Layout />}>
-          <Route index element={<Public />} />
-          <Route path="auth">
-            <Route element={<PublicOnly />}>
-              <Route index element={<Login />} />
+      <UnreadOffersProvider>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/*" element={<Layout />}>
+            <Route index element={<Public />} />
+            <Route path="auth">
+              <Route element={<PublicOnly />}>
+                <Route index element={<Login />} />
+              </Route>
+              <Route path="callback" element={<AuthCallback />} />
             </Route>
-            <Route path="callback" element={<AuthCallback />} />
-          </Route>
-          <Route path="listings">
-            <Route index element={<ListingsPage />} />
-            <Route path="details/:listingId" element={<Listing />} />
+            <Route path="listings">
+              <Route index element={<ListingsPage />} />
+              <Route path="details/:listingId" element={<Listing />} />
+              <Route element={<RequireAuth />}>
+                <Route path="new" element={<MakeListingForm />} />
+                <Route path="my" element={<MyListings />} />
+                <Route path="edit/:id" element={<EditListingForm />} />
+              </Route>
+            </Route>
             <Route element={<RequireAuth />}>
-              <Route path="new" element={<MakeListingForm />} />
-              <Route path="my" element={<MyListings />} />
-              <Route path="edit/:id" element={<EditListingForm />} />
+              <Route path="offers">
+                <Route index element={<ReceivedOffers />} />
+                <Route path="my" element={<MyOffers />} />
+              </Route>
+              <Route path="profile">
+                <Route index element={<Profile />} />
+                <Route path="edit" element={<EditProfileForm />} />
+                <Route path="history" element={<History />} />
+              </Route>
+              <Route path="admin">
+                <Route index element={<AdminPanel />} />
+              </Route>
             </Route>
           </Route>
-          <Route element={<RequireAuth />}>
-            <Route path="offers">
-              <Route index element={<ReceivedOffers />} />
-              <Route path="my" element={<MyOffers />} />
-            </Route>
-            <Route path="profile">
-              <Route index element={<Profile />} />
-              <Route path="edit" element={<EditProfileForm />} />
-              <Route path="history" element={<History />} />
-            </Route>
-            <Route path="admin">
-              <Route index element={<AdminPanel />} />
-            </Route>
-          </Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </UnreadOffersProvider>
     </AuthProvider>
   );
 }

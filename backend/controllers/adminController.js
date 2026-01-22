@@ -1,5 +1,6 @@
 const UsersModel = require("../models/UsersModel");
 const ListingsModel = require("../models/ListingsModel");
+const TradesModel = require("../models/TradesModel");
 const fs = require("fs");
 const path = require("path");
 
@@ -121,6 +122,13 @@ const deleteListing = async (req, res) => {
         }
       });
     }
+
+    await TradesModel.deleteMany({
+      $or: [
+        { offeredListings: listing._id },
+        { requestedListings: listing._id },
+      ],
+    });
 
     await ListingsModel.findByIdAndDelete(req.params.id);
 

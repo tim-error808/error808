@@ -12,6 +12,16 @@ const recievedTradesController = async (req, res) => {
       .populate("requestedListings")
       .populate("initiatorId", "username email");
 
+    await TradesModel.updateMany(
+      {
+        receiverId: userId,
+        isSeen: false,
+      },
+      {
+        $set: { isSeen: true },
+      },
+    );
+
     return res.status(200).json(trades);
   } catch (err) {
     console.error(err);
@@ -44,10 +54,6 @@ const newTradeController = async (req, res) => {
     const { requestedListings, offeredListings, receiverId, originalOfferId } =
       req.body;
 
-    let finalReceiverId = receiverId;
-    let finalRequestedListings = requestedListings;
-    let finalOfferedListings = offeredListings;
-
     if (originalOfferId) {
       const originalOffer = await TradesModel.findById(originalOfferId)
         .populate("offeredListings")
@@ -75,9 +81,9 @@ const newTradeController = async (req, res) => {
 
     await TradesModel.create({
       initiatorId: userId,
-      receiverId: finalReceiverId,
-      requestedListings: finalRequestedListings,
-      offeredListings: finalOfferedListings,
+      receiverId,
+      requestedListings,
+      offeredListings,
       status: "active",
     });
 
@@ -215,6 +221,22 @@ const historyTradeController = async (req, res) => {
   }
 };
 
+const getUnreadTradesCount = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const count = await TradesModel.countDocuments({
+      receiverId: userId,
+      isSeen: false,
+    });
+
+    res.status(200).json({ count, message: "New offers count fetch success" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 module.exports = {
   recievedTradesController,
   newTradeController,
@@ -223,4 +245,5 @@ module.exports = {
   acceptTradeController,
   deleteTradeController,
   historyTradeController,
+  getUnreadTradesCount,
 };

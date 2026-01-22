@@ -26,6 +26,7 @@ const TradesModel = mongoose.model(
       ref: "users",
       default: null,
     },
+    isSeen: { type: Boolean, default: false },
   }),
 );
 

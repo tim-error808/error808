@@ -3,22 +3,29 @@ import { useAuth } from "../hooks/AuthProvider";
 import { useState } from "react";
 import { CgProfile, CgChevronRight, CgChevronDown } from "react-icons/cg";
 import ModeConfig from "../config/ModeConfig";
+import { useUnreadOffers } from "../hooks/UnreadOffersProvider";
 
 const NavLinks = () => {
   const { apiUri } = ModeConfig();
   const { isAuthenticated, user, logout } = useAuth();
   const [isClicked, setIsClicked] = useState(false);
   const [loggedOut, setLoggedOut] = useState(false);
+  const { unreadOffers } = useUnreadOffers();
 
-  let imgUrl;
+  const setImage = (user) => {
+    let imgUrl;
 
-  if (user?.googleId && user?.profile?.photoUrl.startsWith("https://")) {
-    imgUrl = user.profile.photoUrl;
-  } else if (user?.profile?.photoUrl) {
-    imgUrl = `${apiUri}${user.profile.photoUrl}`;
-  } else {
-    imgUrl = "/default-avatar.png";
-  }
+    if (user?.profile?.photoUrl) {
+      if (user?.profile?.photoUrl.startsWith("https://")) {
+        imgUrl = user.profile.photoUrl;
+      } else {
+        imgUrl = `${apiUri}${user.profile.photoUrl}`;
+      }
+    } else {
+      imgUrl = "/default-avatar.png";
+    }
+    return imgUrl;
+  };
 
   const handleClick = () => {
     setIsClicked((prev) => !prev);
@@ -51,7 +58,10 @@ const NavLinks = () => {
           Make New Listing
         </NavLink>
         <NavLink end={true} className="nav-link" to="/offers">
-          Received Offers
+          Received Offers{" "}
+          {unreadOffers > 0 && (
+            <span className="unread-offers">{unreadOffers}</span>
+          )}
         </NavLink>
         <NavLink end={true} className="nav-link" to="/offers/my">
           My Offers
@@ -65,7 +75,7 @@ const NavLinks = () => {
               </NavLink>
             )}
             <NavLink end={true} className="nav-link profile" to="/profile">
-              <img src={imgUrl} alt={user.username} />
+              <img src={setImage(user)} alt={user.username} />
             </NavLink>
             <button onClick={handleLogout} className="nav-special">
               Log out
@@ -86,7 +96,7 @@ const NavLinks = () => {
             className="nav-link profile"
             to="/profile"
           >
-            <img src={imgUrl} alt={user.username} />
+            <img src={setImage(user)} alt={user.username} />
           </NavLink>
         )}
         <button onClick={handleClick} className="dropdown-button">
@@ -100,6 +110,9 @@ const NavLinks = () => {
             {!isClicked && <CgChevronRight />}
             {isClicked && <CgChevronDown />}
           </span>
+          {unreadOffers > 0 && (
+            <span className="unread-offers">{unreadOffers}</span>
+          )}
         </button>
         <div
           className={
@@ -125,7 +138,10 @@ const NavLinks = () => {
             onClick={handleClick}
             to={!isAuthenticated ? "/auth" : "/offers"}
           >
-            Received Offers
+            Received Offers{" "}
+            {unreadOffers > 0 && (
+              <span className="unread-offers dropdown">{unreadOffers}</span>
+            )}
           </Link>
           <Link
             onClick={handleClick}

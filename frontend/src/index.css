@@ -185,6 +185,18 @@ body {
   display: none;
 }
 
+.unread-offers {
+  color: white;
+  border-radius: 50%;
+  border: 1px solid red;
+  background-color: red;
+  max-width: 60px;
+  min-width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 20px;
+}
+
 /* PUBLIC PAGE STYLES */
 
 .public {
@@ -2057,5 +2069,19 @@ body {
   .scroll-btn {
     right: 20px;
     bottom: 40px;
+  }
+
+  .unread-offers {
+    top: -10px;
+    right: -10px;
+  }
+
+  .unread-offers.dropdown {
+    position: relative;
+    display: inline-block;
+    right: 5px;
+    min-width: 20px;
+    max-width: 60px;
+    text-align: center;
   }
 }
