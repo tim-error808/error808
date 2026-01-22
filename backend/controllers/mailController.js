@@ -2,6 +2,10 @@ const nodemailer = require("nodemailer")
 const ComposeWishlistMail = require("../models/MailModel/wishlistMailTemplate.js")
 const {EMAIL_SENDER, EMAIL_SMTP_HOST, secrets: {EMAIL_PASSWORD}} = require("../config")
 const mailComposition = require("../models/MailModel/mailComposition.js")
+const ComposeAcceptedOfferMail = require("../models/MailModel/acceptedOfferMailTemplate.js")
+const ComposeEditedOfferMail = require("../models/MailModel/editedOfferMailTemplate.js")
+const ComposeDeclinedOfferMail = require("../models/MailModel/declinedOfferMailTemplate.js")
+const ComposeNewOfferMail = require("../models/MailModel/newOfferMailTemplate.js")
 
 const MailContoller = async (mailComposition) => {
 
@@ -16,9 +20,24 @@ const MailContoller = async (mailComposition) => {
   });
   
   let finishedMail = null
-  if(mailComposition.mailType.toLowerCase() === "wishlist") {
-    finishedMail = await ComposeWishlistMail(mailComposition)
+  switch(mailComposition.mailType.toLowerCase()){
+    case "wishlist": 
+      finishedMail = await ComposeWishlistMail(mailComposition);
+      break;
+    case "acceptedoffer":
+      finishedMail = await ComposeAcceptedOfferMail(mailComposition);
+      break;
+    case "declinedoffer":
+      finishedMail = await ComposeDeclinedOfferMail(mailComposition);
+      break;
+    case "editedoffer":
+      finishedMail = await ComposeEditedOfferMail(mailComposition);
+      break;
+    case "newoffermail":
+      finishedMail = await ComposeNewOfferMail(mailComposition);
+      break;
   }
+
   
   let info = await transporter.sendMail(finishedMail);
 }

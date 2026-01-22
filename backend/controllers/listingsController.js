@@ -96,7 +96,7 @@ const addListingController = async (req, res) => {
     });
 
     const users = await UsersModel.find({
-      wishlist: { $in: [req.body.name] },
+      wishlist: req.body.name,
     }).lean();
 
     for (const user of users) {
