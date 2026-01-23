@@ -113,10 +113,8 @@ const EditProfileForm = () => {
       <input
         type="text"
         id="edit_interests"
-        value={interests.join(", ")}
-        onChange={(e) =>
-          setInterests(e.target.value.split(",").map((i) => i.trim()))
-        }
+        value={interests.join(",")}
+        onChange={(e) => setInterests(e.target.value.split(","))}
       />
 
       <label>Location:</label>
