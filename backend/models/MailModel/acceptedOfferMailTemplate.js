@@ -4,7 +4,14 @@ const ComposeAcceptedOfferMail = (mailComposition) => {
     from: mailComposition.from,
     to: mailComposition.to, 
     subject: `new offer [testing]`,
-    text: `new offer body`
+    text: `Hi there ${mailComposition.textParameters.userName},
+
+Good news! Your offer was accepted by ${mailComposition.textParameters.accepterName} <${mailComposition.textParameters.accepterEmail}>.
+
+You can still see it in your offer history. 
+
+Happy trading and happy gaming,
+— error808 team`
   }
 }
 

@@ -1,5 +1,8 @@
 const TradesModel = require("../models/TradesModel");
 const ListingsModel = require("../models/ListingsModel");
+const MailContoller = require("./mailController");
+const UsersModel = requrie("../models/UsersModel");
+const mailComposition = require("../models/MailModel/mailComposition");
 
 const recievedTradesController = async (req, res) => {
   try {
@@ -86,6 +89,26 @@ const newTradeController = async (req, res) => {
       offeredListings,
       status: "active",
     });
+    
+    recieverUser = UsersModel.findById(receiverId).lean()
+    requesterUser = UsersModel.findById(userId).lean()
+
+    try {
+      const composition = {
+        ...mailComposition,
+        to: recieverUser.email,
+        mailType: "newoffer",
+        textParameters: {
+          userName: recieverUser.username,
+          requesterName: requesterUser.username,
+          requesterEmail: requesterUser.email
+        },
+      };
+
+      await MailController(composition);
+    } catch (err) {
+      console.error(`Error sending new offer email to ${recieverUser.email}:`, err);
+    }
 
     return res.status(200).json({ message: "Trade request sent successfully" });
   } catch (err) {
@@ -130,6 +153,22 @@ const acceptTradeController = async (req, res) => {
     }
 
     trade.status = "accepted";
+
+    try {
+      let initiator = UsersModel.findById(trade.initiatorId).lean()
+      let composition = {
+        ...mailComposition,
+        to: initiator.email,
+        mailType: "acceptedoffer",
+        textParameters: {
+          userName: initiator.username
+        },
+      };
+      await MailController(composition);
+    } catch (err) {
+      console.error(`Error sending an trade deleted email:`, err);
+    }
+
     await trade.save();
 
     await TradesModel.updateMany(
@@ -153,12 +192,26 @@ const acceptTradeController = async (req, res) => {
 
 const declineTradeController = async (req, res) => {
   try {
-    await TradesModel.findOneAndUpdate(
+    const declinedTrade = await TradesModel.findOneAndUpdate(
       {
         _id: req.params.offerId,
       },
       { status: "declined" },
-    );
+    ).lean();
+    try {
+      let initiator = UsersModel.findById(declinedTrade.initiatorId).lean()
+      let composition = {
+        ...mailComposition,
+        to: initiator.email,
+        mailType: "declinedoffer",
+        textParameters: {
+          userName: initiator.username
+        },
+      };
+      await MailController(composition);
+    } catch (err) {
+      console.error(`Error sending an trade deleted email:`, err);
+    }
     return res.status(200).json({ message: "Trade offer declined" });
   } catch (err) {
     console.error(err);
@@ -168,12 +221,30 @@ const declineTradeController = async (req, res) => {
 
 const deleteTradeController = async (req, res) => {
   try {
-    await TradesModel.findOneAndUpdate(
+    const deletedTrade = await TradesModel.findOneAndUpdate(
       {
         _id: req.params.offerId,
       },
       { status: "deleted" },
-    );
+    ).lean();
+    try {
+      let initiator = UsersModel.findById(deletedTrade.initiatorId).lean()
+      let reciever = UsersModel.findById(deletedTrade.receiverId).lean()
+      let composition = {
+        ...mailComposition,
+        to: initiator.email,
+        mailType: "deletedoffer",
+        textParameters: {
+          userName: initiator.username
+        },
+      };
+      await MailController(composition);
+      composition.to = reciever.email;
+      composition.textParameters.userName = reciever.username;
+      await MailController(composition);
+    } catch (err) {
+      console.error(`Error sending an trade deleted email:`, err);
+    }
     return res.status(200).json({ message: "Trade offer deleted" });
   } catch (err) {
     console.error(err);
