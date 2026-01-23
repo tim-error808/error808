@@ -159,7 +159,7 @@ const acceptTradeController = async (req, res) => {
       let user2 = await UsersModel.findById(trade.receiverId).lean()
       let initiator;
       let accepter;
-      if (trade.status === trade.status){
+      if (oldstatus == "counter"){
         initiator = user2;
         accepter = user1;
       }else{
