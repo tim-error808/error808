@@ -99,7 +99,7 @@ const newTradeController = async (req, res) => {
         to: recieverUser.email,
         mailType: "newoffer",
         textParameters: {
-          userName: recieverUser.username,
+          userName: `${recieverUser.username}${originalOfferId?"EDITED":""}}`,
           requesterName: requesterUser.username,
           requesterEmail: requesterUser.email
         },
@@ -159,7 +159,7 @@ const acceptTradeController = async (req, res) => {
       let user2 = await UsersModel.findById(trade.receiverId).lean()
       let initiator;
       let accepter;
-      if (user1._id === req.user._id){
+      if (trade.status === "counter"){
         initiator = user2;
         accepter = user1;
       }else{
@@ -215,7 +215,7 @@ const declineTradeController = async (req, res) => {
       let user2 = await UsersModel.findById(declinedTrade.receiverId).lean();
       let initiator;
       let decliner;
-      if (user1._id === req.user._id){
+      if (declinedTrade.status === "counter"){
         initiator = user2;
         decliner = user1;
       }else{
