@@ -6,7 +6,7 @@ const ComposeDeletedOfferMail = (mailComposition) => {
     subject: `Your offer was deleted [PlayTrade-error808]`,
     text: `Hi there ${mailComposition.textParameters.userName},
 
-Unfortunately, one of your offers was deleted. This is either due to the games allready being present in another accepted offer or due to our administation team deciding to delete your offer.
+Unfortunately, one of your offers was deleted. 
 
 You can still see it in your offer history. 
 

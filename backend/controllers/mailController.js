@@ -30,9 +30,6 @@ const MailContoller = async (mailComposition) => {
     case "declinedoffer":
       finishedMail = await ComposeDeclinedOfferMail(mailComposition);
       break;
-    case "editedoffer":
-      finishedMail = await ComposeEditedOfferMail(mailComposition);
-      break;
     case "newoffer":
       finishedMail = await ComposeNewOfferMail(mailComposition);
       break;
