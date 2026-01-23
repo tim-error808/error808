@@ -3,7 +3,7 @@ const ComposeEditOfferMail = (mailComposition) => {
   return {
     from: mailComposition.from,
     to: mailComposition.to, 
-    subject: `Someone has requested a trade with you! [PlayTrade-error808]`,
+    subject: `Someone has edited an offer! [PlayTrade-error808]`,
     text: `Hi there ${mailComposition.textParameters.userName},
 
 ${mailComposition.textParameters.requesterName} has edited an offer!

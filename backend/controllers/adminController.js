@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const ComposeDeletedListingMail = require("../models/MailModel/deletedListingMailTemplate");
 const mailComposition = require("../models/MailModel/mailComposition");
+const MailController = require("./mailController");
 
 const getAllUsers = async (req, res) => {
   try {
