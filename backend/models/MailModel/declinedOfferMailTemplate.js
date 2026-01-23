@@ -8,7 +8,7 @@ const ComposeDeclinedOfferMail = (mailComposition) => {
 
 Unfortunately, your offer was declined by ${mailComposition.textParameters.declinerName}.
 
-You can still see it in your offer history. 
+You can still see it in your offer history https://frontend.err808.xyz/profile/history. 
 
 Happy trading and happy gaming,
 — error808 team`
