@@ -90,8 +90,8 @@ const newTradeController = async (req, res) => {
       status: "active",
     });
     
-    recieverUser = UsersModel.findById(receiverId).lean()
-    requesterUser = UsersModel.findById(userId).lean()
+    recieverUser = await UsersModel.findById(receiverId).lean()
+    requesterUser = await UsersModel.findById(userId).lean()
 
     try {
       const composition = {
@@ -155,7 +155,7 @@ const acceptTradeController = async (req, res) => {
     trade.status = "accepted";
 
     try {
-      let initiator = UsersModel.findById(trade.initiatorId).lean()
+      let initiator = await UsersModel.findById(trade.initiatorId).lean()
       let composition = {
         ...mailComposition,
         to: initiator.email,
@@ -199,7 +199,7 @@ const declineTradeController = async (req, res) => {
       { status: "declined" },
     ).lean();
     try {
-      let initiator = UsersModel.findById(declinedTrade.initiatorId).lean()
+      let initiator = await UsersModel.findById(declinedTrade.initiatorId).lean()
       let composition = {
         ...mailComposition,
         to: initiator.email,
@@ -228,8 +228,8 @@ const deleteTradeController = async (req, res) => {
       { status: "deleted" },
     ).lean();
     try {
-      let initiator = UsersModel.findById(deletedTrade.initiatorId).lean()
-      let reciever = UsersModel.findById(deletedTrade.receiverId).lean()
+      let initiator = await UsersModel.findById(deletedTrade.initiatorId).lean()
+      let reciever = await UsersModel.findById(deletedTrade.receiverId).lean()
       let composition = {
         ...mailComposition,
         to: initiator.email,
