@@ -163,7 +163,7 @@ const acceptTradeController = async (req, res) => {
         mailType: "acceptedoffer",
         textParameters: {
           accepterName: accepter.username,
-          accepterEmail: acceptor.email,
+          accepterEmail: accepter.email,
           userName: initiator.username
         },
       };
