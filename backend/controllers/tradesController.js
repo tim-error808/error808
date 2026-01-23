@@ -77,9 +77,10 @@ const newTradeController = async (req, res) => {
       originalOffer.status = "counter";
       originalOffer.lastCounterBy = userId;
 
-      let recieverUser = await UsersModel.findById(originalOffer.receiverId).lean()
-      let requesterUser = await UsersModel.findById(originalOffer.initiatorId).lean()
-
+      let recieverUser = await UsersModel.findById(originalOffer.receiverId).lean();
+      let requesterUser = await UsersModel.findById(originalOffer.initiatorId).lean();
+      console.log(originalOffer);
+      console.log(recieverUser,requesterUser);
       try {
         const composition = {
           ...mailComposition,
