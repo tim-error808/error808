@@ -156,13 +156,14 @@ const acceptTradeController = async (req, res) => {
 
     try {
       let initiator = await UsersModel.findById(trade.initiatorId).lean()
+      let accepter = await UsersModel.findById(trade.receiverId).lean()
       let composition = {
         ...mailComposition,
         to: initiator.email,
         mailType: "acceptedoffer",
         textParameters: {
-          accepterName: user.name,
-          accepterEmail: user.email,
+          accepterName: accepter.username,
+          accepterEmail: acceptor.email,
           userName: initiator.username
         },
       };
@@ -228,7 +229,7 @@ const declineTradeController = async (req, res) => {
         to: initiator.email,
         mailType: "declinedoffer",
         textParameters: {
-          declinerName: user.name,
+          declinerName: req.user.name,
           userName: initiator.username
         },
       };
