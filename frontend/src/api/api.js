@@ -17,13 +17,14 @@ api.interceptors.response.use(
       try {
         await api.post("/auth/refresh");
         return api(originalRequest);
-      } catch (error) {
+      } catch (refreshError) {
+        console.error(refreshError.response.data.message);
         return Promise.reject(error);
       }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

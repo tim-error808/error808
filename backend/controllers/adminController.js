@@ -50,6 +50,8 @@ const deleteUser = async (req, res) => {
 
     await UsersModel.findByIdAndDelete(req.params.id);
 
+    await ListingsModel.deleteMany({ user: req.params.id });
+
     res.status(200).json({ message: "User successfull deleted" });
   } catch (err) {
     console.error(err);
@@ -136,19 +138,24 @@ const deleteListing = async (req, res) => {
 
     const user = await UsersModel.findById(listing.user);
 
-    try {
-      const composition = {
-        ...mailComposition,
-        to: user.email,
-        mailType: "deletedlisting",
-        textParameters: {
-          userName: user.username,
-        },
-      };
+    if (user) {
+      try {
+        const composition = {
+          ...mailComposition,
+          to: user.email,
+          mailType: "deletedlisting",
+          textParameters: {
+            userName: user.username,
+          },
+        };
 
-      await MailController(composition);
-    } catch (err) {
-      console.error(`Error sending listing deleted email to ${user.email}:`, err);
+        await MailController(composition);
+      } catch (err) {
+        console.error(
+          `Error sending listing deleted email to ${user.email}:`,
+          err,
+        );
+      }
     }
 
     await TradesModel.deleteMany({
