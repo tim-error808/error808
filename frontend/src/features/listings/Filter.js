@@ -70,6 +70,17 @@ const Filter = ({ filters, onChangeFilters }) => {
           4+ players
         </label>
       </div>
+      <div className="filters">
+        <label>
+          <input
+            type="checkbox"
+            name="forYou"
+            checked={filters.includes("forYou")}
+            onChange={handleCheckboxChange}
+          />
+          Just for you
+        </label>
+      </div>
     </section>
   );
 };
