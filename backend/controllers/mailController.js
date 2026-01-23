@@ -6,6 +6,7 @@ const ComposeAcceptedOfferMail = require("../models/MailModel/acceptedOfferMailT
 //const ComposeEditedOfferMail = require("../models/MailModel/editedOfferMailTemplate.js")
 const ComposeDeclinedOfferMail = require("../models/MailModel/declinedOfferMailTemplate.js")
 const ComposeNewOfferMail = require("../models/MailModel/newOfferMailTemplate.js")
+const ComposeDeletedListingMail = require("../models/MailModel/deletedListingMailTemplate.js")
 
 const MailContoller = async (mailComposition) => {
 
@@ -30,9 +31,13 @@ const MailContoller = async (mailComposition) => {
     case "declinedoffer":
       finishedMail = await ComposeDeclinedOfferMail(mailComposition);
       break;
+    case "deletedoffer":
+      finishedMail = await ComposeDeletedListingMail(mailComposition);
     case "newoffer":
       finishedMail = await ComposeNewOfferMail(mailComposition);
       break;
+    case "deletedlisting":
+      finishedMail = await ComposeNewOffer
   }
 
   

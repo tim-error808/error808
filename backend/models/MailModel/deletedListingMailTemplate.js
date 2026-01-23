@@ -1,5 +1,5 @@
 
-const ComposeDeletedOfferMail = (mailComposition) => {
+const ComposeDeletedListingMail = (mailComposition) => {
   return {
     from: mailComposition.from,
     to: mailComposition.to, 
@@ -13,4 +13,4 @@ Happy trading and happy gaming,
   }
 }
 
-module.exports = ComposeDeletedOfferMail
+module.exports = ComposeDeletedListingMail

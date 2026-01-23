@@ -155,8 +155,17 @@ const acceptTradeController = async (req, res) => {
     trade.status = "accepted";
 
     try {
-      let initiator = await UsersModel.findById(trade.initiatorId).lean()
-      let accepter = await UsersModel.findById(trade.receiverId).lean()
+      let user1 = await UsersModel.findById(trade.initiatorId).lean()
+      let user2 = await UsersModel.findById(trade.receiverId).lean()
+      let initiator;
+      let accepter;
+      if (user1._id === req.user._id){
+        initiator = user2;
+        accepter = user1;
+      }else{
+        initiator = user1;
+        accepter = user2;
+      }
       let composition = {
         ...mailComposition,
         to: initiator.email,
@@ -186,27 +195,6 @@ const acceptTradeController = async (req, res) => {
       { status: "declined" },
     ).lean();
 
-    for (const trade in trades) {
-      try {
-        let initiator = await UsersModel.findById(trade.initiatorId).lean()
-        let reciever = await UsersModel.findById(trade.receiverId).lean()
-        let composition = {
-          ...mailComposition,
-          to: initiator.email,
-          mailType: "deletedoffer",
-          textParameters: {
-            userName: initiator.username
-          },
-        };
-        await MailController(composition);
-        composition.to = reciever.email;
-        composition.textParameters.userName = reciever.username;
-        await MailController(composition);
-      } catch (err) {
-        console.error(`Error sending an trade deleted email:`, err);
-      }
-    }
-
     return res.status(200).json({ message: "Trade offer accepted" });
   } catch (err) {
     console.error(err);
@@ -223,13 +211,23 @@ const declineTradeController = async (req, res) => {
       { status: "declined" },
     ).lean();
     try {
-      let initiator = await UsersModel.findById(declinedTrade.initiatorId).lean()
+      let user1 = await UsersModel.findById(declinedTrade.initiatorId).lean();
+      let user2 = await UsersModel.findById(declinedTrade.receiverId).lean();
+      let initiator;
+      let decliner;
+      if (user1._id === req.user._id){
+        initiator = user2;
+        decliner = user1;
+      }else{
+        initiator = user1;
+        decliner = user2;
+      }
       let composition = {
         ...mailComposition,
         to: initiator.email,
         mailType: "declinedoffer",
         textParameters: {
-          declinerName: req.user.name,
+          declinerName: decliner.username,
           userName: initiator.username
         },
       };

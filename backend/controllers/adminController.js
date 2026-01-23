@@ -3,6 +3,7 @@ const ListingsModel = require("../models/ListingsModel");
 const TradesModel = require("../models/TradesModel");
 const fs = require("fs");
 const path = require("path");
+const ComposeDeletedListingMail = require("../models/MailModel/deletedListingMailTemplate");
 
 const getAllUsers = async (req, res) => {
   try {
