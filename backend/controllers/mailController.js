@@ -3,7 +3,7 @@ const ComposeWishlistMail = require("../models/MailModel/wishlistMailTemplate.js
 const {EMAIL_SENDER, EMAIL_SMTP_HOST, secrets: {EMAIL_PASSWORD}} = require("../config")
 const mailComposition = require("../models/MailModel/mailComposition.js")
 const ComposeAcceptedOfferMail = require("../models/MailModel/acceptedOfferMailTemplate.js")
-const ComposeEditedOfferMail = require("../models/MailModel/editedOfferMailTemplate.js")
+//const ComposeEditedOfferMail = require("../models/MailModel/editedOfferMailTemplate.js")
 const ComposeDeclinedOfferMail = require("../models/MailModel/declinedOfferMailTemplate.js")
 const ComposeNewOfferMail = require("../models/MailModel/newOfferMailTemplate.js")
 
