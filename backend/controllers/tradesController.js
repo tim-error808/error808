@@ -161,17 +161,19 @@ const acceptTradeController = async (req, res) => {
         to: initiator.email,
         mailType: "acceptedoffer",
         textParameters: {
+          accepterName: user.name,
+          accepterEmail: user.email,
           userName: initiator.username
         },
       };
       await MailController(composition);
     } catch (err) {
-      console.error(`Error sending an trade deleted email:`, err);
+      console.error(`Error sending an trade accepted email:`, err);
     }
 
     await trade.save();
 
-    await TradesModel.updateMany(
+    let trades = await TradesModel.updateMany(
       {
         _id: { $ne: trade._id },
         status: { $in: ["active", "counter"] },
@@ -181,7 +183,28 @@ const acceptTradeController = async (req, res) => {
         ],
       },
       { status: "declined" },
-    );
+    ).lean();
+
+    for (const trade in trades) {
+      try {
+        let initiator = await UsersModel.findById(trade.initiatorId).lean()
+        let reciever = await UsersModel.findById(trade.receiverId).lean()
+        let composition = {
+          ...mailComposition,
+          to: initiator.email,
+          mailType: "deletedoffer",
+          textParameters: {
+            userName: initiator.username
+          },
+        };
+        await MailController(composition);
+        composition.to = reciever.email;
+        composition.textParameters.userName = reciever.username;
+        await MailController(composition);
+      } catch (err) {
+        console.error(`Error sending an trade deleted email:`, err);
+      }
+    }
 
     return res.status(200).json({ message: "Trade offer accepted" });
   } catch (err) {
@@ -205,12 +228,13 @@ const declineTradeController = async (req, res) => {
         to: initiator.email,
         mailType: "declinedoffer",
         textParameters: {
+          declinerName: user.name,
           userName: initiator.username
         },
       };
       await MailController(composition);
     } catch (err) {
-      console.error(`Error sending an trade deleted email:`, err);
+      console.error(`Error sending a trade declined email:`, err);
     }
     return res.status(200).json({ message: "Trade offer declined" });
   } catch (err) {
