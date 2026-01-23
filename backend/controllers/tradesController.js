@@ -151,7 +151,7 @@ const acceptTradeController = async (req, res) => {
         .status(403)
         .json({ message: "You cannot accept your own counter" });
     }
-
+    let oldstatus = trade.status;
     trade.status = "accepted";
 
     try {
@@ -159,7 +159,7 @@ const acceptTradeController = async (req, res) => {
       let user2 = await UsersModel.findById(trade.receiverId).lean()
       let initiator;
       let accepter;
-      if (trade.status === "counter"){
+      if (trade.status === trade.status){
         initiator = user2;
         accepter = user1;
       }else{
