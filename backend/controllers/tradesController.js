@@ -77,6 +77,26 @@ const newTradeController = async (req, res) => {
       originalOffer.status = "counter";
       originalOffer.lastCounterBy = userId;
 
+      recieverUser = await UsersModel.findById(originalOffer.receiverId).lean()
+      requesterUser = await UsersModel.findById(originalOffer.requesterEmail).lean()
+
+      try {
+        const composition = {
+          ...mailComposition,
+          to: requesterUser.email,
+          mailType: "editoffer",
+          textParameters: {
+            userName: requesterUser.username,
+            requesterName: recieverUser.username,
+            requesterEmail: recieverUser.email
+          },
+        };
+
+        await MailController(composition);
+      } catch (err) {
+        console.error(`Error sending new offer email to ${recieverUser.email}:`, err);
+      }
+
       await originalOffer.save();
 
       return res.status(200).json({ message: "Trade countered successfully" });
