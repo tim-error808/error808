@@ -1,3 +1,5 @@
+NAPOMENA: U slucaju problema sa postavljanjem i pokretanjem aplikacije javite nam se.
+
 **1. Instalacija**
 
 - **Preduvjeti**:
