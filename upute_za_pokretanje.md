@@ -1,5 +1,3 @@
-NAPOMENA: aplikacija je u izradi te će se ovaj dokument mijenjati i dopunjavati s preciznijim uputama za puštanje u pogon
-
 **1. Instalacija**
 
 - **Preduvjeti**:
