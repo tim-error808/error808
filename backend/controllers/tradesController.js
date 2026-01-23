@@ -1,6 +1,6 @@
 const TradesModel = require("../models/TradesModel");
 const ListingsModel = require("../models/ListingsModel");
-const MailContoller = require("./mailController");
+const MailController = require("./mailController");
 const UsersModel = require("../models/UsersModel");
 const mailComposition = require("../models/MailModel/mailComposition");
 
