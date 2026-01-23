@@ -107,4 +107,3 @@ Smjernice za administratore aplikacije nakon puštanja u pogon:
 
 
   Aplikaciji se pristupa pomoću postavljene simboličke adrese.
-  Pristup administratorskom sučelju je trenutačno u izradi.
