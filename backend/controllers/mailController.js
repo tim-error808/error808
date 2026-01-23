@@ -34,11 +34,15 @@ const MailContoller = async (mailComposition) => {
       break;
     case "deletedoffer":
       finishedMail = await ComposeDeletedListingMail(mailComposition);
+      break;
     case "newoffer":
       finishedMail = await ComposeNewOfferMail(mailComposition);
       break;
     case "editoffer":
       finishedMail = await ComposeEditOfferMail(mailComposition);
+      break;
+    case "deletedlisting":
+      finishedMail = await ComposeDeletedListingMail(mailComposition);
   }
 
   
