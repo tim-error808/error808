@@ -11,6 +11,7 @@ const listingsController = async (req, res) => {
       : req.query.filter
         ? [req.query.filter]
         : [];
+    const hasForYou = filters.includes("forYou");
     const difficultyMap = { easy: [1], medium: [2, 3], hard: [4, 5] };
     const playersMap = {
       2: [2],
@@ -29,6 +30,14 @@ const listingsController = async (req, res) => {
     }
     if (maxPlayers.length > 0) {
       query.maxPlayers = { $in: maxPlayers };
+    }
+    // posto su interesi lista, a genre string i u bazi je genre
+    // spremljeno velikim pocetnim slovom treba provjeriti postoji li
+    // neki od interesa u stringu genre i napraviti da je case insensitive
+    if (hasForYou && req.user?.profile?.interests?.length > 0) {
+      query.$or = req.user.profile.interests.map((interest) => ({
+        genre: { $regex: interest, $options: "i" },
+      }));
     }
     const userId = req.user ? req.user._id : null;
     if (userId) {
