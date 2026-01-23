@@ -1,4 +1,7 @@
+import { useAuth } from "../../hooks/AuthProvider";
+
 const Filter = ({ filters, onChangeFilters }) => {
+  const { isAuthenticated } = useAuth();
   const handleCheckboxChange = (e) => {
     const value = e.target.name;
     const newFilters = filters.includes(value)
@@ -70,17 +73,19 @@ const Filter = ({ filters, onChangeFilters }) => {
           4+ players
         </label>
       </div>
-      <div className="filters">
-        <label>
-          <input
-            type="checkbox"
-            name="forYou"
-            checked={filters.includes("forYou")}
-            onChange={handleCheckboxChange}
-          />
-          Just for you
-        </label>
-      </div>
+      {isAuthenticated && (
+        <div className="filters">
+          <label>
+            <input
+              type="checkbox"
+              name="forYou"
+              checked={filters.includes("forYou")}
+              onChange={handleCheckboxChange}
+            />
+            Just for you
+          </label>
+        </div>
+      )}
     </section>
   );
 };
